@@ -6,3 +6,5 @@ o.O
 
 Avril put this using her own branch
 avril_modify_readme. :)
+
+modified directly from website!
