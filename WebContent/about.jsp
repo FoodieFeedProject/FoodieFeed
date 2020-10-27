@@ -54,10 +54,10 @@
 							Langridge's Sort Table JavaScript</a></li>
 				</ul>
 				<hr>
-				<h2>This Sample Web App</h2>
-				<br> This is a toy example that does the following: <br>
+				<h2>Foodie Feed</h2>
+				<br> This is a community site for foodies! Here, you can: <br>
 				<ul>
-					<li><b>Create</b> new students in the database.</li>
+					<li><b>Create</b> a new food review post.</li>
 					<li><b>Read</b> in students from the database.</li>
 					<li><b>Update</b> student information in the database.</li>
 					<li><b>Delete</b> student in the database.</li>
