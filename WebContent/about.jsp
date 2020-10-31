@@ -4,7 +4,7 @@
 
 <html lang="en">
 <head>
-<title>MIE350 Sample Web App - About</title>
+<title>Foodie Feed - About</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -58,12 +58,12 @@
 				<br> This is a community site for foodies! Here, you can: <br>
 				<ul>
 					<li><b>Create</b> a new food review post.</li>
-					<li><b>Read</b> in students from the database.</li>
-					<li><b>Update</b> student information in the database.</li>
-					<li><b>Delete</b> student in the database.</li>
-					<li><b>Search</b> for students in the database.</li>
-					<li><b>Logs in</b> members to the system to add/update/delete
-						students in the database.</li>
+					<li><b>Follow</b> tags or other foodies.</li>
+					<li><b>Like and Comment</b> on posts.</li>
+					<li><b>Update</b> your profile information.</li>
+					<li><b>Delete</b> your posts.</li>
+					<li><b>Discover</b> users or tags.</li>
+					<li><b>Log In or Sign Up</b> to get started!.</li>
 				</ul>
 				<hr>
 				<h2>Organization of Files</h2>
