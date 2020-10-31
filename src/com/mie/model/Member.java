@@ -77,5 +77,5 @@ public class Member {
 				+ ", lastName=" + lastName + ", username=" + username
 				+ ", password=" + password + ", email=" + email + "]";
 	}
-	//hello 
+
 }
