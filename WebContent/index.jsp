@@ -4,7 +4,7 @@
 
 <html lang="en">
 <head>
-<title>MIE350 Sample Web App</title>
+<title>Foodie Feed</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -35,16 +35,15 @@
 				<!-- You can put left sidebar links here if you want to. -->
 			</div>
 			<div class="col-sm-8 text-left">
-				<h1>Welcome</h1>
-				<p>In this project, your team will design and build a web
-					application. A web application is a software application that is
-					accessed over the Internet using standard browsers (e.g. Internet
-					Explorer, Mozilla Firefox). Examples of web application would be
-					online-shopping, web banking, stock exchange and many others. Each
-					member of the team is expected to contribute equally to the project
-					though there may be a variety of different roles.</p>
+				<h1>Welcome to Foodie Feed!</h1>
+				<p>Hello World! In this project, our team is designing and building a web
+					application. Foodie Feed is the name of our community site for food lovers and bloggers.
+					On this site, you can share your food reviews, follow other foodies and various tags that 
+					you are interested in.
+				</p>
 				<hr>
-				<h3>Internet Browsers</h3>
+				<button>Click to see a food review!</button>
+				<!--  <h3>Internet Browsers</h3>
 				<p>When designing your projects, please make sure to test them
 					with the following browsers:
 				<ul>
@@ -55,7 +54,8 @@
 				Please <b>do not rely on the built-in web browser in Eclipse</b> for
 				testing. Cascading Style Sheet (CSS) templates will not render
 				properly with Eclipse's built-in browser.
-				</p>
+				</p> 
+				-->
 			</div>
 			<div class="col-sm-2 sidenav">
 				<!-- You can put right sidebar links here if you want to. -->
