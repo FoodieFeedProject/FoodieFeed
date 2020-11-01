@@ -36,7 +36,7 @@
 			</div>
 			<div class="col-sm-8 text-left">
 				<h1>Welcome to Foodie Feed!</h1>
-				<p>Hello World! In this project, our team is designing and building a web
+				<p>Hello World! This is Team 3's server prototype. In this project, our team is designing and building a web
 					application. Foodie Feed is the name of our community site for food lovers and bloggers.
 					On this site, you can share your food reviews, follow other foodies and various tags that 
 					you are interested in.
