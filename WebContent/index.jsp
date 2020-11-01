@@ -42,7 +42,15 @@
 					you are interested in.
 				</p>
 				<hr>
-				<button>Click to see a food review!</button>
+				<p>
+				Click the link below to query from the Food Review Database
+				</p>
+				<br>
+				<button>
+				<a href="/FoodieFeed/ReviewController?action=listReviews">
+					Test the Database Connection
+				</a>
+				</button>
 				<!--  <h3>Internet Browsers</h3>
 				<p>When designing your projects, please make sure to test them
 					with the following browsers:
