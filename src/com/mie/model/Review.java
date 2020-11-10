@@ -15,7 +15,12 @@ public class Review {
 	private int foodRating;
 	private int serviceRating;
 	private int environmentRating;
-	private int dineIn;				
+	private int dineIn;	
+	private int numLikes;
+	private String photoURL;
+	
+	//private HashMap myOrder;
+	//private ArrayList <CommentsOn>;
 
 	public int getReviewID() {
 		return reviewID;
@@ -77,12 +82,27 @@ public class Review {
 	public void setDineIn(int dineIn) {
 		this.dineIn = dineIn;
 	}
+	public int getNumLikes() {
+		return numLikes;
+	}
+
+	public void setNumLikes(int numLikes) {
+		this.numLikes = numLikes;
+	}
+	public String getPhotoURL() {
+		return photoURL;
+	}
+	public void setPhotoURL (String url){
+		this.photoURL = url;
+	}
+	
+	
 
 	@Override
 	public String toString() {
 		return "Review [ReviewID=" + reviewID + ", Title=" + title
 				+ ", Overall Rating=" + overallRating + ", Description=" + description + ", Food Rating="
 				+ foodRating + ", Service Rating=" + serviceRating + ",Environment Rating=" + environmentRating
-				+ ", Dine In=" + dineIn + "]";
+				+ ", Dine In=" + dineIn +", Likes=" + numLikes + "]";
 	}
 }

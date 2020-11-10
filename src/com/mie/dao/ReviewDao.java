@@ -31,19 +31,23 @@ public class ReviewDao {
 		 */
 		try {
 			PreparedStatement preparedStatement = connection
-					.prepareStatement("insert into Review(ReviewID,Title,OverallRating,Description,FoodRating,ServiceRating,EnvironmentRating,DineIn) values (?, ?, ?, ?, ?, ?, ?, ? )");
-			// Parameters start with 1
-			preparedStatement.setInt(1, review.getReviewID());
-			preparedStatement.setString(2, review.getTitle());
-			preparedStatement.setInt(3, review.getOverallRating());
-			preparedStatement.setString(4, review.getDescription());
-			preparedStatement.setInt(5, review.getFoodRating());
-			preparedStatement.setInt(6, review.getServiceRating());
-			preparedStatement.setInt(7, review.getEnvironmentRating());
+					.prepareStatement("insert into Review(Title,OverallRating,Description,FoodRating,ServiceRating,EnvironmentRating,DineIn,NumLikes,PhotoURL) values (?, ?, ?, ?, ?, ?, ?, ?,?,? )");
+			
+			//preparedStatement.setInt(1, review.getReviewID());
+			//ReviewID is an AutoNumber but how do we get it?
+			preparedStatement.setString(1, review.getTitle());
+			preparedStatement.setInt(2, review.getOverallRating());
+			preparedStatement.setString(3, review.getDescription());
+			preparedStatement.setInt(4, review.getFoodRating());
+			preparedStatement.setInt(5, review.getServiceRating());
+			preparedStatement.setInt(6, review.getEnvironmentRating());
 			//DineIn is yes/no or 1/0
-			preparedStatement.setInt(8, review.getDineIn());
+			preparedStatement.setInt(7, review.getDineIn());
+			//0 likes since its new
+			preparedStatement.setInt(8, 0);
+			preparedStatement.setString(9, review.getPhotoURL());
 			preparedStatement.executeUpdate();
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
