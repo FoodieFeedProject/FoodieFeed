@@ -16,6 +16,16 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+    <display-name>ReviewController</display-name>
+    <servlet-name>ReviewController</servlet-name>
+    <servlet-class>com.mie.controller.ReviewController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewController</servlet-name>
+    <url-pattern>/ReviewController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
     <display-name>SearchController</display-name>
     <servlet-name>SearchController</servlet-name>
     <servlet-class>com.mie.controller.SearchController</servlet-class>
