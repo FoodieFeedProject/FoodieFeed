@@ -26,6 +26,7 @@ public class TagController extends HttpServlet{
 	
 	//private static String trending = ""
 	private static String TAG_PAGE = "/tagPage.jsp";
+	private static String DISCOVER = "/discover.jsp";
 	
 	/*
 	private static String LIST_REVIEW_PUBLIC = "/test_ListReview.jsp";
@@ -68,12 +69,12 @@ public class TagController extends HttpServlet{
 		String action = request.getParameter("action");
 		
 		if(action.equalsIgnoreCase("TrendingList")) {
-			//forward = 
+			forward = DISCOVER;
+			request.setAttribute("TrendingList", tdao.getTrendingTags());
 		}
 		else if(action.equalsIgnoreCase("visitTagPage")){
 			String tagname = request.getParameter("tagname");
 			List<Integer> reviewIDs = tdao.getTagReviewId(tagname);
-			
 			List<Review> tagReviews = new ArrayList<Review>();
 			
 			for(Integer i:reviewIDs) {
