@@ -112,8 +112,20 @@ public class Review {
 	public void setMyOrder (List<MyOrder> myOrder){
 		this.myOrder = myOrder;
 	}
-	public Iterator getMyOrder (){
+	public Iterator<MyOrder> getMyOrder (){
 		return myOrder.iterator();
+	}
+	public void setUsername(String username){
+		this.username = username;
+	}
+	public String getUsername(){
+		return username;
+	}
+	public void setComments(List<Comment> comments){
+		this.comments = comments;
+	}
+	public Iterator<Comment> getComments(){
+		return comments.iterator();
 	}
 	
 

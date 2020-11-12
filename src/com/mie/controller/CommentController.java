@@ -45,7 +45,7 @@ public class CommentController extends HttpServlet {
 		Comment comment = new Comment();
 		Date date = new Date();
 		
-		comment.setUser(request.getParameter("currentUser"));
+		comment.setUser(request.getParameter("username"));
 		comment.setDate(date.toString());
 		comment.setReviewID(Integer.parseInt(request.getParameter("reviewID")));
 		comment.setComment(request.getParameter("comment"));

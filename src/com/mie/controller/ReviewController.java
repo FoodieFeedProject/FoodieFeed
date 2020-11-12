@@ -89,62 +89,73 @@ public class ReviewController extends HttpServlet {
 			//first remove entries from tables with dependencies on Review
 			rdao.deleteMyOrder(reviewID);
 			rdao.removeUploadRecord(reviewID);
-			//tdao.removeUsesTags(reviewID);//need a method for this in tagdao
+			tdao.removeUsesTags(reviewID);//need a method for this in tagdao
 			rdao.deleteAllComments(reviewID);
 			
 			//finally, delete the review from the Review table
 			rdao.deleteReview(reviewID);
 			
 			forward = PROFILE; //after you delete a post just go back to profile
-			//To do: make a currentUser parameter in front end
-			String currentUser = request.getParameter("currentUser");
-			request.setAttribute("myPosts", rdao.getReviewsByUser(currentUser));
+			String username = request.getParameter("username");
+			request.setAttribute("myPosts", rdao.getReviewsByUser(username));
+			
 		} else if (action.equalsIgnoreCase("create")) {
+			
 			forward = CREATE;
+			
 		} else if (action.equalsIgnoreCase("edit")) {
+			
 			forward = EDIT;
 			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
 			Review review = rdao.getReviewById(reviewID);
 			request.setAttribute("review", review);
+			
 		} else if (action.equalsIgnoreCase("display")) {
+			
 			forward = DISPLAY;
 			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
 			Review review = rdao.getReviewById(reviewID);
 			request.setAttribute("review", review);
+			
 		} else if (action.equalsIgnoreCase("displayFull")) {
+			
 			forward = DISPLAY_FULL;
 			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
 			Review review = rdao.getReviewById(reviewID);
 			request.setAttribute("review", review);
-		}else if (action.equalsIgnoreCase("listReviewsOnFeed")) {
-			forward = FOODIE_FEED;
 			
-			String currentUser = request.getParameter("currentUser");
+		}else if (action.equalsIgnoreCase("listReviewsOnFeed")) {
+			
+			forward = FOODIE_FEED;	
+			String username = request.getParameter("username");
 			Set<Integer> reviewIDs = new HashSet<Integer>();//ensures no duplicates
 			
-			List<String> tagsFollowed = udao.getTagFollowed(currentUser);
+			List<String> tagsFollowed = udao.getTagFollowed(username);
 			for(String tag:tagsFollowed){
 				reviewIDs.addAll(tdao.getTagReviewId(tag)); //gather review ids from tags they follow
 			}
 			
-			List<String> usersFollowed = udao.getUsersFollowed(currentUser);//method name may change
-			for(String username: usersFollowed){
-				reviewIDs.addAll(rdao.getUsersReviewIDs(username));//gather review ids from users they follow
+			List<String> usersFollowed = udao.getUsersFollowed(username);//method name may change
+			for(String user: usersFollowed){
+				reviewIDs.addAll(rdao.getUsersReviewIDs(user));//gather review ids from users they follow
 			}
 			
 			List<Review> feed = new ArrayList<Review>();
 			for(int id: reviewIDs){
 				feed.add(rdao.getReviewById(id));
 			}
-
 			request.setAttribute("feedReviews", feed);
+			
 		} else if (action.equalsIgnoreCase("listReviewsOnProfile")) {
-			forward = PROFILE; //maybe this part should go into the user controller
+			
+			forward = PROFILE; //maybe this part should go into the USER CONTROLLER
 			String username = request.getParameter("username");
 			request.setAttribute("profileReviews", rdao.getReviewsByUser(username));
-		} else {
-			//forward = CREATE;
-			//what other actions do we need? like post
+			
+		} else if (action.equalsIgnoreCase("like")) {
+			
+			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
+			rdao.likeReview(reviewID);
 		}
 
 		RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -167,8 +178,7 @@ public class ReviewController extends HttpServlet {
 		review.setEnvironmentRating(Integer.parseInt(request.getParameter("environmentRating")));
 		review.setDineIn(Integer.parseInt(request.getParameter("dineIn")));
 		review.setPhotoURL(request.getParameter("photoURL"));
-		
-		//user Integer instead of int to allow a check for null
+	
 		Integer reviewID = Integer.parseInt(request.getParameter("reviewID"));
 	
 		if (reviewID == null) {
@@ -191,7 +201,7 @@ public class ReviewController extends HttpServlet {
 			}
 			
 			//add an entry in the Posts relation
-			String username = request.getParameter("currentUser");
+			String username = request.getParameter("username");
 			Date date = new Date();
 			rdao.recordNewUpload(username, reviewID, date.toString());
 			

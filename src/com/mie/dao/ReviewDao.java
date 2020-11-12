@@ -40,7 +40,7 @@ public class ReviewDao {
 		int reviewID = 0;
 		try {
 			PreparedStatement preparedStatement = connection
-					.prepareStatement("insert into Review(Title,OverallRating,Description,FoodRating,ServiceRating,EnvironmentRating,DineIn,NumLikes,PhotoURL) values (?, ?, ?, ?, ?, ?, ?, ?,?,? )");
+					.prepareStatement("insert into Review(Title,OverallRating,Description,FoodRating,ServiceRating,EnvironmentRating,DineIn,NumLikes,PhotoURL) values (?, ?, ?, ?, ?, ?, ?, ?, ? )");
 			
 			preparedStatement.setString(1, review.getTitle());
 			preparedStatement.setInt(2, review.getOverallRating());
@@ -48,10 +48,8 @@ public class ReviewDao {
 			preparedStatement.setInt(4, review.getFoodRating());
 			preparedStatement.setInt(5, review.getServiceRating());
 			preparedStatement.setInt(6, review.getEnvironmentRating());
-			//DineIn is yes/no or 1/0
-			preparedStatement.setInt(7, review.getDineIn());
-			//0 likes since its new
-			preparedStatement.setInt(8, 0);
+			preparedStatement.setInt(7, review.getDineIn()); //1 or 0
+			preparedStatement.setInt(8, 0); //new post has 0 likes
 			preparedStatement.setString(9, review.getPhotoURL());
 			preparedStatement.executeUpdate();
 			
@@ -71,7 +69,7 @@ public class ReviewDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		//returns 0 if it didnt work
+		//returns 0 if it didn't work
 		return reviewID;
 	}
 
@@ -82,7 +80,7 @@ public class ReviewDao {
 		try {
 			PreparedStatement preparedStatement = connection
 					.prepareStatement("delete from Review where ReviewID=?");
-			// Parameters start with 1
+			
 			preparedStatement.setInt(1, reviewID);
 			preparedStatement.executeUpdate();
 
@@ -97,18 +95,19 @@ public class ReviewDao {
 		 */
 		try {
 			PreparedStatement preparedStatement = connection
-					.prepareStatement("update Review set Title=?, OverallRating=?, Description=?, FoodRating=?, ServiceRating =?, EnvironmentRating=?, DineIn=?"
+					.prepareStatement("update Review set Title=?, OverallRating=?, Description=?, FoodRating=?, ServiceRating =?, EnvironmentRating=?, DineIn=?, NumLikes=?, PhotoURL=?"
 							+ " where ReviewID=?");
-			// Parameters start with 1
+			
 			preparedStatement.setString(1, review.getTitle());
 			preparedStatement.setInt(2, review.getOverallRating());
 			preparedStatement.setString(3, review.getDescription());
 			preparedStatement.setInt(4, review.getFoodRating());
 			preparedStatement.setInt(5, review.getServiceRating());
 			preparedStatement.setInt(6, review.getEnvironmentRating());
-			//DineIn is yes/no or 1/0
-			preparedStatement.setInt(7, review.getDineIn());
-			preparedStatement.setInt(8, review.getReviewID());
+			preparedStatement.setInt(7, review.getDineIn()); // 1 or 0
+			preparedStatement.setInt(8, review.getNumLikes());
+			preparedStatement.setString(9, review.getPhotoURL());
+			preparedStatement.setInt(10, review.getReviewID());
 
 			preparedStatement.executeUpdate();
 
@@ -116,39 +115,7 @@ public class ReviewDao {
 			e.printStackTrace();
 		}
 	}
-
-	public List<Review> getAllReviews() {
-		/**
-		 * This method returns the list of all reviews in the form of a List
-		 * object.
-		 */
-		List<Review> allReviews = new ArrayList<Review>();
-		try {
-			Statement statement = connection.createStatement();
-			// System.out.println("getting students from table");
-			ResultSet rs = statement.executeQuery("select * from Review");
-			while (rs.next()) {
-				Review review = new Review();
-				review.setReviewID(rs.getInt("ReviewID"));
-				review.setTitle(rs.getString("Title"));
-				review.setOverallRating(rs.getInt("OverallRating"));
-				review.setDescription(rs.getString("Description"));
-				review.setFoodRating(rs.getInt("FoodRating"));
-				review.setServiceRating(rs.getInt("ServiceRating"));
-				review.setEnvironmentRating(rs.getInt("EnvironmentRating"));
-				review.setDineIn(rs.getInt("DineIn"));
-				review.setNumLikes(rs.getInt("NumLikes"));
-				review.setPhotoURL(rs.getString("PhotoURL"));
-				
-				allReviews.add(review);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return allReviews;
-	}
-
+	
 	public Review getReviewById(int reviewID) {
 		/**
 		 * This method retrieves a review by their reviewID number.
@@ -173,11 +140,14 @@ public class ReviewDao {
 				review.setDineIn(rs.getInt("DineIn"));
 				review.setNumLikes(rs.getInt("NumLikes"));
 				review.setPhotoURL(rs.getString("PhotoURL"));
-			
-				//get username
-				//get tags used
-				//get myorder
-				//get comments
+				
+				
+				//call methods from this class to fill these attributes
+				review.setUsername(this.getPostOwner(reviewID));
+				review.setMyOrder(this.getWholeOrder(reviewID));
+				review.setComments(this.getComments(reviewID));
+				review.setTags(this.getTagsUsed(reviewID));
+				
 				
 			}
 		} catch (SQLException e) {
@@ -222,7 +192,7 @@ public class ReviewDao {
 		return results;
 	}
 
-	//not sure if this works
+
 	public List<Review> getReviewsByUser(String username) {
 		/**
 		 * This method retrieves a list of reviews posted by a particular user.
@@ -238,7 +208,7 @@ public class ReviewDao {
 		return results;
 	}
 	
-	//My Order methods
+	//MyOrder methods
 	public void addMyOrder (MyOrder myOrder){
 		/**
 		 * This method adds a single entry to the MyOrder relation.
@@ -386,7 +356,7 @@ public class ReviewDao {
 					.prepareStatement("select ReviewID from Posts where Username=?");
 			preparedStatement.setString(1, username);
 			ResultSet rs = preparedStatement.executeQuery();
-			if(rs.next()){
+			while(rs.next()){
 				results.add(rs.getInt("ReviewID"));
 			}
 
@@ -399,7 +369,7 @@ public class ReviewDao {
 	//comments methods
 	public List<Comment> getComments(int reviewID){
 		/**
-		 * This method retreives all comments on a review.
+		 * This method retrieves all comments on a review.
 		 */	
 		List<Comment> results = new ArrayList<Comment>();
 		try {
@@ -457,7 +427,67 @@ public class ReviewDao {
 			e.printStackTrace();
 		}
 	}
-	
+	public void likeReview(int reviewID){
+		/**
+		 * This method adds a like to a Review
+		 */	
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select NumLikes from Review where ReviewID=?");
+
+			preparedStatement.setInt(1, reviewID);
+			ResultSet rs = preparedStatement.executeQuery();
+			int likes = 0;
+			if (rs.next()) {
+				likes = rs.getInt("NumLikes");
+			}
+			//add one like
+			likes +=1;
+			
+			PreparedStatement preparedStatement2 = connection
+					.prepareStatement("update Review set NumLikes=? where ReviewID=?");
+			
+			preparedStatement2.setInt(1, likes);
+			preparedStatement2.setInt(2, reviewID);
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	//not used for now.
+	public List<Review> getAllReviews() {
+		/**
+		 * This method returns the list of all reviews in the form of a List
+		 * object. Not used by the controllers.
+		 */
+		List<Review> allReviews = new ArrayList<Review>();
+		try {
+			Statement statement = connection.createStatement();
+		
+			ResultSet rs = statement.executeQuery("select * from Review");
+			while (rs.next()) {
+				Review review = new Review();
+				review.setReviewID(rs.getInt("ReviewID"));
+				review.setTitle(rs.getString("Title"));
+				review.setOverallRating(rs.getInt("OverallRating"));
+				review.setDescription(rs.getString("Description"));
+				review.setFoodRating(rs.getInt("FoodRating"));
+				review.setServiceRating(rs.getInt("ServiceRating"));
+				review.setEnvironmentRating(rs.getInt("EnvironmentRating"));
+				review.setDineIn(rs.getInt("DineIn"));
+				review.setNumLikes(rs.getInt("NumLikes"));
+				review.setPhotoURL(rs.getString("PhotoURL"));
+				
+				allReviews.add(review);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return allReviews;
+	}
 
 
 }
