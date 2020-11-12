@@ -21,7 +21,7 @@ public class TagDao {
 	 */
 
 	private Connection connection;
-	private ReviewDao ReviewDao;
+	//private ReviewDao ReviewDao;
 	
 	public TagDao() {
 		/**
@@ -29,6 +29,7 @@ public class TagDao {
 		 */
 		connection = DbUtil.getConnection();
 	}
+	
 	public void addTag(Tag tag) {
 		/**
 		 * This method adds a new student to the database.
@@ -52,11 +53,64 @@ public class TagDao {
 		}
 	}
 	
-	public void updateTagPostNum() {
+	public void updateTagPostNum(String TagName) {
 		/**
-		 * LATER
+		 * Update by checking uses tag table but hmmm this whould be done periodically? 
 		 */
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Tag "
+					+ "set NumPosts = (Select Count(ReviewID) from UsesTag where TagName = ?)"
+					+ " where TagName =  ?;");
+			preparedStatement.setString(1, TagName );
+			preparedStatement.setString(2, TagName );
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
+	
+	//update uses tag
+	public void updateUsesTag(int ReviewID, String TagName) {
+		try {
+			//edit Tag table
+			PreparedStatement preparedStatement = connection.prepareStatement("insert into UsesTag(ReviewID,TagName) values (?, ? )");
+			preparedStatement.setInt(1, ReviewID);
+			preparedStatement.setString(2, TagName);
+			
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//if the thing is new and creating the actual tag the user have to follow that tag.
+	
+	
+	//check if the tag exist
+	public boolean tagExist(String tagName) {
+		
+		boolean exist = false;
+		
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(TagName) as Exist from Tag where TagName=?");
+			preparedStatement.setString(1,  tagName);
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			if(rs.getInt("NumPosts") > 0) {
+				exist = true;
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return exist;
+	}
+	//following from other user
+	
 	public List<Tag> getSimilarTags(String keywords){
 		/**
 		 *SHould i use java to get the top 10 or use sql to do this hmm....
@@ -64,7 +118,7 @@ public class TagDao {
 		List<Tag> similarTags = new ArrayList<Tag>();
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement("select TagName FROM Tag where TagName LIKE ?");
-			preparedStatement.setString(1, keywords);
+			preparedStatement.setString(1,  "%" + keywords + "%");
 			ResultSet rs = preparedStatement.executeQuery();
 			
 			while (rs.next()) {
@@ -81,7 +135,7 @@ public class TagDao {
 		return similarTags;
 	}
 	
-	public List<Integer> getTagReviewIdByKeyword(String tagname) {
+	public List<Integer> getTagReviewId(String tagname) {
 		/**
 		 * This method get review that uses certain tag names
 		 * 
