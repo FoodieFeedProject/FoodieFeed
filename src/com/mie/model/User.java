@@ -4,6 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 public class User {
+	/**
+	 * This class contains all of the relevant information, and getter/setter
+	 * methods for the Member object. It also contains add/remove the follower, followed 
+	 * tagFollow. valid is a boonlean object to check for login.
+	 */
 	private String username;
 	private String email;
 	private String password;

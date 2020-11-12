@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mie.dao.StudentDao;
+import com.mie.dao.TagDao;
 import com.mie.dao.UserDao;
 import com.mie.model.Student;
 
@@ -21,7 +22,7 @@ public class SearchControllerFoodie extends HttpServlet {
 	 * 
 	 * These are variables that lead to the appropriate JSP pages.
 	 * 
-	 * SEARCH_USER leads to the search results page.
+	 * Search_User/Search_Tag leads to the search results page.
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -53,7 +54,7 @@ public class SearchControllerFoodie extends HttpServlet {
 		request.setAttribute("keyword", keyword);
 		request.setAttribute("users", uDao.getUserByKeyword(keyword));
 		/**
-		 * Redirect to the search results page after the list of students
+		 * Redirect to the search results page after the list of User
 		 * matching the keywords has been retrieved.
 		 */
 
@@ -72,7 +73,7 @@ public class SearchControllerFoodie extends HttpServlet {
 		request.setAttribute("keyword", keyword);
 		request.setAttribute("tags", tDao.getTagByKeyword(keyword));
 		/**
-		 * Redirect to the search results page after the list of students
+		 * Redirect to the search results page after the list of tags
 		 * matching the keywords has been retrieved.
 		 */
 
