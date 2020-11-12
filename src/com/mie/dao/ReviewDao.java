@@ -6,9 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import com.mie.model.Review;
+import com.mie.model.MyOrder;
+import com.mie.model.Comment;
 import com.mie.util.DbUtil;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -27,16 +33,15 @@ public class ReviewDao {
 		connection = DbUtil.getConnection();
 	}
 
-	public void addReview(Review review) {
+	public int addReview(Review review) {
 		/**
 		 * This method adds a new review to the database.
 		 */
+		int reviewID = 0;
 		try {
 			PreparedStatement preparedStatement = connection
 					.prepareStatement("insert into Review(Title,OverallRating,Description,FoodRating,ServiceRating,EnvironmentRating,DineIn,NumLikes,PhotoURL) values (?, ?, ?, ?, ?, ?, ?, ?,?,? )");
 			
-			//preparedStatement.setInt(1, review.getReviewID());
-			//ReviewID is an AutoNumber but how do we get it?
 			preparedStatement.setString(1, review.getTitle());
 			preparedStatement.setInt(2, review.getOverallRating());
 			preparedStatement.setString(3, review.getDescription());
@@ -50,16 +55,29 @@ public class ReviewDao {
 			preparedStatement.setString(9, review.getPhotoURL());
 			preparedStatement.executeUpdate();
 			
-			//need to also consider adding the myorder and tag info into the database here
+			PreparedStatement preparedStatement2 = connection
+					.prepareStatement("select ReviewID from Review where Title=?,OverallRating=?,Description=?");
+
+			preparedStatement2.setString(1, review.getTitle());
+			preparedStatement2.setInt(2, review.getOverallRating());
+			preparedStatement2.setString(3, review.getDescription());
+			ResultSet rs = preparedStatement2.executeQuery();
 			
+			while (rs.next()){
+				reviewID =  rs.getInt("ReviewID");
+				return reviewID;
+			}
+						
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		//returns 0 if it didnt work
+		return reviewID;
 	}
 
 	public void deleteReview(int reviewID) {
 		/**
-		 * This method deletes a review from the database. Need to delete things in other tables too..
+		 * This method deletes a review from the database. Need to delete things in other tables first..
 		 */
 		try {
 			PreparedStatement preparedStatement = connection
@@ -98,26 +116,7 @@ public class ReviewDao {
 			e.printStackTrace();
 		}
 	}
-	public List<String> getTagsUsed (int reviewID) {
-		/**
-		 * This method gets a list of tags used by a review
-		 */
-		List<String> tagsUsed = new ArrayList<String>();
-		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("select TagName from UsesTag where ReviewID=?");
-			preparedStatement.setInt(1, reviewID);
-			ResultSet rs = preparedStatement.executeQuery();
-			while(rs.next()){
-				tagsUsed.add(rs.getString("TagName"));
-			}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return tagsUsed;
-	
-	}
 	public List<Review> getAllReviews() {
 		/**
 		 * This method returns the list of all reviews in the form of a List
@@ -222,44 +221,220 @@ public class ReviewDao {
 
 		return results;
 	}
-	//not done yet
-	public List<Review> getFeed(String username, List<String> tagsFollowed, List<String> usersFollowed) {
-		/**
-		 * This method retrieves a list of reviews that matches the keyword
-		 * entered by the user.
-		 */
-		List<Review> results = new ArrayList<Review>();
-		//get review ids from Posts and UsesTag based on users and tags followed
-		//somehow get rid of duplicates
-		//then call getReviewbyID and add to the results list
-	
-		return results;
-	}
-	
+
+	//not sure if this works
 	public List<Review> getReviewsByUser(String username) {
 		/**
 		 * This method retrieves a list of reviews posted by a particular user.
 		 */
 		List<Review> results = new ArrayList<Review>();
-		//get review ids from Posts where Username = username
-		//then call getReviewbyID and add to the results list
-	
+		
+		//get review ids belonging to that user
+		List<Integer> ids = this.getUsersReviewIDs(username);
+		for (int id: ids){
+			//add each review to the results list
+			results.add(this.getReviewById(id));
+		}
 		return results;
 	}
-	//does this belong here?
-	public void addComment (int reviewID, String username, String comment){
+	
+	//My Order methods
+	public void addMyOrder (MyOrder myOrder){
 		/**
-		 * This method adds a new review to the database.
+		 * This method adds a single entry to the MyOrder relation.
 		 */
-		Date date = new Date();  
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("insert into MyOrder(ReviewID,Item,Price) values (?, ?, ?)");
+					
+			preparedStatement.setInt(1, myOrder.getReviewID());
+			preparedStatement.setString(2, myOrder.getItem());
+			preparedStatement.setDouble(3, myOrder.getPrice());
+			
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public List<MyOrder> getWholeOrder(int reviewID){
+		/**
+		 * This method retrieves all MyOrder items belonging to a review.
+		 */
+		
+		List<MyOrder> results = new ArrayList<MyOrder>();
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select * from MyOrder where ReviewID=?");
+
+			preparedStatement.setInt(1, reviewID);
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				MyOrder order = new MyOrder();
+				order.setReviewID(rs.getInt("ReviewID"));
+				order.setItem(rs.getString("Item"));
+				order.setPrice(rs.getDouble("Price"));
+				results.add(order);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return results;
+	}
+	
+	public void deleteMyOrder (int reviewID){
+		/**
+		 * This method deletes the MyOrder entries when a Review is being deleted.
+		 */
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("delete from MyOrder where ReviewID=?");
+		
+			preparedStatement.setInt(1, reviewID);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	//tag methods 
+	public List<String> getTagsUsed (int reviewID) {
+		/**
+		 * This method gets a list of tags used by a review
+		 */
+		List<String> tagsUsed = new ArrayList<String>();
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select TagName from UsesTag where ReviewID=?");
+			preparedStatement.setInt(1, reviewID);
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				tagsUsed.add(rs.getString("TagName"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return tagsUsed;
+	
+	}
+	//Posts methods
+	public void recordNewUpload(String username, int reviewID, String date){
+		/**
+		 * This method records a post in the Posts relation.
+		 */
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("insert into Posts(Username,ReviewID,DateTime) values (?, ?, ?)");
+					
+			preparedStatement.setString(1, username);
+			preparedStatement.setInt(2, reviewID);
+			preparedStatement.setString(3, date);
+			
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void removeUploadRecord(int reviewID){
+		/**
+		 * This method deletes the post record from the Posts relation
+		 */
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("delete from Posts where ReviewID=?");
+		
+			preparedStatement.setInt(1, reviewID);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
+	}
+	public String getPostOwner (int reviewID){
+		/**
+		 * This method returns the post owner's username.
+		 */
+		String owner ="";
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select Username from Posts where ReviewID=?");
+			preparedStatement.setInt(1, reviewID);
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()){
+				owner = rs.getString("Username");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return owner;
+	}
+	public List<Integer> getUsersReviewIDs(String username){
+		/**
+		 * This method returns a list of all reviewIDs belonging to one user.
+		 */
+		List<Integer> results = new ArrayList<Integer>();
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select ReviewID from Posts where Username=?");
+			preparedStatement.setString(1, username);
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()){
+				results.add(rs.getInt("ReviewID"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
+	
+	//comments methods
+	public List<Comment> getComments(int reviewID){
+		/**
+		 * This method retreives all comments on a review.
+		 */	
+		List<Comment> results = new ArrayList<Comment>();
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select * from CommentsOn where ReviewID=?");
+
+			preparedStatement.setInt(1, reviewID);
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				Comment comment = new Comment();
+				comment.setReviewID(rs.getInt("ReviewID"));
+				comment.setUser(rs.getString("Username"));
+				comment.setDate(rs.getString("DateTime"));
+				comment.setComment(rs.getString("Comment"));			
+				results.add(comment);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return results;
+	}
+	public void addComment (Comment comment){
+		/**
+		 * This method adds a comment to a review.
+		 */
 		try {
 			PreparedStatement preparedStatement = connection
 					.prepareStatement("insert into CommentsOn(Username,ReviewID,DateTime,Comment) values (?, ?, ?, ?)");
 			
-			preparedStatement.setString(1, username);
-			preparedStatement.setInt(2, reviewID);
-			preparedStatement.setString(3, date.toString());
-			preparedStatement.setString(4, comment);
+			preparedStatement.setString(1, comment.getUser());
+			preparedStatement.setInt(2, comment.getReviewID());
+			preparedStatement.setString(3, comment.getDate());
+			preparedStatement.setString(4, comment.getComment());
 	
 			preparedStatement.executeUpdate();
 			
@@ -267,5 +442,22 @@ public class ReviewDao {
 			e.printStackTrace();
 		}
 	}
+	public void deleteAllComments (int reviewID){
+		/**
+		 * This method deletes all comments when a review is being deleted.
+		 */
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("delete from CommentsOn where ReviewID=?");
+			
+			preparedStatement.setInt(1, reviewID);
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
 
 }

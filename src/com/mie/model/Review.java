@@ -25,8 +25,8 @@ public class Review {
 	
 	//not sure about these yet
 	private String username; //username of review owner
-	private HashMap myOrder; //map item to price
-	private HashMap comments; //map user to a comment?
+	private List<MyOrder> myOrder;
+	private List<Comment> comments; 
 	private List<String> tags; //list of tagnames used by the post
 
 	public int getReviewID() {
@@ -108,6 +108,12 @@ public class Review {
 	}
 	public Iterator<String> getTags (){
 		return tags.iterator();
+	}
+	public void setMyOrder (List<MyOrder> myOrder){
+		this.myOrder = myOrder;
+	}
+	public Iterator getMyOrder (){
+		return myOrder.iterator();
 	}
 	
 
