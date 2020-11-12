@@ -111,6 +111,20 @@ public class TagDao {
 	}
 	//following from other user
 	
+	public void removeUsesTags(int reviewID) {
+		try {
+			//edit Tag table
+			PreparedStatement preparedStatement = connection.prepareStatement("delete from UsesTags where ReviewID=?");
+			preparedStatement.setInt(1, reviewID);
+			
+			preparedStatement.executeUpdate();
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public List<Tag> getSimilarTags(String keywords){
 		/**
 		 *SHould i use java to get the top 10 or use sql to do this hmm....

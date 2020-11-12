@@ -94,15 +94,5 @@ public class TagController extends HttpServlet{
 	
 	
 	
-	
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
 
-		tdao.getTrendingTags();
-		RequestDispatcher view = request
-				.getRequestDispatcher(LIST_tag_ADMIN);
-		request.setAttribute("tags", tdao.getAlltags());
-		view.forward(request, response);
-	}
-//he
 }
