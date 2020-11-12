@@ -98,6 +98,10 @@ public class User {
 	public void setValid(boolean newValid) {
 		valid = newValid;
 	}
+	
+	public boolean isValid() {
+		return valid;
+	}
 
 	@Override
 	public String toString() {
