@@ -1,5 +1,9 @@
 package com.mie.model;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator;
 //import java.util.Date;
 
 public class Review {
@@ -19,8 +23,11 @@ public class Review {
 	private int numLikes;
 	private String photoURL;
 	
-	//private HashMap myOrder;
-	//private ArrayList <CommentsOn>;
+	//not sure about these yet
+	private String username; //username of review owner
+	private HashMap myOrder; //map item to price
+	private HashMap comments; //map user to a comment?
+	private List<String> tags; //list of tagnames used by the post
 
 	public int getReviewID() {
 		return reviewID;
@@ -95,7 +102,13 @@ public class Review {
 	public void setPhotoURL (String url){
 		this.photoURL = url;
 	}
-	
+	//testing this out
+	public void setTags (List<String> tags){
+		this.tags  = tags;
+	}
+	public Iterator<String> getTags (){
+		return tags.iterator();
+	}
 	
 
 	@Override

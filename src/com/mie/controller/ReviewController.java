@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,8 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mie.dao.ReviewDao;
+import com.mie.dao.UserDao;
+import com.mie.dao.TagDao;
 import com.mie.model.Review;
-import com.mie.model.Student;
+//import com.mie.model.Student;
 
   
 //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
@@ -40,14 +44,18 @@ public class ReviewController extends HttpServlet {
 	private static String FOODIE_FEED = "/foodieFeed.jsp";
 	
 	
-	private ReviewDao dao;
+	private ReviewDao rdao;
+	private UserDao udao;
+	private TagDao tdao;
 
 	/**
 	 * Constructor for this class.
 	 */
 	public ReviewController() {
 		super();
-		dao = new ReviewDao();
+		rdao = new ReviewDao();
+		udao = new UserDao();
+		tdao = new TagDao();
 	}
 
 	protected void doGet(HttpServletRequest request,
@@ -68,37 +76,47 @@ public class ReviewController extends HttpServlet {
 		
 		if (action.equalsIgnoreCase("delete")) {
 			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
-			dao.deleteReview(reviewID);
+			rdao.deleteReview(reviewID);
 			forward = PROFILE; //after you delete a post just go back to profile
 			//To do: make a currentUser parameter in front end
 			String currentUser = request.getParameter("currentUser");
-			request.setAttribute("myPosts", dao.getReviewsByUser(currentUser));
+			request.setAttribute("myPosts", rdao.getReviewsByUser(currentUser));
 		} else if (action.equalsIgnoreCase("create")) {
 			forward = CREATE;
 		} else if (action.equalsIgnoreCase("edit")) {
 			forward = EDIT;
 			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
-			Review review = dao.getReviewById(reviewID);
+			Review review = rdao.getReviewById(reviewID);
 			request.setAttribute("review", review);
 		} else if (action.equalsIgnoreCase("display")) {
 			forward = DISPLAY;
 			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
-			Review review = dao.getReviewById(reviewID);
+			Review review = rdao.getReviewById(reviewID);
 			request.setAttribute("review", review);
 		} else if (action.equalsIgnoreCase("displayFull")) {
 			forward = DISPLAY_FULL;
 			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
-			Review review = dao.getReviewById(reviewID);
+			Review review = rdao.getReviewById(reviewID);
 			request.setAttribute("review", review);
 		}else if (action.equalsIgnoreCase("listReviewsOnFeed")) {
 			forward = FOODIE_FEED;
+			//trying something out
 			String currentUser = request.getParameter("currentUser");
-			request.setAttribute("feedReviews", dao.getFeed(currentUser));
+			List<String> tagsFollowed = udao.getTagFollowed(currentUser);
+			List<String> usersFollowed = udao.getUsersFollowed(currentUser);//method name may change
+			//getFeed method is not done yet
+			request.setAttribute("feedReviews", rdao.getFeed(currentUser, tagsFollowed, usersFollowed));
 		} else if (action.equalsIgnoreCase("listReviewsOnProfile")) {
 			forward = PROFILE;
 			String username = request.getParameter("username");
-			request.setAttribute("profileReviews", dao.getReviewsByUser(username));
-		} else {
+			request.setAttribute("profileReviews", rdao.getReviewsByUser(username));
+		} else if (action.equalsIgnoreCase("comment")){ // i wonder if comment needs its own controller and doPost method..
+			//forward = DISPLAY_FULL;
+			//String currentUser = request.getParameter("currentUser");
+			//int reviewID = Integer.parseInt(request.getParameter("reviewID"));
+			//String comment = request.getParameter("comment");
+			//rdao.addComment(reviewID,currentUser, comment);
+		}else {
 			//forward = CREATE;
 			//what other actions do we need? like post, comment on post
 		}
@@ -137,7 +155,7 @@ public class ReviewController extends HttpServlet {
 		 * be added to the list of Student objects.
 		 */
 		if (reviewID == null || reviewID.isEmpty()) {
-			dao.addReview(review);
+			rdao.addReview(review);
 		} else {
 			/**
 			 * Otherwise, if the field is already filled (this occurs when the
@@ -145,7 +163,7 @@ public class ReviewController extends HttpServlet {
 			 * will be updated accordingly.
 			 */
 			review.setReviewID(Integer.parseInt(reviewID));
-			dao.updateReview(review);
+			rdao.updateReview(review);
 		}
 		/**
 		 * Once the student has been added or updated, the page will redirect to

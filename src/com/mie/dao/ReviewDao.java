@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.mie.model.Review;
 import com.mie.util.DbUtil;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ReviewDao {
 	/**
@@ -48,6 +50,8 @@ public class ReviewDao {
 			preparedStatement.setString(9, review.getPhotoURL());
 			preparedStatement.executeUpdate();
 			
+			//need to also consider adding the myorder and tag info into the database here
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -55,7 +59,7 @@ public class ReviewDao {
 
 	public void deleteReview(int reviewID) {
 		/**
-		 * This method deletes a review from the database.
+		 * This method deletes a review from the database. Need to delete things in other tables too..
 		 */
 		try {
 			PreparedStatement preparedStatement = connection
@@ -94,7 +98,26 @@ public class ReviewDao {
 			e.printStackTrace();
 		}
 	}
+	public List<String> getTagsUsed (int reviewID) {
+		/**
+		 * This method gets a list of tags used by a review
+		 */
+		List<String> tagsUsed = new ArrayList<String>();
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select TagName from UsesTag where ReviewID=?");
+			preparedStatement.setInt(1, reviewID);
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				tagsUsed.add(rs.getString("TagName"));
+			}
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return tagsUsed;
+	
+	}
 	public List<Review> getAllReviews() {
 		/**
 		 * This method returns the list of all reviews in the form of a List
@@ -115,6 +138,9 @@ public class ReviewDao {
 				review.setServiceRating(rs.getInt("ServiceRating"));
 				review.setEnvironmentRating(rs.getInt("EnvironmentRating"));
 				review.setDineIn(rs.getInt("DineIn"));
+				review.setNumLikes(rs.getInt("NumLikes"));
+				review.setPhotoURL(rs.getString("PhotoURL"));
+				
 				allReviews.add(review);
 			}
 		} catch (SQLException e) {
@@ -128,8 +154,7 @@ public class ReviewDao {
 		/**
 		 * This method retrieves a review by their reviewID number.
 		 * 
-		 * Currently not used in the sample web app, but code is left here for
-		 * your review.
+		 *
 		 */
 		Review review = new Review();
 		try {
@@ -147,6 +172,13 @@ public class ReviewDao {
 				review.setServiceRating(rs.getInt("ServiceRating"));
 				review.setEnvironmentRating(rs.getInt("EnvironmentRating"));
 				review.setDineIn(rs.getInt("DineIn"));
+				review.setNumLikes(rs.getInt("NumLikes"));
+				review.setPhotoURL(rs.getString("PhotoURL"));
+			
+				//get username
+				//get tags used
+				//get myorder
+				//get comments
 				
 			}
 		} catch (SQLException e) {
@@ -180,6 +212,8 @@ public class ReviewDao {
 				review.setServiceRating(rs.getInt("ServiceRating"));
 				review.setEnvironmentRating(rs.getInt("EnvironmentRating"));
 				review.setDineIn(rs.getInt("DineIn"));
+				review.setNumLikes(rs.getInt("NumLikes"));
+				review.setPhotoURL(rs.getString("PhotoURL"));
 				results.add(review);
 			}
 		} catch (SQLException e) {
@@ -187,6 +221,51 @@ public class ReviewDao {
 		}
 
 		return results;
+	}
+	//not done yet
+	public List<Review> getFeed(String username, List<String> tagsFollowed, List<String> usersFollowed) {
+		/**
+		 * This method retrieves a list of reviews that matches the keyword
+		 * entered by the user.
+		 */
+		List<Review> results = new ArrayList<Review>();
+		//get review ids from Posts and UsesTag based on users and tags followed
+		//somehow get rid of duplicates
+		//then call getReviewbyID and add to the results list
+	
+		return results;
+	}
+	
+	public List<Review> getReviewsByUser(String username) {
+		/**
+		 * This method retrieves a list of reviews posted by a particular user.
+		 */
+		List<Review> results = new ArrayList<Review>();
+		//get review ids from Posts where Username = username
+		//then call getReviewbyID and add to the results list
+	
+		return results;
+	}
+	//does this belong here?
+	public void addComment (int reviewID, String username, String comment){
+		/**
+		 * This method adds a new review to the database.
+		 */
+		Date date = new Date();  
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("insert into CommentsOn(Username,ReviewID,DateTime,Comment) values (?, ?, ?, ?)");
+			
+			preparedStatement.setString(1, username);
+			preparedStatement.setInt(2, reviewID);
+			preparedStatement.setString(3, date.toString());
+			preparedStatement.setString(4, comment);
+	
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
