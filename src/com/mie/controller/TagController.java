@@ -58,8 +58,10 @@ public class TagController extends HttpServlet{
 		String action = request.getParameter("action");
 		
 		if(action.equalsIgnoreCase("trendingList")) {
+			
 			forward = DISCOVER;
 			request.setAttribute("trendingList", tdao.getTrendingTags());
+			
 		}
 		else if(action.equalsIgnoreCase("visitTagPage")){
 			
@@ -75,7 +77,7 @@ public class TagController extends HttpServlet{
 			forward = TAG_PAGE;
 			
 			request.setAttribute("followButtonMessage", udao.getTagFollowButtonStatus(username, tagname));
-			request.setAttribute("tagPage", tagReviews);
+			request.setAttribute("tagReviews", tagReviews);
 		}
 		
 	}

@@ -17,7 +17,7 @@ import com.mie.model.*;
 public class UserController {
 	
 	private static final long serialVersionUID = 1L;
-	private static String SIGN_UP = "/signUp.jsp";
+	private static String SIGN_UP = "/register.jsp";
 	private static String EDIT = "/editProfile.jsp";
 	private static String MY_PROFILE = "/myProfile.jsp";
 	private static String OTHER_PROFILE = "/otherProfile.jsp";
@@ -57,69 +57,64 @@ public class UserController {
 
 		
 		if (action.equalsIgnoreCase("signUp")) {
+			
 			forward = SIGN_UP;
+			
 		} else if (action.equalsIgnoreCase("edit")) {
+			
 			forward = EDIT;
-			String username = request.getParameter("currentUser");
+			String username = request.getParameter("username");
 			User user = dao.getUserByUsername(username);
 			request.setAttribute("user", user);
-		} else if (action.equalsIgnoreCase("followUser")) {
 			
-			String currentUser = request.getParameter("currentUser");
-			String otherUser = request.getParameter("otherUser");
-
-			dao.followUser(currentUser, otherUser);
-			forward = OTHER_PROFILE;
-			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(currentUser, otherUser));
-			request.setAttribute("otherUser", dao.getUserByUsername(otherUser));
-			request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUser));
-
-		} else if (action.equalsIgnoreCase("unfollowUser")) {
+		} else if (action.equalsIgnoreCase("followUnfollowUser")) {
 			
-			String currentUser = request.getParameter("currentUser");
-			String otherUser = request.getParameter("follower");
+			String currentUser = request.getParameter("username");
+			String otherUsername = request.getParameter("otherUsername");
 
-			dao.unfollowUser(currentUser, otherUser);
-			
+			String status = dao.getFollowButtonStatus(currentUser, otherUsername);
+			dao.followUnfollowUser(currentUser, otherUsername, status);
 			forward = OTHER_PROFILE;
 			
-			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(currentUser, otherUser));
-			request.setAttribute("otherUser", dao.getUserByUsername(otherUser));
-			request.setAttribute("tagReviews", rdao.getReviewsByUser(otherUser));
+			//update the message for the follow button (Follow/Unfollow) and the user to update their follower count
+			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(currentUser, otherUsername) );
+			request.setAttribute("otherUser", dao.getUserByUsername(otherUsername));
+			
+			//keep this for testing later
+			//request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUsername));
 
-		} else if (action.equalsIgnoreCase("followTag")) {
-			String username = request.getParameter("currentUser");
+		} else if (action.equalsIgnoreCase("followUnfollowTag")) {
+			
+			String username = request.getParameter("username");
 			String tag = request.getParameter("tagName");
-
-			dao.followTag(username, tag);
+			
+			String status = dao.getTagFollowButtonStatus(username, tag);
+			dao.followUnfollowTag(username, tag, status);
 			forward = TAG_PAGE;
 			
+			//update the message for the follow button (Follow/Unfollow)
 			request.setAttribute("followButtonMessage", dao.getTagFollowButtonStatus(username, tag));
 				
 		
-		} else if (action.equalsIgnoreCase("unfollowTag")) {
-			String username = request.getParameter("currentUser");
-			String tag = request.getParameter("tagName");
-
-			dao.unfollowTag(username, tag);
-			forward = TAG_PAGE;
-			request.setAttribute("followButtonMessage", dao.getTagFollowButtonStatus(username, tag));
-
 		} else if (action.equalsIgnoreCase("myProfile")) {
+			
 			forward = MY_PROFILE;
 			String username = request.getParameter("username");
 			User user = dao.getUserByUsername(username);
-			request.setAttribute("myUser", user);
-			request.setAttribute("profileReviews", rdao.getReviewsByUser(username));	
+			
+			request.setAttribute("user", user);
+			request.setAttribute("profileReviews", rdao.getReviewsByUser(username));
+			
 		
 		} else if (action.equalsIgnoreCase("otherProfile")) {
+			
 			forward = OTHER_PROFILE;
 			String currentUser = request.getParameter("username");
-			String username = request.getParameter("otherUser");
+			String otherUsername = request.getParameter("otherUsername");
 			
-			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(currentUser, username));
-			request.setAttribute("otherUser", dao.getUserByUsername(username));
-			request.setAttribute("profileReviews", rdao.getReviewsByUser(username));
+			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(currentUser, otherUsername));
+			request.setAttribute("otherUser", dao.getUserByUsername(otherUsername));
+			request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUsername));
 	
 		} else {
 			forward = SIGN_UP;
@@ -138,11 +133,11 @@ public class UserController {
 		 */
 		User user = new User();
 		//if this input is from sign up form, username input should be saved in "desiredUsername"
-		user.setEmail(request.getParameter("Email"));
-		user.setPassword(request.getParameter("Password"));
-		user.setName(request.getParameter("Name"));
-		user.setBio(request.getParameter("Bio"));
-		user.setProfilePic(request.getParameter("ProfilePic"));
+		user.setEmail(request.getParameter("email"));
+		user.setPassword(request.getParameter("password"));
+		user.setName(request.getParameter("name"));
+		user.setBio(request.getParameter("bio"));
+		user.setProfilePic(request.getParameter("profilePic"));
 
 		String username = request.getParameter("username");
 		/**

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
-//import java.util.Date;
+
 
 public class Review {
 	/**
@@ -23,7 +23,6 @@ public class Review {
 	private int numLikes;
 	private String photoURL;
 	
-	//not sure about these yet
 	private String username; //username of review owner
 	private List<MyOrder> myOrder;
 	private List<Comment> comments; 

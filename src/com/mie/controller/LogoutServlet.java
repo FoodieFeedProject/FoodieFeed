@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 public class LogoutServlet extends HttpServlet {
 	/**
-	 * This class handles all aspects of the logout action.
+	 * (FROM SAMPLE WEBAPP, dont use this one) This class handles all aspects of the logout action.
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {

@@ -234,44 +234,39 @@ public class UserDao {
 		return tagsFollowed;
 	}
 	
-	public void followUser(String username1, String username2) {
+	public void followUnfollowUser(String username1, String username2, String status) {
 		/**
-		 * This method allows username1 to follow username 2
+		 * This method allows username1 to follow or unfollow username 2
 		 */
 		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("insert into UserFollow(Username,Follower) values (?, ?)");
-		
-			preparedStatement.setString(1, username2);
-			preparedStatement.setString(2, username1);
-			
+			if(status == "Follow"){
+				PreparedStatement preparedStatement = connection
+						.prepareStatement("insert into UserFollow(Username,Follower) values (?, ?)");
+				
+				//follow the user
+				preparedStatement.setString(1, username2);
+				preparedStatement.setString(2, username1);
+				
 
-			preparedStatement.executeUpdate();
+				preparedStatement.executeUpdate();
+			
+			}else{ 
+				PreparedStatement preparedStatement = connection
+						.prepareStatement("DELETE FROM UserFollow WHERE UserName=? AND Follower=?");
+				
+				preparedStatement.setString(1, username2);
+				preparedStatement.setString(2, username1);
+				
+				//unfollow the user
+				preparedStatement.executeUpdate();
+				
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	//i still need to combine this with follow user
-	public void unfollowUser(String username1, String username2) {
-		/**
-		 * This method allows username1 to unfollow username2
-		 */
-
-		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("DELETE FROM UserFollow WHERE UserName=? AND Follower=?");
-			
-			preparedStatement.setString(1, username2);
-			preparedStatement.setString(2, username1);
-			
-
-			preparedStatement.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+	
 	public String getFollowButtonStatus (String currentUser, String otherUser){
 		/**
 		 * This method returns the follow button message on another users profile
@@ -354,46 +349,37 @@ public class UserDao {
 	
 	
 	
-	public void followTag(String username, String tagName) {
+	public void followUnfollowTag(String username, String tagName, String status) {
 		/**
-		 * This method allows a user to follow a tag
+		 * This method allows a user to follow or unfollow a tag
 		 */
 		tagName = tagName.replaceAll("#","");
 		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("insert into TagFollow(Username,TagName) values (?, ?)");
-		
-			preparedStatement.setString(1, username);
-			preparedStatement.setString(2, tagName);
+			if(status.equals("Follow")){
+				PreparedStatement preparedStatement = connection
+						.prepareStatement("insert into TagFollow(Username,TagName) values (?, ?)");
 			
-
-			preparedStatement.executeUpdate();
-
+				preparedStatement.setString(1, username);
+				preparedStatement.setString(2, tagName);
+				
+				//follow the tag
+				preparedStatement.executeUpdate();
+			}else{
+				PreparedStatement preparedStatement = connection
+						.prepareStatement("DELETE FROM TagFollow WHERE UserName=? AND TagName=?");
+				
+				preparedStatement.setString(1, username);
+				preparedStatement.setString(2, tagName);
+				
+				//unfollow tag
+				preparedStatement.executeUpdate();
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	//i need to still combine this with follow tag
-	public void unfollowTag(String username, String tagName) {
-		/**
-		 * This method allows a user to unfollow a tag
-		 */
-		tagName = tagName.replaceAll("#","");
-		try {
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("DELETE FROM TagFollow WHERE UserName=? AND TagName=?");
-			// Parameters start with 1
-			preparedStatement.setString(1, username);
-			preparedStatement.setString(2, tagName);
-			
-
-			preparedStatement.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public List<String> getSimilarUserName(String keywords){
 		/**

@@ -130,14 +130,14 @@ public class TagDao {
 		
 	}
 	
-	public List<Tag> getSimilarTags(String keywords){
+	public List<Tag> getSimilarTags(String keyword){
 		/**
 		 *Returns a list of tags similar to the searched keyword
 		 */
 		List<Tag> similarTags = new ArrayList<Tag>();
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement("select * FROM Tag where TagName LIKE ?");
-			preparedStatement.setString(1,  "%" + keywords + "%");
+			preparedStatement.setString(1,  "%" + keyword + "%");
 			ResultSet rs = preparedStatement.executeQuery();
 			
 			while (rs.next()) {
