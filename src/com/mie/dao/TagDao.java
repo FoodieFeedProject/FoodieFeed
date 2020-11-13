@@ -16,12 +16,12 @@ import com.mie.util.DbUtil;
 
 public class TagDao {
 	/**
-	 * This class handles all of the Student-related methods
+	 * This class handles all of the tag-related methods
 	 * (add/get).
 	 */
 
 	private Connection connection;
-	//private ReviewDao ReviewDao;
+	
 	
 	public TagDao() {
 		/**
@@ -32,12 +32,9 @@ public class TagDao {
 	
 	public void addTag(Tag tag) {
 		/**
-		 * This method adds a new student to the database.
+		 * This method adds a new tag to the database.
 		 * 
-		 * Question: if anyone add tag the user that start this tag should be automatically follow the tag that they created.
-		 * this also have to update uses tag since we create tag by creating review. 
-		 * 
-		 * Also will tag case sensitive?
+		 *
 		 * 
 		 */
 		try {
@@ -53,16 +50,17 @@ public class TagDao {
 		}
 	}
 	
-	public void updateTagPostNum(String TagName) {
+	public void updateTagPostNum(String tagName) {
 		/**
-		 * Update by checking uses tag table but hmmm this whould be done periodically? 
+		 * Update by checking UsesTag table 
 		 */
+		tagName = tagName.replaceAll("#","");
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Tag "
 					+ "set NumPosts = (Select Count(ReviewID) from UsesTag where TagName = ?)"
 					+ " where TagName =  ?;");
-			preparedStatement.setString(1, TagName );
-			preparedStatement.setString(2, TagName );
+			preparedStatement.setString(1, tagName );
+			preparedStatement.setString(2, tagName );
 			preparedStatement.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -70,13 +68,17 @@ public class TagDao {
 		}
 	}
 	
-	//update uses tag
-	public void updateUsesTag(int ReviewID, String TagName) {
+	
+	public void updateUsesTag(int reviewID, String tagName) {
+		/**
+		 * Update UsesTag table 
+		 */
+		tagName = tagName.replaceAll("#","");
 		try {
 			//edit Tag table
 			PreparedStatement preparedStatement = connection.prepareStatement("insert into UsesTag(ReviewID,TagName) values (?, ? )");
-			preparedStatement.setInt(1, ReviewID);
-			preparedStatement.setString(2, TagName);
+			preparedStatement.setInt(1, reviewID);
+			preparedStatement.setString(2, tagName);
 			
 			preparedStatement.executeUpdate();
 
@@ -84,13 +86,13 @@ public class TagDao {
 			e.printStackTrace();
 		}
 	}
-	
-	//if the thing is new and creating the actual tag the user have to follow that tag.
-	
-	
-	//check if the tag exist
-	public boolean tagExist(String tagName) {
 		
+
+	public boolean tagExist(String tagName) {
+		/**
+		 * Checks if a tag exists already
+		 */
+		tagName = tagName.replaceAll("#","");
 		boolean exist = false;
 		
 		try {
@@ -98,7 +100,7 @@ public class TagDao {
 			preparedStatement.setString(1,  tagName);
 			ResultSet rs = preparedStatement.executeQuery();
 			
-			if(rs.getInt("NumPosts") > 0) {
+			if(rs.getInt("Exist") > 0) {
 				exist = true;
 			}
 			
@@ -109,11 +111,14 @@ public class TagDao {
 		
 		return exist;
 	}
-	//following from other user
+	
 	
 	public void removeUsesTags(int reviewID) {
+		/**
+		 * When a review is deleted, remove entries from UsesTag
+		 */
 		try {
-			//edit Tag table
+			
 			PreparedStatement preparedStatement = connection.prepareStatement("delete from UsesTags where ReviewID=?");
 			preparedStatement.setInt(1, reviewID);
 			
@@ -127,11 +132,11 @@ public class TagDao {
 	
 	public List<Tag> getSimilarTags(String keywords){
 		/**
-		 *SHould i use java to get the top 10 or use sql to do this hmm....
+		 *Returns a list of tags similar to the searched keyword
 		 */
 		List<Tag> similarTags = new ArrayList<Tag>();
 		try {
-			PreparedStatement preparedStatement = connection.prepareStatement("select TagName FROM Tag where TagName LIKE ?");
+			PreparedStatement preparedStatement = connection.prepareStatement("select * FROM Tag where TagName LIKE ?");
 			preparedStatement.setString(1,  "%" + keywords + "%");
 			ResultSet rs = preparedStatement.executeQuery();
 			
@@ -149,26 +154,19 @@ public class TagDao {
 		return similarTags;
 	}
 	
-	public List<Integer> getTagReviewId(String tagname) {
+	public List<Integer> getTagReviewId(String tagName) {
 		/**
-		 * This method get review that uses certain tag names
+		 * This method get reviewIDs of posts that uses certain tag names
 		 * 
-		 * Currently not used in the sample web app, but code is left here for
-		 * your review.
-		 * 
-		 * getting all the 
-		 * 
-		 * 
-		 * maybe use like thing 
 		 */
-
-		
+		tagName = tagName.replaceAll("#","");
+	
 		List<Integer> allTagReviewIDs = new ArrayList<Integer>();
 
 		try {
 
 			PreparedStatement preparedStatement = connection.prepareStatement("select ReviewID from UsesTag where TagName=?");
-			preparedStatement.setString(1, tagname);
+			preparedStatement.setString(1, tagName);
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -186,7 +184,7 @@ public class TagDao {
 	
 	public List<Tag> getTrendingTags(){
 		/**
-		 *SHould i use java to get the top 10 or use sql to do this hmm....
+		 *Returns the top ten tags with the most posts
 		 */
 		List<Tag> topTags = new ArrayList<Tag>();
 		try {

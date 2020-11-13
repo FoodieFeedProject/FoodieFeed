@@ -10,10 +10,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mie.dao.StudentDao;
-import com.mie.dao.UserDao;
-import com.mie.model.User;
-import com.mie.model.User;
+import com.mie.dao.*;
+import com.mie.model.*;
+
 
 public class UserController {
 	
@@ -25,6 +24,7 @@ public class UserController {
 	private static String TAG_PAGE = "/tagPage.jsp";
 
 	private UserDao dao;
+	private ReviewDao rdao;
 
 	/**
 	 * Constructor for this class.
@@ -32,6 +32,7 @@ public class UserController {
 	public UserController() {
 		super();
 		dao = new UserDao();
+		rdao = new ReviewDao();
 	}
 
 	protected void doGet(HttpServletRequest request,
@@ -64,21 +65,27 @@ public class UserController {
 			request.setAttribute("user", user);
 		} else if (action.equalsIgnoreCase("followUser")) {
 			
-			String username = request.getParameter("currentUser");
-			String follower = request.getParameter("follower");
+			String currentUser = request.getParameter("currentUser");
+			String otherUser = request.getParameter("otherUser");
 
-			dao.followUser(username, follower);
+			dao.followUser(currentUser, otherUser);
 			forward = OTHER_PROFILE;
-			request.setAttribute("following", dao.getUsersFollowed(username));
+			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(currentUser, otherUser));
+			request.setAttribute("otherUser", dao.getUserByUsername(otherUser));
+			request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUser));
 
 		} else if (action.equalsIgnoreCase("unfollowUser")) {
 			
-			String username = request.getParameter("currentUser");
-			String follower = request.getParameter("follower");
+			String currentUser = request.getParameter("currentUser");
+			String otherUser = request.getParameter("follower");
 
-			dao.unfollowUser(username, follower);
+			dao.unfollowUser(currentUser, otherUser);
+			
 			forward = OTHER_PROFILE;
-			request.setAttribute("following", dao.getUsersFollowed(username));
+			
+			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(currentUser, otherUser));
+			request.setAttribute("otherUser", dao.getUserByUsername(otherUser));
+			request.setAttribute("tagReviews", rdao.getReviewsByUser(otherUser));
 
 		} else if (action.equalsIgnoreCase("followTag")) {
 			String username = request.getParameter("currentUser");
@@ -86,7 +93,9 @@ public class UserController {
 
 			dao.followTag(username, tag);
 			forward = TAG_PAGE;
-			request.setAttribute("tagFollowing", dao.getTagFollowed(username));
+			
+			request.setAttribute("followButtonMessage", dao.getTagFollowButtonStatus(username, tag));
+				
 		
 		} else if (action.equalsIgnoreCase("unfollowTag")) {
 			String username = request.getParameter("currentUser");
@@ -94,25 +103,24 @@ public class UserController {
 
 			dao.unfollowTag(username, tag);
 			forward = TAG_PAGE;
-			request.setAttribute("tagFollowing", dao.getTagFollowed(username));
+			request.setAttribute("followButtonMessage", dao.getTagFollowButtonStatus(username, tag));
 
 		} else if (action.equalsIgnoreCase("myProfile")) {
-				forward = MY_PROFILE;
-				String username = request.getParameter("currentUser");
-				User user = dao.getUserByUsername(username);
-				request.setAttribute("myUser", user);
+			forward = MY_PROFILE;
+			String username = request.getParameter("username");
+			User user = dao.getUserByUsername(username);
+			request.setAttribute("myUser", user);
+			request.setAttribute("profileReviews", rdao.getReviewsByUser(username));	
 		
 		} else if (action.equalsIgnoreCase("otherProfile")) {
 			forward = OTHER_PROFILE;
+			String currentUser = request.getParameter("username");
 			String username = request.getParameter("otherUser");
-			User user = dao.getUserByUsername(username);
-			request.setAttribute("otherUser", user);
+			
+			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(currentUser, username));
+			request.setAttribute("otherUser", dao.getUserByUsername(username));
+			request.setAttribute("profileReviews", rdao.getReviewsByUser(username));
 	
-		}else if (action.equalsIgnoreCase("listUserOnUser")) {
-			forward = MY_PROFILE;
-			String username = request.getParameter("currentUser");
-			request.setAttribute("following", dao.getUsersFollowed(username));
-		
 		} else {
 			forward = SIGN_UP;
 		}
@@ -129,19 +137,36 @@ public class UserController {
 		 * the signUp.jsp or the editProfile.jsp pages.
 		 */
 		User user = new User();
+		//if this input is from sign up form, username input should be saved in "desiredUsername"
 		user.setEmail(request.getParameter("Email"));
 		user.setPassword(request.getParameter("Password"));
 		user.setName(request.getParameter("Name"));
 		user.setBio(request.getParameter("Bio"));
 		user.setProfilePic(request.getParameter("ProfilePic"));
 
-		String username = request.getParameter("Username");
+		String username = request.getParameter("username");
 		/**
 		 * If the 'UserName' field in the form is empty, the new User will
 		 * be added to the list of User objects.
 		 */
 		if (username == null || username.isEmpty()) {
-			dao.addUser(user);
+			
+			String desiredUsername = request.getParameter("desiredUsername");
+			boolean canUse = dao.checkUsername(desiredUsername);
+			
+			if(canUse){
+				request.setAttribute("usernameStatus", "Username Available");
+				dao.addUser(user);
+			}else{
+				request.setAttribute("usernameStatus", "Username Taken");
+				//they get brought back to sign up page and need to enter a new desiredUsername
+				RequestDispatcher view = request
+						.getRequestDispatcher(SIGN_UP);
+				//this might save their other inputs
+				request.setAttribute("user", user);
+				view.forward(request, response);
+			}
+			
 		} else {
 			/**
 			 * Otherwise, if the field is already filled (this occurs when the
@@ -150,14 +175,18 @@ public class UserController {
 			 */
 			user.setUsername(username);
 			dao.updateUser(user);
+			
 		}
+		//after adding/updating we want to get ALL of their info (followers, following etc)
+		User fullUser = new User();
+		fullUser = dao.getUserByUsername(username);
 		/**
 		 * Once the User has been added or updated, the page will redirect to
 		 * the myProfile.
 		 */
 		RequestDispatcher view = request
 				.getRequestDispatcher(MY_PROFILE);
-		request.setAttribute("user", user);
+		request.setAttribute("user", fullUser);
 		view.forward(request, response);
 	}
 }

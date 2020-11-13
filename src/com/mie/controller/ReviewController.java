@@ -15,13 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mie.dao.ReviewDao;
-import com.mie.dao.UserDao;
-import com.mie.dao.TagDao;
-import com.mie.model.MyOrder;
-import com.mie.model.Review;
-import com.mie.model.Tag;
-import com.mie.model.User;
+import com.mie.dao.*;
+import com.mie.model.*;
+
 
 //import com.mie.model.Student;
 
@@ -48,7 +44,7 @@ public class ReviewController extends HttpServlet {
 	private static String DISPLAY = "/displayPost.jsp";
 	private static String DISPLAY_FULL = "/displayFullPost.jsp";
 	
-	//im not sure about these just yet 
+	
 	private static String PROFILE = "/profile.jsp";
 	private static String FOODIE_FEED = "/foodieFeed.jsp";
 	
@@ -97,6 +93,7 @@ public class ReviewController extends HttpServlet {
 			
 			forward = PROFILE; //after you delete a post just go back to profile
 			String username = request.getParameter("username");
+			//request.setAttribute("user", udao.getUserByUsername(username));
 			request.setAttribute("myPosts", rdao.getReviewsByUser(username));
 			
 		} else if (action.equalsIgnoreCase("create")) {
@@ -130,12 +127,12 @@ public class ReviewController extends HttpServlet {
 			String username = request.getParameter("username");
 			Set<Integer> reviewIDs = new HashSet<Integer>();//ensures no duplicates
 			
-			List<String> tagsFollowed = udao.getTagFollowed(username);
+			List<String> tagsFollowed = udao.getTagsFollowed(username);
 			for(String tag:tagsFollowed){
 				reviewIDs.addAll(tdao.getTagReviewId(tag)); //gather review ids from tags they follow
 			}
 			
-			List<String> usersFollowed = udao.getUsersFollowed(username);//method name may change
+			List<String> usersFollowed = udao.getFollowing(username);//method name may change
 			for(String user: usersFollowed){
 				reviewIDs.addAll(rdao.getUsersReviewIDs(user));//gather review ids from users they follow
 			}
@@ -146,16 +143,14 @@ public class ReviewController extends HttpServlet {
 			}
 			request.setAttribute("feedReviews", feed);
 			
-		} else if (action.equalsIgnoreCase("listReviewsOnProfile")) {
+		}  else if (action.equalsIgnoreCase("like")) {
 			
-			forward = PROFILE; //maybe this part should go into the USER CONTROLLER
-			String username = request.getParameter("username");
-			request.setAttribute("profileReviews", rdao.getReviewsByUser(username));
-			
-		} else if (action.equalsIgnoreCase("like")) {
-			
+			forward = DISPLAY_FULL;
+			//experiment with this later. not sure what page to forward
 			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
-			rdao.likeReview(reviewID);
+			rdao.likeReview(reviewID);			
+			Review review = rdao.getReviewById(reviewID);
+			request.setAttribute("review", review);
 		}
 
 		RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -231,12 +226,12 @@ public class ReviewController extends HttpServlet {
 		
 		
 		/**
-		 * Once the student has been added or updated, the page will redirect to
-		 * the listing of students.
+		 * Once the review has been added or updated, the page will redirect to
+		 * the expanded view.
 		 */
 		
 		
-		//fix later
+		
 		RequestDispatcher view = request
 				.getRequestDispatcher(DISPLAY_FULL);
 		request.setAttribute("review", rdao.getReviewById(reviewID));

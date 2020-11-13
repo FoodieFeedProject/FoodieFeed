@@ -18,30 +18,18 @@ import com.mie.model.*;
 
 public class TagController extends HttpServlet{
 	/**
-	 * This class handles the list function of the servlet.
+	 * This class handles the tag functions of the servlet.
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
-	//private static String trending = ""
 	private static String TAG_PAGE = "/tagPage.jsp";
 	private static String DISCOVER = "/discover.jsp";
 	
-	/*
-	private static String LIST_REVIEW_PUBLIC = "/test_ListReview.jsp";
-	private static String CREATE = "/createPost.jsp";
-	private static String EDIT = "/editPost.jsp";	
-	private static String DISPLAY = "/displayPost.jsp";
-	private static String DISPLAY_FULL = "/displayFullPost.jsp";
-	
-	//im not sure about these just yet 
-	private static String PROFILE = "/profile.jsp";
-	private static String FOODIE_FEED = "/foodieFeed.jsp";
-	*/
-	
+
 	private TagDao tdao;
 	private ReviewDao rdao;
+	private UserDao udao;
 
 	/**
 	 * Constructor for this class.
@@ -50,6 +38,7 @@ public class TagController extends HttpServlet{
 		super();
 		tdao = new TagDao();
 		rdao = new ReviewDao();
+		udao = new UserDao();
 	}
 	
 	protected void doGet(HttpServletRequest request,
@@ -68,12 +57,15 @@ public class TagController extends HttpServlet{
 		String forward = "";
 		String action = request.getParameter("action");
 		
-		if(action.equalsIgnoreCase("TrendingList")) {
+		if(action.equalsIgnoreCase("trendingList")) {
 			forward = DISCOVER;
-			request.setAttribute("TrendingList", tdao.getTrendingTags());
+			request.setAttribute("trendingList", tdao.getTrendingTags());
 		}
 		else if(action.equalsIgnoreCase("visitTagPage")){
+			
 			String tagname = request.getParameter("tagname");
+			String username = request.getParameter("username");
+			
 			List<Integer> reviewIDs = tdao.getTagReviewId(tagname);
 			List<Review> tagReviews = new ArrayList<Review>();
 			
@@ -81,6 +73,8 @@ public class TagController extends HttpServlet{
 				tagReviews.add(rdao.getReviewById(i));
 			}
 			forward = TAG_PAGE;
+			
+			request.setAttribute("followButtonMessage", udao.getTagFollowButtonStatus(username, tagname));
 			request.setAttribute("tagPage", tagReviews);
 		}
 		

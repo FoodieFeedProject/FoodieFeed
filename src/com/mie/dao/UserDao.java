@@ -54,8 +54,7 @@ public class UserDao {
 			PreparedStatement preparedStatement = connection
 					.prepareStatement("update User set Email=?, Password=?, Name=?, Bio=?, ProfilePic=?"
 							+ " where Username=?");
-			// Parameters start with 1
-			//preparedStatement.setString(1, user.getUsername());
+
 			preparedStatement.setString(1, user.getEmail());
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getName());
@@ -77,7 +76,7 @@ public class UserDao {
 		List<User> users = new ArrayList<User>();
 		try {
 			Statement statement = connection.createStatement();
-			// System.out.println("getting students from table");
+			
 			ResultSet rs = statement.executeQuery("select * from User");
 			while (rs.next()) {
 				User user = new User();
@@ -87,6 +86,10 @@ public class UserDao {
 				user.setName(rs.getString("Name"));
 				user.setBio(rs.getString("Bio"));
 				user.setProfilePic(rs.getString("ProfilePic"));
+				
+				user.setFollowing(this.getFollowing(user.getUsername()));
+				user.setFollowers(this.getFollowers(user.getUsername()));
+				user.setTagFollow(this.getTagsFollowed(user.getUsername()));
 
 				users.add(user);
 			}
@@ -99,7 +102,7 @@ public class UserDao {
 
 	public User getUserByUsername(String username) {
 		/**
-		 * This method retrieves a user by their userName.
+		 * This method retrieves a user by their username.
 		 */
 		User user = new User();
 		try {
@@ -115,7 +118,11 @@ public class UserDao {
 				user.setName(rs.getString("Name"));
 				user.setBio(rs.getString("Bio"));
 				user.setProfilePic(rs.getString("ProfilePic"));
-
+				
+				user.setFollowing(this.getFollowing(username));
+				user.setFollowers(this.getFollowers(username));
+				user.setTagFollow(this.getTagsFollowed(username));
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -135,12 +142,8 @@ public class UserDao {
 					.prepareStatement("select * from User where Username LIKE ?");
 
 			preparedStatement.setString(1, "%" + keyword + "%");
-			/*preparedStatement.setString(2, "%" + keyword + "%");
-			preparedStatement.setString(3, "%" + keyword + "%");
-			preparedStatement.setString(4, "%" + keyword + "%");
-			preparedStatement.setString(5, "%" + keyword + "%");*/
-
 			ResultSet rs = preparedStatement.executeQuery();
+			
 			while (rs.next()) {
 				User user = new User();
 				user.setUsername(rs.getString("Username"));
@@ -149,7 +152,11 @@ public class UserDao {
 				user.setName(rs.getString("Name"));
 				user.setBio(rs.getString("Bio"));
 				user.setProfilePic(rs.getString("ProfilePic"));
-
+				
+				user.setFollowing(this.getFollowing(user.getUsername()));
+				user.setFollowers(this.getFollowers(user.getUsername()));
+				user.setTagFollow(this.getTagsFollowed(user.getUsername()));
+				
 				users.add(user);
 			}
 		} catch (SQLException e) {
@@ -159,72 +166,82 @@ public class UserDao {
 		return users;
 	}
 	
-	public List<String> getUsersFollowed(String username){
-		
-		// this methods is to get the follower for the user
-		User user = new User();
+	public List<String> getFollowers(String username){
+		/**
+		 * Returns a list of followers
+		 */
+
+		List<String> followers = new ArrayList<String>();
 		try {
 			PreparedStatement preparedStatement = connection
 					.prepareStatement("select Follower from UserFollow where Username=?");
 			preparedStatement.setString(1, username);
 			ResultSet rs = preparedStatement.executeQuery();
-			if (rs.next()) {
-				user.addFollowed(rs.getString("Follower"));
+			while (rs.next()) {
+	
+				followers.add(rs.getString("Follower"));
 				
 			}
 			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return user.getFollowed();
+		return followers;
 	}
 	
 	public List<String> getFollowing(String username){
-		// this methods is to get list of userName that the current User is following
-
-		User user = new User();
+		/**
+		 * Returns a list of users that the given user is following
+		 */
+		
+		List<String> following = new ArrayList<String>();
 		try {
 			PreparedStatement preparedStatement = connection
-					.prepareStatement("select UserName from UserFollow where Follower=?");
+					.prepareStatement("select Username from UserFollow where Follower=?");
 			preparedStatement.setString(1, username);
+		
 			ResultSet rs = preparedStatement.executeQuery();
-			if (rs.next()) {
-				user.addFollowing(rs.getString("UserName"));
+			while (rs.next()) {
+				following.add(rs.getString("Username"));
 				
 			}
 			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return user.getFollowed();
+		return following;
 	}
 	
-	public List<String> getTagFollowed(String usename){
-		// this methods is to get the tag followed for the user
+	public List<String> getTagsFollowed(String usename){
+		/**
+		 * Returns a list of TagNames followed by the user
+		 */
 
-		User user = new User();
+		List<String> tagsFollowed = new ArrayList<String>();
 		try {
 			PreparedStatement preparedStatement = connection
 					.prepareStatement("select TagName from TagFollow where Username=?");
 			preparedStatement.setString(1, usename);
 			ResultSet rs = preparedStatement.executeQuery();
-			if (rs.next()) {
-				user.addTagFollow(rs.getString("TagName"));
+			while (rs.next()) {
+				tagsFollowed.add(rs.getString("TagName"));
 				
 			}
 			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return user.getTagFollow();
+		return tagsFollowed;
 	}
 	
 	public void followUser(String username1, String username2) {
-		// this methods is to allow username1 to follow username2
+		/**
+		 * This method allows username1 to follow username 2
+		 */
 		try {
 			PreparedStatement preparedStatement = connection
 					.prepareStatement("insert into UserFollow(Username,Follower) values (?, ?)");
-			// Parameters start with 1
+		
 			preparedStatement.setString(1, username2);
 			preparedStatement.setString(2, username1);
 			
@@ -235,14 +252,16 @@ public class UserDao {
 			e.printStackTrace();
 		}
 	}
-	
+	//i still need to combine this with follow user
 	public void unfollowUser(String username1, String username2) {
-		// this methods is to allow username1 to unfollow username2
+		/**
+		 * This method allows username1 to unfollow username2
+		 */
 
 		try {
 			PreparedStatement preparedStatement = connection
 					.prepareStatement("DELETE FROM UserFollow WHERE UserName=? AND Follower=?");
-			// Parameters start with 1
+			
 			preparedStatement.setString(1, username2);
 			preparedStatement.setString(2, username1);
 			
@@ -253,16 +272,99 @@ public class UserDao {
 			e.printStackTrace();
 		}
 	}
+	public String getFollowButtonStatus (String currentUser, String otherUser){
+		/**
+		 * This method returns the follow button message on another users profile
+		 */
+		String message = "";
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("Select Count(Username) as Result FROM UserFollow WHERE UserName=? AND Follower=?");
+			
+			preparedStatement.setString(1, otherUser);
+			preparedStatement.setString(2, currentUser);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()){
+				int count = rs.getInt("Result");
+				if (count == 0)
+					message =  "Follow";
+				else
+					message =  "Unfollow";					
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return message;
+	}
+	public String getTagFollowButtonStatus (String currentUser, String tagName){
+		/**
+		 * This method returns the message of the follow button on a Tag's page
+		 */
+		tagName = tagName.replaceAll("#","");
+		String message = "";
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("Select Count(Username) as Count FROM TagFollow WHERE UserName=? AND TagName=?");
+			
+			preparedStatement.setString(1, currentUser);
+			preparedStatement.setString(2, tagName);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()){
+				int count = rs.getInt("Count");
+				if (count == 0)
+					message =  "Follow";
+				else
+					message =  "Unfollow";					
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return message;
+	}
+	public boolean checkUsername (String desiredUsername){
+		/**
+		 * This method checks if a username is unique 
+		 */
+		boolean canUse = false;
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("Select Count(Username) as Count FROM User WHERE UserName=?");
+			
+			preparedStatement.setString(1, desiredUsername);
+					
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()){
+				int count = rs.getInt("Count");
+				if (count == 0)
+					canUse =  true;				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return canUse;
+	}
 	
-	public void followTag(String username, String tag) {
-		// this methods is to allow user to follow a tag
-
+	
+	
+	public void followTag(String username, String tagName) {
+		/**
+		 * This method allows a user to follow a tag
+		 */
+		tagName = tagName.replaceAll("#","");
 		try {
 			PreparedStatement preparedStatement = connection
 					.prepareStatement("insert into TagFollow(Username,TagName) values (?, ?)");
-			// Parameters start with 1
+		
 			preparedStatement.setString(1, username);
-			preparedStatement.setString(2, tag);
+			preparedStatement.setString(2, tagName);
 			
 
 			preparedStatement.executeUpdate();
@@ -272,16 +374,18 @@ public class UserDao {
 		}
 	}
 	
-	
-	public void unfollowTag(String username, String tag) {
-		// this methods is to allow user to unfollow a tag
-
+	//i need to still combine this with follow tag
+	public void unfollowTag(String username, String tagName) {
+		/**
+		 * This method allows a user to unfollow a tag
+		 */
+		tagName = tagName.replaceAll("#","");
 		try {
 			PreparedStatement preparedStatement = connection
 					.prepareStatement("DELETE FROM TagFollow WHERE UserName=? AND TagName=?");
 			// Parameters start with 1
 			preparedStatement.setString(1, username);
-			preparedStatement.setString(2, tag);
+			preparedStatement.setString(2, tagName);
 			
 
 			preparedStatement.executeUpdate();
@@ -293,7 +397,7 @@ public class UserDao {
 	
 	public List<String> getSimilarUserName(String keywords){
 		/**
-		 * this method is to get similiar UserName that contains string 'keyword'
+		 * this method is to get similar UserNames that contains string 'keyword'
 		 */
 		List<String> similarUserName = new ArrayList<String>();
 		try {
@@ -302,8 +406,8 @@ public class UserDao {
 			ResultSet rs = preparedStatement.executeQuery();
 			
 			while (rs.next()) {
-				User user = new User();
-				similarUserName.add(rs.getString("UserName"));
+				
+				similarUserName.add(rs.getString("Username"));
 			}
 			
 		} catch (SQLException e) {

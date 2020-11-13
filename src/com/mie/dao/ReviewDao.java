@@ -75,7 +75,7 @@ public class ReviewDao {
 
 	public void deleteReview(int reviewID) {
 		/**
-		 * This method deletes a review from the database. Need to delete things in other tables first..
+		 * This method deletes a review from the database. 
 		 */
 		try {
 			PreparedStatement preparedStatement = connection
@@ -160,7 +160,7 @@ public class ReviewDao {
 	public List<Review> getReviewByKeyword(String keyword) {
 		/**
 		 * This method retrieves a list of reviews that matches the keyword
-		 * entered by the user.
+		 * entered by the user. Currently not used in the search functions.
 		 */
 		List<Review> results = new ArrayList<Review>();
 		try {
@@ -172,7 +172,7 @@ public class ReviewDao {
 
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				Review review = new Review();
+				/*Review review = new Review();
 				review.setReviewID(rs.getInt("ReviewID"));
 				review.setTitle(rs.getString("Title"));
 				review.setOverallRating(rs.getInt("OverallRating"));
@@ -182,8 +182,9 @@ public class ReviewDao {
 				review.setEnvironmentRating(rs.getInt("EnvironmentRating"));
 				review.setDineIn(rs.getInt("DineIn"));
 				review.setNumLikes(rs.getInt("NumLikes"));
-				review.setPhotoURL(rs.getString("PhotoURL"));
-				results.add(review);
+				review.setPhotoURL(rs.getString("PhotoURL"));*/
+				
+				results.add(this.getReviewById(rs.getInt("ReviewID")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

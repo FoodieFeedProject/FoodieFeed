@@ -14,8 +14,9 @@ public class Tag {
 		return tagName;
 	}
 	
-	public void setTagName(String tagname) {
-		this.tagName = tagname;
+	public void setTagName(String tagName) {
+		tagName = tagName.replaceAll("#","");
+		this.tagName = tagName;
 	}
 	public int getNumPosts() {
 		return numPosts;

@@ -1,13 +1,12 @@
 package com.mie.model;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class User {
 	/**
 	 * This class contains all of the relevant information, and getter/setter
 	 * methods for the Member object. It also contains add/remove the follower, followed 
-	 * tagFollow. valid is a boonlean object to check for login.
+	 * tagFollow. valid is a boolean object to check for login.
 	 */
 	private String username;
 	private String email;
@@ -15,42 +14,37 @@ public class User {
 	private String name;
 	private String bio;
 	private String profilePic;
+	
 	private List<String> following;
-	private List<String> followed;
+	private List<String> followers;
 	private List<String> tagFollow;
 	private boolean valid;
 
     
-	public List<String> getFollowing() {
-		return following;
+	public Iterator<String> getFollowing() {
+		return following.iterator();
 	}
 
-	public void addFollowing(String username) {
-		this.following.add(username);
+	public void setFollowing(List<String> following) {
+		this.following = following;
 	}
 	
-	public void removeFollowing(String username) {
-		this.following.remove(username);
+	
+	public Iterator<String> getFollowers() {
+		return followers.iterator();
 	}
 	
-	public List<String> getFollowed() {
-		return followed;
+	public void setFollowers(List<String> followers) {
+		this.followers = followers;
 	}
 	
-	public void addFollowed(String username) {
-		this.followed.add(username);
-	}
 	
-	public void removeFollowed(String username) {
-		this.followed.remove(username);
-	}
-	
-	public List<String> getTagFollow() {
-		return tagFollow;
+	public Iterator<String> getTagFollow() {
+		return tagFollow.iterator();
 	}
 
-	public void addTagFollow(String tag) {
-		this.tagFollow.add(tag);
+	public void setTagFollow(List<String> tagFollow) {
+		this.tagFollow = tagFollow;
 	}
 	
 	

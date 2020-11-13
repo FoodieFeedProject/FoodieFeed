@@ -11,10 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mie.dao.StudentDao;
-import com.mie.dao.TagDao;
-import com.mie.dao.UserDao;
-import com.mie.model.Student;
+import com.mie.dao.*;
+import com.mie.model.*;
 
 public class SearchControllerFoodie extends HttpServlet {
 	/**
@@ -26,7 +24,7 @@ public class SearchControllerFoodie extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static String SEARCH_USER = "/searchStudentResult.jsp";
+	private static String SEARCH_USER = "/searchUserResult.jsp";
 	private static String SEARCH_TAG = "/searchTagResult.jsp";
 
 	private UserDao uDao;
@@ -71,7 +69,7 @@ public class SearchControllerFoodie extends HttpServlet {
 
 		RequestDispatcher view = request.getRequestDispatcher(SEARCH_TAG);
 		request.setAttribute("keyword", keyword);
-		request.setAttribute("tags", tDao.getTagByKeyword(keyword));
+		request.setAttribute("tags", tDao.getSimilarTags(keyword));
 		/**
 		 * Redirect to the search results page after the list of tags
 		 * matching the keywords has been retrieved.
