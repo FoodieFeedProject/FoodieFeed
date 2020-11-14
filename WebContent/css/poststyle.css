@@ -1,0 +1,239 @@
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+	margin-bottom: 0;
+	border-radius: 0;
+	background-color: #20134b;
+}
+.header-avatar {
+    float:left;
+    overflow: hidden;
+    width: 50px;
+    height: 50px;
+    margin: auto 0px auto 20px;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 4px 40px rgba(0,0,0,.07);
+    box-shadow: 0 4px 40px rgba(0,0,0,.07);
+    padding: 5px;
+    background-color: #fff;
+    z-index: 1;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 2px;
+}
+.header-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+#myNavbar{
+ float:right;
+  height:50px;
+ font-size: 14px;
+ padding:5px 0px 5px 0px;
+ box-sizing:border-box;
+-moz-box-sizing:border-box; /* Firefox */
+-webkit-box-sizing:border-box; /* Safari */
+}
+#myNavbar ul{
+ float:right;
+ font-size: 14px;
+ box-sizing:border-box;
+-moz-box-sizing:border-box; /* Firefox */
+-webkit-box-sizing:border-box; /* Safari */
+}
+#myNavbar a{
+   color:#9d9d9d;
+   padding-top: 5px;
+   padding-bottom: 5px;
+}
+#myNavbar li:nth-child(2){
+   border-left: 2px solid #968ec1;
+}
+#myNavbar a:hover{
+ color:#ffffff;
+}
+/* Set black background color, white text and some padding */
+footer {
+	background-color: #555;
+	color: #857dae;
+    width: 100%;
+}
+.score_star {
+        text-align: left;
+}
+.score_star i {
+        color: #999;
+        font-size: 28px;
+        font-style: normal;
+        cursor: pointer;
+}
+.score_star i.on {
+        color: #ffbc3f;
+}
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+.sidenav{
+padding-top: 30px;
+}
+.sidenav h1 {
+    font-size: 25px;
+    padding: 0px 0px 10px 40px;
+    display: block;
+    border-bottom: 1px solid# E4E4E4;
+    margin: -10px -15px 30px -10px;
+    color: # 888;
+}
+*{padding: 0px;margin: 0px;}
+#flash{width:800px;height: 350px;position: relative;}
+#flash #play{width:800px;height: 350px;list-style: none;position:absolute;top:0px;left:0px;}
+#flash #play li{display: none;position:absolute;top:0px;left:0px;}
+#flash #play li img{float: left;width: 800px;
+    height: 350px;}
+#button{position: absolute;bottom:20px;left:300px;list-style: none;}
+#button li{margin-left: 10px;float: left;}
+#button li div{width:12px;height: 12px;background:#DDDDDD;border-radius: 6px;cursor: pointer;}
+#prev{width:40px;height:63px;background:url(../img/testimg/beijing.png) 0px 0px;position: absolute;top:205px;left:10px;z-index: 1000;}
+#next{width:40px;height:63px;background:url(../img/testimg/beijing.png) -40px 0px;position: absolute;top:205px;right:10px;z-index: 1000;}
+#prev:hover{background:url(../img/testimg/beijing.png) 0px -62px;}
+#next:hover{background:url(../img/testimg/beijing.png) -40px -62px;}
+
+.acontent{
+ 
+}
+.tagcontainer{
+ text-align:left;
+}
+.tagcontainer span{
+border-radius: 50%;
+padding:0px 5px 0px 5px;
+background-color:#d8d5e7;
+}
+.titlecontainer{
+ text-align:left;
+ font-size: 24px;
+    font-weight: bold;
+}
+.mytime{
+    display: block;
+    font-size: 14px;
+    margin-left: 30px;
+    }
+.detail{
+    display: block;
+    font-size: 16px;
+}
+.ratediv{
+
+}
+.myOrder{
+  border:1px solid darkseagreen;
+  text-align:left;
+  width:400px;
+}
+
+.feed {
+  font-family: "Î¢ÈíÑÅºÚ";
+  width: 720px;
+  margin: 8px 0;
+}
+
+.avatar {
+  width: 50px;
+  float: left;
+  margin: 0 8px 0 0;
+  box-shadow: 0 0 3px #e0e0e0;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+}
+
+.feed .avatar img {
+  width: 50px;
+  height: 50px;
+}
+.feed .box1 {
+  width: 640px;
+  float: left;
+  background: #f6f6f6;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+}
+
+.feed .box1 .current {
+  font-size: 14px;
+  margin: 8px;
+  text-align:left;
+}
+.feed .box1 .info {
+  margin: 0 8px;
+}
+
+.feed .box1 .info span {
+  float: right;
+}
+.feed .box1 .line {
+  padding: 8px 0 0 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+.feed .box1 .box2 {
+  margin: 8px;
+  padding: 0 0 8px 0;
+  border-bottom: 1px dashed #ccc;
+}
+.feed .box1 .box2_comments {
+  width: 560px;
+  overflow: hidden;
+  float: left;
+}
+.feed .box1 .say {
+  margin: 0 0 8px;
+  text-align:left;
+}
+.clear {
+  clear: both;
+}
+.feed .box1 .box2_comments .box3 {
+  margin: 8px 0;
+}
+.feed .box1 .box2_comments .box3_comments {
+  float: left;
+  width: 500px;
+}
+.reply_area {
+  border: 1px solid #e0e0e0;
+  height: 30px;
+  line-height: 30px;
+  width: 620px;
+  margin: 8px;
+  color: #666;
+  font-size: 12px;
+  font-family: "Î¢ÈíÑÅºÚ";
+  clear: both;
+}
+.mycomment{
+   display: block;
+    margin: 0px;
+    width: 698px;
+}
+.opreate{
+text-align:right;text-align: right;padding-top: 10px;
+}
+.opreate input{
+ width: 50px;
+ height: 25px;
+}
+.commenttitle{
+    margin:10px 0px 0px 0px;
+    background-color: #cccccc;
+    text-align: left;
+    padding-left: 10px;
+    font-size: 20px;
+    padding-top: 8px;
+    font-weight: 700;
+    height: 40px;
+}
+
