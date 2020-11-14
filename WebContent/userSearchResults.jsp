@@ -24,9 +24,9 @@
 	<%@ include file="navbar.jsp"%>
     <h1>Search Results for a User</h1>
       <center>
-        <c:forEach items="${trendingTags}" var="trendingTag">
+        <c:forEach items="${users}" var="user">
           <br>
-          #<c:out value="${trendingTag.getTagName()}" />
+          <a href="otherProfile.jsp">#<c:out value="${user.getUsername()}" /></a>
           <br>
         </c:forEach>
 				</center>
