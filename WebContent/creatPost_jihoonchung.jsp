@@ -10,11 +10,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/bootstrap.min.css">
-
-<!-- jihoonchung -->
-<link rel="stylesheet" href="css/pokemonexample.css">
-
-
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 
@@ -58,29 +53,21 @@
 		        <h1>
 					Img Upload
 				</h1>
-				
-				<!-- jihoonchung -->
-				<div class="file-upload">
-	                <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">
-	                    Add Image</button>
-	
-	                <div class="image-upload-wrap">
-	                    <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
-	                    <div class="drag-text">
-	                        <h3>Drag and drop a file or select add Image</h3>
-	                    </div>
-	                </div>
-	                <div class="file-upload-content">
-	                    <img class="file-upload-image" id="face_image" src="#" alt="your image" />
-	                    <div class="image-title-wrap">
-	                        <button type="button" onclick="removeUpload()" class="remove-image">Remove <span
-	                                class="image-title">Uploaded Image</span></button>
-	                    </div>
-	                </div>
-	            </div>
-	            
-	            
-	            
+				<div class="upload-content">
+					<div class="content-img">
+						<ul class="content-img-list"></ul>
+						<div class="file">
+							<i class="gcl gcladd"></i> <input type="file" name="file"
+								accept="image/*" onchange=readURL(this); id="upload" multiple>
+						</div>
+					</div>
+					<div class="modal fade bs-example-modal-lg" tabindex="-1"
+						role="dialog" aria-labelledby="myLargeModalLabel">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content"></div>
+						</div>
+					</div>
+				</div>
 		   </div>
 		   <div class="col-sm-8 text-left">
 			<form action="" method="post" class="basic-grey">
@@ -191,5 +178,40 @@
 
 	      });
 	</script>
+	<script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.image-upload-wrap').hide();
+
+                    $('.file-upload-image').attr('src', e.target.result);
+                    $('.file-upload-content').show();
+
+                    $('.image-title').html(input.files[0].name);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+
+            } else {
+                removeUpload();
+            }
+        }
+
+        function removeUpload() {
+            $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+            $('.file-upload-content').hide();
+            $('.image-upload-wrap').show();
+        }
+        $('.image-upload-wrap').bind('dragover', function () {
+            $('.image-upload-wrap').addClass('image-dropping');
+        });
+        $('.image-upload-wrap').bind('dragleave', function () {
+            $('.image-upload-wrap').removeClass('image-dropping');
+        });
+
+    </script>
 </body>
 </html>
