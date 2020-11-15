@@ -1,0 +1,577 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:400,100,300,700,100italic,300italic,400italic,700italic,900,900italic");
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,700");
+
+body {
+  font-family: 'Lato';
+  background-color: #ffd740;
+  /* #ffffff */
+}
+
+.file-upload {
+  background-color: #ffffff;
+  border: solid #50514f;
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.file-upload-btn {
+  width: 100%;
+  margin: 0;
+  color: #50514f;
+  background: #f34e43;
+  border: none;
+  padding: 10px;
+  border-radius: 4px #50514f;
+  border-bottom: 4px solid #cc4339;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.file-upload-btn:hover {
+  background: #50514f;
+  color: #ffd740;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.file-upload-btn:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+.file-upload-content {
+  display: none;
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-upload-wrap {
+  margin-top: 20px;
+  border: 4px dashed #50514f;
+  position: relative;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+  background-color: #50514fbe;
+  border: 4px dashed #ffd740;
+}
+
+.image-title-wrap {
+  padding: 0 15px 15px 15px;
+  color: #222;
+}
+
+.drag-text {
+  text-align: center;
+}
+
+.drag-text h3 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #50514f;
+  padding: 60px 0;
+}
+
+.file-upload-image {
+  max-height: 200px;
+  max-width: 200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.remove-image {
+  width: 200px;
+  margin: 0;
+  color: #fff;
+  background: #cd4535;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #b02818;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.remove-image:hover {
+  background: #c13b2a;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.remove-image:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+  
+
+body {
+  padding: 0;
+  margin: 0;
+}
+body .btn-bg {
+  width: 100%;
+  height: 100vh;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+body .btn-bg.link {
+  background: #f99734;
+}
+body .btn-bg.link .btn-group .blog button {
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+  border-radius: 5px;
+  border: 5px solid #fff;
+  padding: calc(1rem + 10px) calc(3rem + 6.5px);
+  background: linear-gradient(45deg, #fff 7.5px, transparent 5px) 0px 10px, linear-gradient(225deg, #fff 7.5px, transparent 5px) 10px 0px, linear-gradient(45deg, #eef 7.5px, transparent 5px) 0px 20px, linear-gradient(225deg, #eef 7.5px, transparent 5px) 10px 10px, linear-gradient(45deg, #dcdde5 7.5px, transparent 5px) 0px 30px, linear-gradient(225deg, #dcdde5 7.5px, transparent 5px) 10px 20px, linear-gradient(90deg, #c9cacc 10px, transparent 10px), linear-gradient(#dcdde5 25%, #c9cacc 25%, #c9cacc 50%, transparent 50%, transparent 75%, #eef 75%, #eef);
+  background-color: transparent;
+  background-size: 0px 0px;
+  transition: all 0.35s ease;
+}
+body .btn-bg.link .btn-group .blog button .like {
+  position: absolute;
+  content: '';
+  top: calc(50% - 35px);
+  left: calc(50% - 29.5px);
+  width: 60px;
+  height: 80px;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.1);
+  transition: all 0.25s ease;
+}
+body .btn-bg.link .btn-group .blog button .like .hand {
+  height: 30px;
+  position: relative;
+}
+body .btn-bg.link .btn-group .blog button .like .hand:before,
+body .btn-bg.link .btn-group .blog button .like .hand:after {
+  width: 20px;
+  height: 30px;
+  background: #50514f;
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+}
+body .btn-bg.link .btn-group .blog button .like .hand:after {
+  left: inherit;
+  right: 0;
+}
+body .btn-bg.link .btn-group .blog button .like .Finger {
+  height: 40px;
+  position: relative;
+}
+body .btn-bg.link .btn-group .blog button .like .Finger:before {
+  width: 60px;
+  height: 20px;
+  background: #50514f;
+  position: absolute;
+  content: '';
+  bottom: 0;
+  right: 0;
+}
+body .btn-bg.link .btn-group .blog button:hover {
+  color: transparent;
+  border-color: transparent;
+  background-color: #fff;
+  background-size: 20px 40px;
+  transition: all 0.35s ease;
+}
+body .btn-bg.link .btn-group .blog button:hover .like {
+  transform: scale(0.5);
+  opacity: 1;
+  transition: all 0.25s ease;
+}
+body .btn-bg.link .btn-group .codepen button {
+  color: #50514f;
+  border-radius: 5px;
+  border: 5px solid #50514f;
+  overflow: hidden;
+  position: relative;
+  padding: calc(1rem + 10px) calc(3rem + 6.5px);
+  background: linear-gradient(45deg, #787878 7.5px, transparent 5px) 0px 10px, linear-gradient(225deg, #787878 7.5px, transparent 5px) 10px 0px, linear-gradient(45deg, #565656 7.5px, transparent 5px) 0px 20px, linear-gradient(225deg, #565656 7.5px, transparent 5px) 10px 10px, linear-gradient(45deg, #121212 7.5px, transparent 5px) 0px 30px, linear-gradient(225deg, #121212 7.5px, transparent 5px) 10px 20px, linear-gradient(90deg, #343434 10px, transparent 10px), linear-gradient(#121212 25%, #343434 25%, #343434 50%, transparent 50%, transparent 75%, #565656 75%, #565656);
+  background-color: transparent;
+  background-size: 0px 0px;
+  transition: all 0.35s ease;
+}
+body .btn-bg.link .btn-group .codepen button .skeleton {
+  position: absolute;
+  content: '';
+  top: calc(50% - 30px);
+  left: calc(50% - 34px);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.1);
+  opacity: 0;
+  transition: all 0.25s ease;
+}
+body .btn-bg.link .btn-group .codepen button .skeleton .face {
+  height: 20px;
+  width: 70px;
+  position: relative;
+  z-index: 1;
+}
+body .btn-bg.link .btn-group .codepen button .skeleton .face:before,
+body .btn-bg.link .btn-group .codepen button .skeleton .face:after {
+  width: 50px;
+  height: 60px;
+  position: absolute;
+  content: '';
+  background: #fff;
+  top: 0px;
+  left: 10px;
+  z-index: 1;
+}
+body .btn-bg.link .btn-group .codepen button .skeleton .face:after {
+  width: 70px;
+  height: 30px;
+  top: 10px;
+  left: 0;
+  right: 0;
+}
+body .btn-bg.link .btn-group .codepen button .skeleton .eye {
+  height: 20px;
+  width: 70px;
+  position: relative;
+}
+body .btn-bg.link .btn-group .codepen button .skeleton .eye:before,
+body .btn-bg.link .btn-group .codepen button .skeleton .eye:after {
+  width: 20px;
+  height: 10px;
+  position: absolute;
+  content: '';
+  background: #50514f;
+  left: 10px;
+  z-index: 999;
+}
+body .btn-bg.link .btn-group .codepen button .skeleton .eye:after {
+  left: inherit;
+  right: 10px;
+}
+body .btn-bg.link .btn-group .codepen button .skeleton .mouth {
+  width: 70px;
+  height: 20px;
+  position: relative;
+}
+body .btn-bg.link .btn-group .codepen button .skeleton .mouth:before,
+body .btn-bg.link .btn-group .codepen button .skeleton .mouth:after {
+  position: absolute;
+  content: '';
+  background: #50514f;
+  width: 10px;
+  height: 10px;
+  bottom: 0;
+  left: 20px;
+  z-index: 999;
+}
+body .btn-bg.link .btn-group .codepen button .skeleton .mouth:after {
+  left: inherit;
+  right: 20px;
+}
+body .btn-bg.link .btn-group .codepen button:hover {
+  color: transparent;
+  border-color: transparent;
+  background-color: #50514f;
+  background-size: 20px 40px;
+  transition: all 0.35s ease;
+}
+body .btn-bg.link .btn-group .codepen button:hover .skeleton {
+  transform: scale(1);
+  opacity: 1;
+  transition: all 0.25s ease;
+}
+body .btn-bg.Pokemon {
+  background: #ffd740;
+}
+body .btn-bg.Pokemon .btn-group .ball button {
+  border: 5px solid #50514f;
+  border-radius: 5px;
+  background: transparent;
+  overflow: hidden;
+  position: relative;
+}
+body .btn-bg.Pokemon .btn-group .ball button:hover {
+  border-color: #ffd740;
+}
+body .btn-bg.Pokemon .btn-group .ball button:hover .pokemon-ball::before {
+  transform: translate3d(0, -100%, 0);
+  transition: transform 0.25s;
+  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+body .btn-bg.Pokemon .btn-group .ball button:hover .pokemon-ball::after {
+  transform: translate3d(0, 100%, 0);
+  transition: transform 0.25s;
+  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+body .btn-bg.Pokemon .btn-group .ball button:hover a {
+  transition: none;
+  color: transparent;
+  z-index: 999;
+}
+body .btn-bg.Pokemon .btn-group .ball button:hover a::before {
+  transform: translate3d(100%, 0, 0);
+}
+body .btn-bg.Pokemon .btn-group .ball button:hover a span:first-child::before,
+body .btn-bg.Pokemon .btn-group .ball button:hover a span:nth-child(2)::before {
+  transition-delay: 0.3s;
+  transform: translate3d(0, 0, 0);
+  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+body .btn-bg.Pokemon .btn-group .ball button .pokemon-ball {
+  position: absolute;
+  content: 'Go!';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+}
+body .btn-bg.Pokemon .btn-group .ball button .pokemon-ball::before,
+body .btn-bg.Pokemon .btn-group .ball button .pokemon-ball::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #ef594f;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.25s;
+  transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+body .btn-bg.Pokemon .btn-group .ball button .pokemon-ball::after {
+  top: 50%;
+  background: #fff;
+}
+body .btn-bg.Pokemon .btn-group .ball button a {
+  color: #50514f;
+  font-weight: 600;
+  font-size: 1.5em;
+  transition: color 0.5s 0.25s;
+  overflow: hidden;
+  display: inline-block;
+  position: relative;
+  z-index: 999;
+}
+body .btn-bg.Pokemon .btn-group .ball button a::before {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 5px;
+  background: #50514f;
+  top: calc(50% - 2.5px);
+  transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+  transform: translate3d(-100%, 0, 0);
+}
+body .btn-bg.Pokemon .btn-group .ball button a span {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+body .btn-bg.Pokemon .btn-group .ball button a span::before {
+  position: absolute;
+  content: attr(data-letters);
+  left: 0;
+  width: 100%;
+  color: #fff;
+  transition: transform 0.5s;
+}
+body .btn-bg.Pokemon .btn-group .ball button a span:first-child::before {
+  top: 0;
+  color: #ef594f;
+  transform: translate3d(0, 100%, 0);
+}
+body .btn-bg.Pokemon .btn-group .ball button a span:nth-child(2) {
+  top: 50%;
+}
+body .btn-bg.Pokemon .btn-group .ball button a span:nth-child(2)::before {
+  bottom: 0;
+  transform: translate3d(0, -100%, 0);
+}
+.btn-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+}
+@media screen and (max-width: 480px) {
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.btn {
+  margin: 0 30px 30px 30px;
+  display: block;
+}
+.btn-info {
+  margin-bottom: 10px;
+  text-align: center;
+  font-family: 'Lato';
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  font-size: 3.5em;
+  color: #fff;
+}
+.btn-mention {
+  margin-bottom: 70px;
+  text-align: center;
+  font-family: 'Lato';
+  letter-spacing: 0.1em;
+  font-size: 1.1em;
+  color: #fff;
+}
+.btn-mention span {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+button {
+  cursor: pointer;
+  overflow: visible;
+  outline: none;
+  color: #fff;
+  position: relative;
+  letter-spacing: 0.1em;
+  font-weight: 400;
+  padding: 1rem 3rem 1rem 3rem;
+  text-transform: uppercase;
+  font-family: "Lato";
+  font-size: 1.5em;
+}
+button a {
+  text-decoration: none;
+}
+@-moz-keyframes wave {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.975);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+@-webkit-keyframes wave {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.975);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+@-o-keyframes wave {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.975);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+@keyframes wave {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.975);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+@-moz-keyframes smallwave {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: rotate(180deg) scale(0.95);
+    opacity: 0.25;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.8;
+  }
+}
+@-webkit-keyframes smallwave {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: rotate(180deg) scale(0.95);
+    opacity: 0.25;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.8;
+  }
+}
+@-o-keyframes smallwave {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: rotate(180deg) scale(0.95);
+    opacity: 0.25;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.8;
+  }
+}
+@keyframes smallwave {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: rotate(180deg) scale(0.95);
+    opacity: 0.25;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.8;
+  }
+}
+
