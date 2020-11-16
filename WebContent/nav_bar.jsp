@@ -27,8 +27,8 @@
 					class="icon-bar"></span>
 			</button>
 				<ul class="nav navbar-nav">			
-				<li><a href="index.jsp">Foodie Feed</a></li>
-				<li><a href="about.jsp">Discovery</a></li>
+				<li><a href="ReviewController?action=listReviewsOnFeed">Foodie Feed</a></li>
+				<li><a href="TagController?action=trendingList">Discovery</a></li>
 				<li><a href="about.jsp">About</a></li>
 			</ul>
 		</div>
