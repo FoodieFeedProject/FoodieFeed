@@ -25,7 +25,7 @@
 </head>
 <body>
 
-	<%@ include file="navbar.jsp"%>
+	<%@ include file="nav_bar.jsp"%>
 
 	<div class="container-fluid text-center">
 		<div class="row content">
