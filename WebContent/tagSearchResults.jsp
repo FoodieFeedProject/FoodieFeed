@@ -39,11 +39,11 @@
 	<% } else { %>
 		<%@ include file="nav_bar_loggedin>
 	<% } %>
-    <h1>Search Results for a User</h1>
+    <h1>Search Results for a Tag</h1>
       <center>
-        <c:forEach items="${users}" var="user">
+        <c:forEach items="${tags}" var="tag">
           <br>
-          <a href="UserController?action=visitUserPage">@<c:out value="${user.getUsername()}" /></a>
+          <a href="TagController?action=visitTagPage">#<c:out value="${tag.getTagName()}" /></a>
           <br>
         </c:forEach>
 				</center>
