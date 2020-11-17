@@ -24,9 +24,13 @@ public class Review {
 	private String photoURL;
 	
 	private String username; //username of review owner
+	private String nameOfUser; //name of review owner
+	
 	private List<MyOrder> myOrder;
 	private List<Comment> comments; 
 	private List<String> tags; //list of tagnames used by the post
+	
+	private String uploadDate; 
 
 	public int getReviewID() {
 		return reviewID;
@@ -114,11 +118,30 @@ public class Review {
 	public Iterator<MyOrder> getMyOrder (){
 		return myOrder.iterator();
 	}
+	public double getTotalAmt(){
+		double totalAmt = 0;
+		for (MyOrder order:myOrder){
+			totalAmt+= order.getPrice();
+		}
+		return totalAmt;
+	}
 	public void setUsername(String username){
 		this.username = username;
 	}
 	public String getUsername(){
 		return username;
+	}
+	public void setNameOfUser(String name){
+		this.nameOfUser = name;
+	}
+	public String getNameOfUser(){
+		return nameOfUser;
+	}
+	public void setUploadDate(String date){
+		this.uploadDate = date;
+	}
+	public String getUploadDate(){
+		return uploadDate;
 	}
 	public void setComments(List<Comment> comments){
 		this.comments = comments;

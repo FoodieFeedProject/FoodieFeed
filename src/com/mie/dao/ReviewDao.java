@@ -144,9 +144,11 @@ public class ReviewDao {
 				
 				//call methods from this class to fill these attributes
 				review.setUsername(this.getPostOwner(reviewID));
+				review.setNameOfUser(this.getPostOwnerName(review.getUsername()));
 				review.setMyOrder(this.getWholeOrder(reviewID));
 				review.setComments(this.getComments(reviewID));
 				review.setTags(this.getTagsUsed(reviewID));
+				review.setUploadDate(this.getUploadDate(reviewID));
 				
 				
 			}
@@ -346,6 +348,44 @@ public class ReviewDao {
 			e.printStackTrace();
 		}
 		return owner;
+	}
+	public String getPostOwnerName (String username){
+		/**
+		 * This method returns the post owner's Name, given their username (called after getPostOwner).
+		 */
+		String name ="";
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select Name from User where Username=?");
+			preparedStatement.setString(1, username);
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()){
+				name = rs.getString("Name");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}
+	public String getUploadDate (int reviewID){
+		/**
+		 * This method returns the post owner's Name, given their username (called after getPostOwner).
+		 */
+		String date ="";
+		try {
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select DateTime from Posts where ReviewID=?");
+			preparedStatement.setInt(1, reviewID);
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()){
+				date = rs.getString("DateTime");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return date;
 	}
 	public List<Integer> getUsersReviewIDs(String username){
 		/**
