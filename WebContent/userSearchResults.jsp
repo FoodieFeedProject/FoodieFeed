@@ -6,7 +6,7 @@
 
 <html lang="en">
 <head>
-<title>MIE350 Sample Web App-create post</title>
+<title>User Search Results</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -37,13 +37,13 @@
 	<% if (session.getAttribute("username") == null) { %>
 		<%@ include file="nav_bar.jsp"%>
 	<% } else { %>
-		<%@ include file="nav_bar_loggedin>
+		<%@ include file="nav_bar_loggedin.jsp"%>
 	<% } %>
     <h1>Search Results for a User</h1>
       <center>
         <c:forEach items="${users}" var="user">
           <br>
-          <a href="UserController?action=visitUserPage">@<c:out value="${user.getUsername()}" /></a>
+          <a href="UserController?action=otherProfile">@<c:out value="${user.getUsername()}" /></a>
           <br>
         </c:forEach>
 				</center>

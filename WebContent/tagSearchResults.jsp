@@ -6,7 +6,7 @@
 
 <html lang="en">
 <head>
-<title>MIE350 Sample Web App-create post</title>
+<title>Tag Search Results</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -37,7 +37,7 @@
 	<% if (session.getAttribute("username") == null) { %>
 		<%@ include file="nav_bar.jsp"%>
 	<% } else { %>
-		<%@ include file="nav_bar_loggedin>
+		<%@ include file="nav_bar_loggedin.jsp"%>
 	<% } %>
     <h1>Search Results for a Tag</h1>
       <center>
