@@ -16,8 +16,44 @@
 	height: 100%;
 }
 
+/* Set profile img center and rounded */
+.profileimg{
+	display: block;
+  	margin-left: auto;
+  	margin-right: auto;
+  	border-radius: 50%;
+}
+
+/* Set user info bar*/
+.user-info {
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 1.6em;
+  padding-bottom: 1.35em;
+}
+
+.user-info li {
+  border-left: solid 2px rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.6);
+  display: inline-block;
+  font-family: 'Pathway Gothic One', sans-serif;
+  font-size: 1.8em;
+  text-align: center;
+  width: 32%;
+}
+.user-info li:first-child {
+  border: none;
+}
+.user-info li span {
+  color: rgba(0, 0, 0, 0.4);
+  display: block;
+  font-size: 1em;
+  font-weight: 700;
+  margin-top: .2em;
+}
+
 /* Set black background color, white text and some padding */
-footer {
+.footer {
 	background-color: #555;
 	color: white;
 	padding: 15px;

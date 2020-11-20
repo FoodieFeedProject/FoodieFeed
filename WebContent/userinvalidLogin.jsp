@@ -34,11 +34,11 @@
 
 			</div>
 			<div class="col-sm-8 text-center">
-
-				<h4>Oops! Invalid Username/Password</h4>
-				<input type="submit" class="btn btn-primary" value="Try Login Again" />
-				<br><br>
-				<input type="submit" class="btn btn-info" value="Join FoodieFeed Today!" />
+				<br>
+				<h4>Oops! Your Username/Password is Invalid</h4>
+				<button onclick="location.href='userlogin.jsp'" class="btn btn-def btn-block">Try Login Again</button>
+				<p>Don't have an account? 
+				<span class="glyphicon glyphicon-hand-right"></span> Click <a href="register.jsp">here</a> to register today!</p>
 			</div>
 			<div class="col-sm-2 sidenav">
 				<!-- You can put right sidebar links here if you want to. -->
