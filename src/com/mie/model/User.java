@@ -21,8 +21,9 @@ public class User {
 	private boolean valid;
 
     
-	public Iterator<String> getFollowing() {
-		return following.iterator();
+	public List<String> getFollowing() {
+		List<String> followingClone = new ArrayList<String>(following);
+		return followingClone;
 	}
 
 	public void setFollowing(List<String> following) {
@@ -30,8 +31,9 @@ public class User {
 	}
 	
 	
-	public Iterator<String> getFollowers() {
-		return followers.iterator();
+	public List<String> getFollowers() {
+		List<String> followersClone = new ArrayList<String>(followers);
+		return followersClone;
 	}
 	
 	public void setFollowers(List<String> followers) {
@@ -39,8 +41,9 @@ public class User {
 	}
 	
 	
-	public Iterator<String> getTagFollow() {
-		return tagFollow.iterator();
+	public List<String> getTagFollow() {
+		List<String> tagFollowClone = new ArrayList<String>(tagFollow);
+		return tagFollowClone;
 	}
 
 	public void setTagFollow(List<String> tagFollow) {

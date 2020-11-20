@@ -109,14 +109,16 @@ public class Review {
 	public void setTags (List<String> tags){
 		this.tags  = tags;
 	}
-	public Iterator<String> getTags (){
-		return tags.iterator();
+	public List<String> getTags (){
+		List<String> tagsClone = new ArrayList<String>(tags);
+		return tagsClone;
 	}
 	public void setMyOrder (List<MyOrder> myOrder){
 		this.myOrder = myOrder;
 	}
-	public Iterator<MyOrder> getMyOrder (){
-		return myOrder.iterator();
+	public List<MyOrder> getMyOrder (){
+		List<MyOrder> orderClone = new ArrayList<MyOrder>(myOrder);
+		return orderClone;
 	}
 	public double getTotalAmt(){
 		double totalAmt = 0;
@@ -146,8 +148,9 @@ public class Review {
 	public void setComments(List<Comment> comments){
 		this.comments = comments;
 	}
-	public Iterator<Comment> getComments(){
-		return comments.iterator();
+	public List<Comment> getComments(){
+		List<Comment> commentsClone = new ArrayList<Comment>(comments);
+		return commentsClone;
 	}
 	
 

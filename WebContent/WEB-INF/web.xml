@@ -6,16 +6,6 @@
   </welcome-file-list>
   <servlet>
     <description></description>
-    <display-name>StudentController</display-name>
-    <servlet-name>StudentController</servlet-name>
-    <servlet-class>com.mie.controller.StudentController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>StudentController</servlet-name>
-    <url-pattern>/StudentController</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
     <display-name>ReviewController</display-name>
     <servlet-name>ReviewController</servlet-name>
     <servlet-class>com.mie.controller.ReviewController</servlet-class>
@@ -23,16 +13,56 @@
   <servlet-mapping>
     <servlet-name>ReviewController</servlet-name>
     <url-pattern>/ReviewController</url-pattern>
+  </servlet-mapping>  
+  <servlet>
+    <description></description>
+    <display-name>UserController</display-name>
+    <servlet-name>UserController</servlet-name>
+    <servlet-class>com.mie.controller.UserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserController</servlet-name>
+    <url-pattern>/UserController</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>SearchController</display-name>
-    <servlet-name>SearchController</servlet-name>
-    <servlet-class>com.mie.controller.SearchController</servlet-class>
+    <display-name>TagController</display-name>
+    <servlet-name>TagController</servlet-name>
+    <servlet-class>com.mie.controller.TagController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>SearchController</servlet-name>
-    <url-pattern>/SearchController</url-pattern>
+    <servlet-name>TagController</servlet-name>
+    <url-pattern>/TagController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CommentController</display-name>
+    <servlet-name>CommentController</servlet-name>
+    <servlet-class>com.mie.controller.CommentController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CommentController</servlet-name>
+    <url-pattern>/CommentController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SearchControllerTag</display-name>
+    <servlet-name>SearchControllerTag</servlet-name>
+    <servlet-class>com.mie.controller.SearchControllerTag</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SearchControllerTag</servlet-name>
+    <url-pattern>/SearchControllerTag</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SearchControllerUser</display-name>
+    <servlet-name>SearchControllerUser</servlet-name>
+    <servlet-class>com.mie.controller.SearchControllerUser</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SearchControllerUser</servlet-name>
+    <url-pattern>/SearchControllerUser</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -43,6 +73,36 @@
   <servlet-mapping>
     <servlet-name>LoginController</servlet-name>
     <url-pattern>/LoginController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LogoutController</display-name>
+    <servlet-name>LogoutController</servlet-name>
+    <servlet-class>com.mie.controller.LogoutController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogoutController</servlet-name>
+    <url-pattern>/LogoutController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>StudentController</display-name>
+    <servlet-name>StudentController</servlet-name>
+    <servlet-class>com.mie.controller.StudentController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StudentController</servlet-name>
+    <url-pattern>/StudentController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SearchController</display-name>
+    <servlet-name>SearchController</servlet-name>
+    <servlet-class>com.mie.controller.SearchController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SearchController</servlet-name>
+    <url-pattern>/SearchController</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>

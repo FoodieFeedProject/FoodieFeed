@@ -36,7 +36,7 @@ public class ReviewController extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	//from server prototype
-	private static String LIST_REVIEW_PUBLIC = "/test_ListReview.jsp";
+	//private static String LIST_REVIEW_PUBLIC = "/test_ListReview.jsp";
 	
 	//for our real site
 	private static String CREATE = "/createPost.jsp";
