@@ -52,6 +52,29 @@
   margin-top: .2em;
 }
 
+/*For showing posts*/
+.squaretop {
+  height: 100px;
+  width: 500px;
+  background-color: lightblue;
+  text-align: left;
+}
+.squaremid {
+  height: 275px;
+  width: 500px;
+  background-color: lightgray;
+  text-align: right;
+}
+.squarebot {
+  height: 50px;
+  width: 500px;
+  background-color: lightgray;
+  text-align: left;
+}
+.nextimg {
+  float: left;
+}
+
 /* Set black background color, white text and some padding */
 .footer {
 	background-color: #555;
