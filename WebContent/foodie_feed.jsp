@@ -9,77 +9,54 @@
 <title>Foodie Feed</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
 <!-- Date Picker Javascript -->
 <!-- https://jqueryui.com/datepicker/ -->
-<link rel="stylesheet" href="css/jquery-ui.css">
-<link rel="stylesheet" href="css/font_1805932_ysrcp4y0uy9.css">
-<link rel="stylesheet" type="text/css" href="css/poststyle.css">
-<script type="text/javascript" src="js/imgscript.js"></script>
-<link rel="stylesheet" id="templatecss" type="text/css"
-	href="css/basic-grey.css">
-<style>
-.basic-grey {
-  max-width: 500px;
-  background: # F7F7F7;
-  padding: 0px 15px 0px 10px;
-  font: 12px Georgia, "Times New Roman", Times, serif;
-  color: # 888;
-  text-shadow: 1px 1px 1px# FFF;
-  border: 1px solid# E4E4E4;
-}
-.squaretop {
-  height: 100px;
-  width: 500px;
-  background-color: lightblue;
-}
-.squaremid {
-  height: 275px;
-  width: 500px;
-  background-color: lightgray;
-}
-.squarebot {
-  height: 50px;
-  width: 500px;
-  background-color: lightgray;
-}
-.nextimg {
-  float: left;
-}
-</style>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+<link rel="stylesheet" type="text/css" href="css/profilestyle.css">
 </head>
 <body>
   <%@ include file="nav_bar_loggedin"%>
     <h1>Welcome to your Foodie Feed,&nbsp;<%=session.getAttribute("firstName") %></h1>
+      <center><br><br>
   <c:forEach items="${feedReviews}" var="feedReview">
 	<div class="squaretop">
       <div style="margin-left: 20px">
+        <br>
         <a href="profile.jsp"><font size = 5>
-          <br><c:out value="${feedReview.getNameOfUser()}" />
+          Some Name<!--<c:out value="${feedReview.getNameOfUser()}" />-->
         </font></a>
-        <br>@<c:out value="${feedReview.getUsername()}" />
+        <br>@somename94<!--<c:out value="${feedReview.getUsername()}" />-->
       </div>
     </div>
     <div class="squaremid">
-      <div style="margin-left: 20px">
+      <div style="margin-right: 20px">
         <br>
         <div>
-          <img src=<c:out value="${feedReview.getPhotoURL()}" /> class="nextimg" style="width:128px;height:128px">
+          <img src="${feedReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
         </div>
-        &nbsp;&nbsp;<c:out value="${feedReview.getTitle()}" />
-        <br>
-        &nbsp;&nbsp;Overall Rating: <c:out value="${feedReview.getOverallRating()}" />&nbsp;/&nbsp;5
+        <font size=4>Best burgers in town!<!--<c:out value="${feedReview.getTitle()}" />-->
+        </font>
+        <br><br>
+        Overall Rating: 4<!--<c:out value="${feedReview.getOverallRating()}" />-->&nbsp;/&nbsp;5
         <br><br>
         &nbsp;&nbsp;My Order Total:
         <br>
-        &nbsp;&nbsp;<c:out value="${feedReview.getTotalAmt()}" />
+        $40<!--<c:out value="${feedReview.getTotalAmt()}" />-->
         <br><br>
-        &nbsp;&nbsp;<c:out value="${feedReview.getDescription()}" />
+        Great burgers and shakes with good service and atmosphere.<!--<c:out value="${feedReview.getDescription()}" />-->
         <br><br>
-        &nbsp;&nbsp;
         <c:forEach items="${feedReviews.getTags()}" var="tag">
           #<c:out value="${tag}">
           <br>
@@ -96,6 +73,10 @@
       </div>
     <br><br>
     </c:forEach>
+    </center>
+    <div style="margin-left:20px">
+      <a href="createPost.jsp"><font size=4>ADD POST</font></a>
+    </div>
 
 	<%@ include file="footer.jsp"%>
 
