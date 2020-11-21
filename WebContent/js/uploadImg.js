@@ -2,15 +2,15 @@ var imgFile = []; //file
 var imgSrc = []; //img path
 var imgName = []; //img name
 $(function() {
-    // 鼠标经过显示删除按钮
+    // show delete button
     $('.content-img-list').on('mouseover', '.content-img-list-item', function() {
         $(this).children('div').removeClass('hide');
     });
-    // 鼠标离开隐藏删除按钮
+    // hide delete button
     $('.content-img-list').on('mouseleave', '.content-img-list-item', function() {
         $(this).children('div').addClass('hide');
     });
-    // 单个图片删除
+    // single picture delete
     $(".content-img-list").on("click", '.content-img-list-item a .gcllajitong', function() {
         var index = $(this).parent().parent().parent().index();
         imgSrc.splice(index, 1);
@@ -18,7 +18,7 @@ $(function() {
         imgName.splice(index, 1);
         var boxId = ".content-img-list";
         addNewContent(boxId);
-        if (imgSrc.length < 4) { //显示上传按钮
+        if (imgSrc.length < 4) { //show upload button
             $('.content-img .file').show();
         }
     });
@@ -40,7 +40,7 @@ $(function() {
 
 
 });
-//图片上传
+//upload picture
 $('#upload').on('change', function(e) {
     var imgSize = this.files[0].size;
     if (imgSize > 1024 * 1024 * 20) { //1M
@@ -53,23 +53,28 @@ $('#upload').on('change', function(e) {
     var imgBox = '.content-img-list';
     var fileList = this.files;
     for (var i = 0; i < fileList.length; i++) {
-        var imgSrcI = getObjectURL(fileList[i]);
-        imgName.push(fileList[i].name);
-        imgSrc.push(imgSrcI);
-        imgFile.push(fileList[i]);
+    	imgName.push(fileList[i].name);
+    	imgFile.push(fileList[i]);
+    	getBase64(fileList[i], function (data) {
+    		var imgSrcI = data;
+    	    imgSrc.push(imgSrcI);  
+    	    addNewContent(imgBox);
+    	});
+    	//var imgSrcI = getBase64(fileList[i],);
+       
     }
-    addNewContent(imgBox);
-    this.value = null; //上传相同图片
+    //addNewContent(imgBox);
+    this.value = null; //upload picture
 });
 
-//提交请求
+//submit request
 $('#btn-submit-upload').on('click', function() {
-    // FormData上传图片
+    // FormData upload picture
     var formFile = new FormData();
     // formFile.append("type", type);
     // formFile.append("content", content);
     // formFile.append("mobile", mobile);
-    // 遍历图片imgFile添加到formFile里面
+    // Traverse the picture imgFile and add it to the formFile
     $.each(imgFile, function(i, file) {
         formFile.append('myFile[]', file);
     });
@@ -86,7 +91,7 @@ $('#btn-submit-upload').on('click', function() {
     //        success: function(res) {
     //            console.log(res);
     //            if(res.code==0){
-    //                alert("已提交")
+    //                alert("submitted")
     //    //             $("#adviceContent").val("");
     // 			// $("#contact").val("");
     //            }else{
@@ -100,7 +105,7 @@ $('#btn-submit-upload').on('click', function() {
 
 });
 
-//删除
+//delete
 function removeImg(obj, index) {
     imgSrc.splice(index, 1);
     imgFile.splice(index, 1);
@@ -109,7 +114,7 @@ function removeImg(obj, index) {
     addNewContent(boxId);
 }
 
-//图片展示
+//show image
 function addNewContent(obj) {
     // console.log(imgSrc)
     $(obj).html("");
@@ -121,7 +126,7 @@ function addNewContent(obj) {
     }
 }
 
-//建立可存取到file的url
+//Create a url that can access the file
 function getObjectURL(file) {
     var url = null;
     if (window.createObjectURL != undefined) { // basic
@@ -133,4 +138,55 @@ function getObjectURL(file) {
     }
     return url;
 }
+//
+function run(file) {
+    var url = null;
+    var f = file;
+	var reader = new FileReader();
+	var files = file;
+	var that;
+
+	// upload img
+	reader.readAsDataURL(f); // 
+
+
+	reader.onload = function() {
+
+		
+		//var img = '<img id="myimg" src="' + this.result
+		//		+ '" style="pointer-events: none;"/>'; 
+		//$('.ImgBox').append(img); 
+
+		url = this.result;
+		var i=1;
+		//that = that.split(',')[1];
+		//fileBase64.push(that);
+		/* console.log(this.result);  */
+	}
+    return url;
+}
+
+
+function getBase64(input_file, get_data) {
+    if (typeof (FileReader) === 'undefined') {
+        alert("Sorry,the current browser does not support File Reader, can not convert image to Base64!");
+    } else {
+        try {
+            /*convert image to base64*/
+            var file = input_file;
+            if (!/image\/\w+/.test(file.type)) {
+                alert("ensure images");
+                return false;
+            }
+            var reader = new FileReader();
+            reader.onload = function () {
+                get_data(this.result);
+            }
+            reader.readAsDataURL(file);
+        } catch (e) {
+            alert('convert base64 wrong！' + e.toString())
+        }
+    }
+}
+
 
