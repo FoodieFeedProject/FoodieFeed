@@ -39,7 +39,7 @@
 
 	<%@ include file="nav_bar.jsp"%>
 	<%
-		User user = (user) session.getAttribute("currentSessionUser");
+		User user = (User) session.getAttribute("currentSessionUser");
 		String username = (String) session.getAttribute("username");
 	%>
 	<header>
@@ -58,7 +58,7 @@
 					</li>
 					<li>
 						1500<!--<c:out value="${tag.getNumPosts}" />-->
-						<span>Number of Posts</spam>
+						<span>Number of Posts</span>
 					</li>
 				</ul>
 			</div>
@@ -91,7 +91,7 @@
         Great burgers and shakes with good service and atmosphere.<!--<c:out value="${tagReview.getDescription()}" />-->
         <br><br>
         <c:forEach items="${tagReview.getTags()}" var="tag">
-          #<c:out value="${tag}">
+          #<c:out value="${tag}" />
           <br>
         </c:forEach>
           <br>

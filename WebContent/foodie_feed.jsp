@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="css/profilestyle.css">
 </head>
 <body>
-  <%@ include file="nav_bar_loggedin"%>
+  <%@ include file="nav_bar_loggedin.jsp"%>
     <h1>Welcome to your Foodie Feed,&nbsp;<%=session.getAttribute("firstName") %></h1>
       <center><br><br>
   <c:forEach items="${feedReviews}" var="feedReview">
@@ -58,7 +58,7 @@
         Great burgers and shakes with good service and atmosphere.<!--<c:out value="${feedReview.getDescription()}" />-->
         <br><br>
         <c:forEach items="${feedReviews.getTags()}" var="tag">
-          #<c:out value="${tag}">
+          #<c:out value="${tag}" />
           <br>
         </c:forEach>
           <br>
