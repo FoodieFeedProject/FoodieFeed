@@ -34,7 +34,7 @@
 	<div class="squaretop">
       <div style="margin-left: 20px">
         <br>
-        <a href="profile.jsp"><font size = 5>
+        <a href="UserController?action=otherProfile"><font size = 5>
           Some Name<!--<c:out value="${feedReview.getNameOfUser()}" />-->
         </font></a>
         <br>@somename94<!--<c:out value="${feedReview.getUsername()}" />-->
@@ -58,7 +58,7 @@
         Great burgers and shakes with good service and atmosphere.<!--<c:out value="${feedReview.getDescription()}" />-->
         <br><br>
         <c:forEach items="${feedReviews.getTags()}" var="tag">
-          #<c:out value="${tag}" />
+          <a href="TagController?action=visitTagPage">#<c:out value="${tag}" /></a>
           <br>
         </c:forEach>
           <br>

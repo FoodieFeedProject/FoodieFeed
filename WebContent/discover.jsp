@@ -57,7 +57,7 @@
         <br>
         <c:forEach items="${trendingTags}" var="trendingTag">
           <br>
-          #<c:out value="${trendingTag.getTagName()}" />
+          <a href="TagController?action=visitTagPage">#<c:out value="${trendingTag.getTagName()}" /></a>
           <br>
         </c:forEach>
 				</center>
