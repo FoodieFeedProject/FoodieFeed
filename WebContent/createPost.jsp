@@ -72,7 +72,7 @@
 		   </div>
 		   <div class="col-sm-8 text-left">
 
-			<div class="basic-grey">
+			<div class="from_style">
 				<label> <span>Title :</span> <input id="title" type="text"
 					name="title" placeholder="please input title" />
 				</label> <label> <span>description :</span> <textarea id="text"
@@ -107,8 +107,8 @@
 					</div>
 				</label>
 				<input id="dineIn" name="dineIn"  value="0" type="hidden" /> 
-				<input name="choose1" type="checkbox" /><span>Dine-in</span>
-                <input name="choose2" type="checkbox" /><span>Take out</span>
+				<input name="choose2" type="checkbox" /><span>Dine-in</span>
+                <input name="choose1" type="checkbox" /><span>Take out</span>
 				</label> 
 				<label style="text-align: left;font-weight:bold;">My Order</label>
 				<table id="mytable">
@@ -116,15 +116,13 @@
                     <tr><th>Description</th><th>price</th></tr>
                    </thead>
                    <tbody>
-                   <tr><td><input name="item1" type="text"/></td><td><input name="price1" type="text"/></td></tr>
-                  
+                   <tr><td><input class="item1" name="item1" type="text"/></td><td><input class="price1" name="price1" type="text"/></td></tr>
+                   <tr><td><input class="item1" name="item2" type="text"/></td><td><input class="price1" name="price2" type="text"/></td></tr>
+                     <tr><td><input class="item1" name="item3" type="text"/></td><td><input class="price1" name="price3" type="text"/></td></tr>
                    </tbody>
 				</table>
-				Add Total: $<label style="text-align: left;" id="totalvalue"></label>
-				<label> <span>&nbsp;</span> <input id="addRow" type="button"
-					class="button"  value="Add Dishes" />
-					
-				</label>
+				<label style="text-align: left;" id="totalvalue">Add Total: </label>
+				
 				<label style="text-align: right;"> <span>&nbsp;</span> <input type="button" id="postsubmit"
 					class="button" onclick="SendForm()" value="post" />
 					
@@ -190,10 +188,10 @@
 	        
 	        $(":checkbox").click(function(){
 	        	 var one = $(this).attr('name');
-	        	 if(one=="choose2"){
-	        		 $("#dineIn").val(1)
-	        	 }else{
+	        	 if(one=="choose1"){
 	        		 $("#dineIn").val(0)
+	        	 }else{
+	        		 $("#dineIn").val(1)
 	        	 }
 	        	//the status of the checkbox is checked
 	        	    $(this).prop("checked",true);
@@ -207,7 +205,7 @@
 			        	var e=$("input[name='price1']");
 			        	var c=0;
 			        	for(var i=0;i<e.length;i++){
-			        		c=c+parseInt(e[i].value);
+			        		c=c+parseFloat(e[i].value);
 			        	}
 			            //alert(e)
 			            //console.log(c);
@@ -216,18 +214,22 @@
 	        });
 	        
 	        //watch the value change
-	        $("input[name='price1']").bind("input propertychange",function(event){
-	        	var e=$("input[name='price1']");
+	        $("input[class='price1']").bind("input propertychange",function(event){
+	        	var e=$("input[class='price1']");
 	        	var c=0;
 	        	for(var i=0;i<e.length;i++){
-	        		c=c+parseInt(e[i].value);
+	        		if(e[i].value==""){
+	        			c=c+0
+	        		}else{
+	        		c=c+parseFloat(e[i].value);
+	        		}
 	        	}
 	            //alert(e)
 	            //console.log(c);
-	            $("#totalvalue").html(c)
+	            $("#totalvalue").html("Add Total: $"+c)
 	        });
 	        
-	        $("#postsubmit").submit(function(){
+	      /*   $("#postsubmit").submit(function(){
 	        	var it=$("input[name='item1']");
 	        	var pr=$("input[name='price1']");
 	        	var datas=[];
@@ -249,14 +251,14 @@
 	        	    //return false;
 	        	//}
 	        });
-	        
+	         */
 	        
 
 	      });
 	 
 	    function SendForm()
 	    {
-	    	var it=$("input[name='item1']");
+	    	/* var it=$("input[name='item1']");
         	var pr=$("input[name='price1']");
         	var datas=[];
         	var data={};
@@ -266,36 +268,43 @@
         		datas.push(data);
         	}
         	//my order  type:string
-        	var jsonString = JSON.stringify(datas);
+        	var jsonString = JSON.stringify(datas); */
         	//console.log(jsonString);
         	
-        	var hideInput1 = document.createElement("input");
+        	/* var hideInput1 = document.createElement("input");
 			hideInput1.type = "hidden";
-			hideInput1.name = "myOrder";
-			hideInput1.value = jsonString; //get the value
-			document.addForm.appendChild(hideInput1);
+			hideInput1.name = "reviewID";
+			hideInput1.value = ""; //get the value
+			document.addForm.appendChild(hideInput1);  */
         	
         	//img url ,this is img arrry
-        	var imgurl=JSON.stringify(imgSrc);
+        	//var imgurl=JSON.stringify(imgSrc);
         	var hideInput2 = document.createElement("input");
 			hideInput2.type = "hidden";
 			hideInput2.name = "photoURL";
-			hideInput2.value = imgurl; //get the value
-			document.addForm.appendChild(hideInput2);
+			var dd="";
 			
-        	//console.log(imgSrc.length)
-        	
-        	document.addForm.submit();
-        	
-        	
-        	
-	    }
+		   for (var i = 0; i < imgSrc.length; i++) {
+				var temp = window.btoa(imgSrc[i]);
+                // var temp = "xx";
+				if (i != imgSrc.length - 1) {
+					if (i == 0) {
+						dd = temp+",";
+					} else {
+						dd = dd +temp+ "," 
+					}
+				} else {
+					dd = dd + temp
+				}
+			}
+			hideInput2.value = dd; //get the value
+			document.addForm.appendChild(hideInput2);
 
-	   
-	 
-		
-		
-		
+			//console.log(imgSrc.length)
+
+			document.addForm.submit();
+
+		}
 	</script>
 </body>
 </html>

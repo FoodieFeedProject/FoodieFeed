@@ -1,34 +1,32 @@
-.basic-grey {
+.from_style {
 	
 	max-width: 500px;
-	background: # F7F7F7;
 	padding: 25px 15px 25px 10px;
 	font: 12px Georgia, "Times New Roman", Times, serif;
 	color: # 888;
-	text-shadow: 1px 1px 1px# FFF;
-	border: 1px solid# E4E4E4;
+	text-shadow: 1px 1px 1px # FFF;
 }
 
-.basic-grey h1 {
+.from_style h1 {
 	font-size: 25px;
 	padding: 0px 0px 10px 40px;
 	display: block;
-	border-bottom: 1px solid# E4E4E4;
+	border-bottom: 1px solid #cccccc;
 	margin: -10px -15px 30px -10px;;
 	color: # 888;
 }
 
-.basic-grey h1>span {
+.from_style h1>span {
 	display: block;
 	font-size: 11px;
 }
 
-.basic-grey label {
+.from_style label {
 	display: block;
 	margin: 0px;
 }
 
-.basic-grey label>span {
+.from_style label>span {
 	float: left;
 	width: 20%;
 	text-align: right;
@@ -37,9 +35,9 @@
 	color: # 888;
 }
 
-.basic-grey input[type="text"], .basic-grey input[type="email"],
+.from_style input[type="text"], .basic-grey input[type="email"],
 	.basic-grey textarea, .basic-grey select {
-	border: 1px solid# DADADA;
+	border: 1px solid #DADADA;
 	color: # 888;
 	height: 30px;
 	margin-bottom: 16px;
@@ -55,13 +53,11 @@
 	-webkit-box-shadow: inset 0px 1px 4px# ECECEC;
 }
 
-.basic-grey textarea {
+.from_style textarea {
 	padding: 5px 3px 3px 5px;
 }
 
-.basic-grey select {
-	background: # FFF url('down-arrow.png') no-repeat right;
-	background: # FFF url('down-arrow.png') no-repeat right);
+.from_style select {
 	appearance: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -72,11 +68,12 @@
 	line-height: 25px;
 }
 
-.basic-grey textarea {
+.from_style textarea {
 	height: 100px;
+	width: 70%;
 }
 
-.basic-grey .button {
+.from_style .button {
 	background: # E27575;
 	border: none;
 	padding: 10px 25px 10px 25px;
@@ -87,7 +84,7 @@
 	cursor: pointer;
 }
 
-.basic-grey .button:hover {
+.from_style .button:hover {
 	background: #
 	CF7A7A
 }

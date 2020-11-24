@@ -61,25 +61,16 @@
 			<div id="flash">
 				<div id="prev"></div>
 				<div id="next"></div>
+				 <input id="listphotoURL" value="${review.photoURL}" type="hidden" /> 
 				<ul id="play">
-					<li style="display: block;"><img src="img/testimg/1.jpg" alt="" /></li>
-					<li><img src="img/testimg/2.jpg" alt="" /></li>
-					<li><img src="img/testimg/3.jpg" alt="" /></li>
-					<li><img src="img/testimg/4.jpg" alt="" /></li>
-					<li><img src="img/testimg/5.jpg" alt="" /></li>
-					<li><img src="img/testimg/6.jpg" alt="" /></li>
-					<li><img src="img/testimg/7.jpg" alt="" /></li>
-					<li><img src="img/testimg/8.jpg" alt="" /></li>
+					
+					
+					
 				</ul>
 				<ul id="button">
-					<li><div style="background: #A10000;"></div></li>
-					<li><div></div></li>
-					<li><div></div></li>
-					<li><div></div></li>
-					<li><div></div></li>
-					<li><div></div></li>
-					<li><div></div></li>
-					<li><div></div></li>
+					
+					
+					
 				</ul>
 			</div>
 		</div>
@@ -94,14 +85,14 @@
 		   <input id="reviewID" value="${review.reviewID}" type="hidden" /> 
 		   <input id="username" value="${review.username}" type="hidden" /> 
 		   <span style="float: right;">
-		    <span style="color: red;cursor:pointer" onclick="btnlike()">❤</span>${review.numLikes}
+		    <span style="color: red;cursor:pointer" onclick="btnlike()">?</span>${review.numLikes}
 		   </span>
 		   <span class="mytime">${review.uploadDate}</span>
 		   <span class="detail">
 		   ${review.getDescription()}
 		   </span>
 		  </div>
-		 <div class="basic-grey">
+		 <div class="from_style">
 				<label> <span>Overall :</span>
 					<div class="score_star">
 					 <c:forEach var="i" begin="1" end="5" step="1">
@@ -116,15 +107,76 @@
 					 </c:forEach>                                                
 					</div>
 				</label> 
+				<div id="folddiv">
 				<label> <span>My Order </span>
 					<div class="score_star">
 					                                          
 					</div>
 				</label> 
+				</div>
+				<div id="expanddiv" style="display:none;">
+				 <label> <span>Food :</span>
+					<div class="score_star">
+						 <c:forEach var="i" begin="1" end="5" step="1">
+					     <c:choose>
+							<c:when test="${i<=review.foodRating }">
+								<i class="on">★</i>
+							</c:when>
+							<c:otherwise>
+								<i>★</i>
+							</c:otherwise>
+							</c:choose>
+					 </c:forEach>                  
+					</div>
+				</label> <label> <span>Environment :</span>
+					<div class="score_star">
+						 <c:forEach var="i" begin="1" end="5" step="1">
+					     <c:choose>
+							<c:when test="${i<=review.environmentRating }">
+								<i class="on">★</i>
+							</c:when>
+							<c:otherwise>
+								<i>★</i>
+							</c:otherwise>
+							</c:choose>
+					 </c:forEach>                 
+					</div>
+				</label> <label> <span>Service :</span>
+					<div class="score_star">
+						<c:forEach var="i" begin="1" end="5" step="1">
+					     <c:choose>
+							<c:when test="${i<=review.serviceRating}">
+								<i class="on">★</i>
+							</c:when>
+							<c:otherwise>
+								<i>★</i>
+							</c:otherwise>
+							</c:choose>
+					 </c:forEach> 
+					</div>
+				</label>
+				<table class="myOrder">
+					<tr>
+						<th>My Order</th>
+						<th></th>
+					</tr>
+					<tr>
+						<th>Description</th>
+						<th>price</th>
+					</tr>
+					<c:forEach items="${review.myOrder}" var="myOrder">
+						<tr>
+							<td>${myOrder.item}</td>
+							<td>$ ${myOrder.price}</td>
+						</tr>
+					</c:forEach>
+
+				</table>
+				</div>
 				<div class="opreate">
-				  <input type="button" value="edit"/>
+				  <input type="button" onclick="editPost()" value="edit"/>
 				   <input type="button" onclick="delPost()" value="delete"/>
-				    <input type="button" style="width:100px" onclick="expandAll()" value="Expand All"/>
+				    <input type="button" style="width:100px" id="btnExpand" onclick="expandAll()" value="Expand All"/>
                 </div>
 			</div>
 		 <div class="mycomment">
@@ -141,9 +193,9 @@
 									<a href="">${myComments.getUser()}</a> ${myComments.getComment()}
 								</p>
 								<p class='info'>
-									<span><a href="">delete </a><a href="">comment</a></span> <strong>${myComments.getDate() } &nbsp;&nbsp;&nbsp;</strong><strong style="color: red"></strong>
+									<span><a href="">delete </a><a href=""></a></span> <strong>${myComments.getDate() } &nbsp;&nbsp;&nbsp;</strong><strong style="color: red"></strong>
 								</p>
-								<textarea name="" class="reply_area"></textarea>
+								
 							</div> <!--first end-->
 							<div class="clear"></div>
 						</li>
@@ -194,6 +246,37 @@
 				$(this).prop("checked", true);
 				$(this).siblings().prop("checked", false); //
 			});
+			
+			var arrp=new Array();
+			arrp=$("#listphotoURL").val().split(',');
+			var ss="";
+			var yy="";
+			for(var i=0;i<arrp.length;i++)
+			{
+				var itemx=window.atob(arrp[i]);
+				if(i==0){
+				 ss=ss+'<li style="display: block;"><img src="'+itemx+'" alt="" /></li>'
+				 yy=yy+'<li><div style="background: #A10000;"></div></li>'
+				}else{
+					ss=ss+'<li ><img src="'+itemx+'" alt="" /></li>'
+					 yy=yy+'<li><div ></div></li>'
+				}
+			  
+			}
+			if(ss!=""){
+				$("#play").html(ss);
+				$("#button").html(yy);
+				 var oButton=document.getElementById('button');
+				 var aDiv=oButton.getElementsByTagName('div');
+				 for(var i=0; i<aDiv.length; i++) {
+					 	aDiv[i].index=i;
+					 	aDiv[i].onmouseover=function(){
+					 		if(now==this.index) return;
+					 		now=this.index;
+					 		tab();
+					 	}
+				  }
+			 }
 
 		});
 		
@@ -233,19 +316,38 @@
 		
 	   function expandAll() {
 		    //var sd=$("#reviewID").val();
-			var url = "ReviewController?action=displayFull&&reviewID="+$("#reviewID").val();
-			window.location.href=url;
+			//var url = "ReviewController?action=displayFull&&reviewID="+$("#reviewID").val();
+			//window.location.href=url;
+			
+		  
+		    if ($("#folddiv").css("display") == 'none') {
+				$("#expanddiv").css("display", "none");
+				$("#folddiv").css("display", "block");
+				$("#btnExpand").val("expand All")
+				
+			}else{
+				$("#expanddiv").css("display", "block");
+				$("#folddiv").css("display", "none");
+				$("#btnExpand").val("flod")
+			}
 		}
-	   function delPost() {
-		    //var sd=$("#reviewID").val();
-			var url = "ReviewController?action=delete&&reviewID="+$("#reviewID").val();
-			window.location.href=url;
+		function delPost() {
+			//var sd=$("#reviewID").val();
+			var url = "ReviewController?action=delete&&reviewID="
+					+ $("#reviewID").val();
+			window.location.href = url;
 		}
-	   function btnlike(){
-		   //alert("hello world")
-		   var url = "ReviewController?action=like&&reviewID="+$("#reviewID").val();
-			window.location.href=url;
-	   }
+		function editPost(){
+			var url = "ReviewController?action=edit&&reviewID="
+				+ $("#reviewID").val();
+		    window.location.href = url;
+		}
+		function btnlike() {
+			//alert("hello world")
+			var url = "ReviewController?action=like&&reviewID="
+					+ $("#reviewID").val();
+			window.location.href = url;
+		}
 	</script>
 </body>
 </html>
