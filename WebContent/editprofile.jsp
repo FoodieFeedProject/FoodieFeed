@@ -31,10 +31,9 @@
 </head>
 <body>
 
-	<%@ include file="nav_bar_loggedin.jsp"%>
+	<%@ include file="nav_bar.jsp"%>
 <!-- get user session -->
-	<br>
-		<a href="editprofile.jsp"><span class="glyphicon glyphicon-pencil"></span> Edit Profile</a>
+<br>
 	<header>
 	<img src="img/testimg/2.jpg" alt="UserProfile" width="100" height="100" class="profileimg" />
 	<div style="text-align:center" class="user-info">
@@ -63,43 +62,6 @@
 			</div>
 </section>
 
-        <br>@somename94<!--<c:out value="${feedReview.getUsername()}" />-->
-      </div>
-    </div>
-    <div class="squaremid">
-      <div style="margin-right: 20px">
-        <br>
-        <div>
-          <img src="${feedReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
-        </div>
-        <font size=4>Best burgers in town!<!--<c:out value="${feedReview.getTitle()}" />-->
-        </font>
-        <br><br>
-        Overall Rating: 4<!--<c:out value="${feedReview.getOverallRating()}" />-->&nbsp;/&nbsp;5
-        <br><br>
-        &nbsp;&nbsp;My Order Total:
-        <br>
-        $40<!--<c:out value="${feedReview.getTotalAmt()}" />-->
-        <br><br>
-        Great burgers and shakes with good service and atmosphere.<!--<c:out value="${feedReview.getDescription()}" />-->
-        <br><br>
-        <c:forEach items="${feedReviews.getTags()}" var="tag">
-          <a href="TagController?action=visitTagPage">#<c:out value="${tag}" /></a>
-          <br>
-        </c:forEach>
-          <br>
-          <a href="ReviewController?action=display">More Information</a>
-      </div>
-      </div>
-      <div class="squarebot">
-        <div style="margin-left: 20px">
-          <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30" class="nextimg">&nbsp;&nbsp;<c:out value="${feedReview.getNumLikes()}" />&nbsp;&nbsp;&nbsp;
-          <img src=https://upload.wikimedia.org/wikipedia/commons/1/11/Blue-Speech-Bubble.png width="30">&nbsp;&nbsp;<c:out value="${feedReview.getComments().size()}" />
-        </div>
-      </div>
-    <br><br>
-    </c:forEach>
-    </center>
 	<%@ include file="footer.jsp"%>
 
 
