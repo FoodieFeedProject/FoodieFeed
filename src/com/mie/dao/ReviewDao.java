@@ -55,7 +55,7 @@ public class ReviewDao {
 			preparedStatement.executeUpdate();
 			
 			PreparedStatement preparedStatement2 = connection
-					.prepareStatement("select ReviewID from Review where Title=?,OverallRating=?,Description=?");
+					.prepareStatement("select ReviewID from Review where Title=? and OverallRating=? and Description=?");
 
 			preparedStatement2.setString(1, review.getTitle());
 			preparedStatement2.setInt(2, review.getOverallRating());
@@ -96,7 +96,7 @@ public class ReviewDao {
 		 */
 		try {
 			PreparedStatement preparedStatement = connection
-					.prepareStatement("update Review set Title=?, OverallRating=?, Description=?, FoodRating=?, ServiceRating =?, EnvironmentRating=?, DineIn=?, NumLikes=?, PhotoURL=?"
+					.prepareStatement("update Review set Title=?, OverallRating=?, Description=?, FoodRating=?, ServiceRating =?, EnvironmentRating=?, DineIn=?, PhotoURL=?"
 							+ " where ReviewID=?");
 			
 			preparedStatement.setString(1, review.getTitle());
@@ -106,9 +106,9 @@ public class ReviewDao {
 			preparedStatement.setInt(5, review.getServiceRating());
 			preparedStatement.setInt(6, review.getEnvironmentRating());
 			preparedStatement.setInt(7, review.getDineIn()); // 1 or 0
-			preparedStatement.setInt(8, review.getNumLikes());
-			preparedStatement.setString(9, review.getPhotoURL());
-			preparedStatement.setInt(10, review.getReviewID());
+			//preparedStatement.setInt(8, review.getNumLikes());
+			preparedStatement.setString(8, review.getPhotoURL());
+			preparedStatement.setInt(9, review.getReviewID());
 
 			preparedStatement.executeUpdate();
 

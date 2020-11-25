@@ -25,26 +25,13 @@
 	href="css/basic-grey.css">
 </head>
 <body>
-	<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="header-avatar">
-			<img src="img/testimg/avatar.jpg" alt="">
-		</div>
-		<div class="collapse navbar-collapse" id="myNavbar">
-			<ul class="nav navbar-nav">
-				<li><a href="index.jsp">Foodie Feed</a></li>
-				<li><a href="about.jsp">Discovery</a></li>
-				<li><a href="about.jsp">Profile</a></li>
-			</ul>
-		</div>
-	</div>
-	</nav>
+	<%@ include file="nav_bar_loggedin.jsp"%>
 
 	<%
-		Member member = (Member) session.getAttribute("currentSessionUser");
+		User user = (User) session.getAttribute("currentSessionUser");
 		String username = (String) session.getAttribute("username");
-		String firstname = (String) session.getAttribute("firstname");
-		String lastname = (String) session.getAttribute("lastname");
+		String name = (String) session.getAttribute("firstname");
+		
 	%>
 
 	<div class="container-fluid text-center">
@@ -52,7 +39,7 @@
 		<div class="row content">
 		   <div class="col-sm-3 sidenav">
 		       <h1>
-					Img Upload
+					Image Upload
 				</h1>
 				<div class="upload-content">
 					<div class="content-img">
@@ -113,7 +100,7 @@
 				<label style="text-align: left;font-weight:bold;">My Order</label>
 				<table id="mytable">
 				   <thead>
-                    <tr><th>Description</th><th>price</th></tr>
+                    <tr><th>item</th><th>price</th></tr>
                    </thead>
                    <tbody>
                    <tr><td><input class="item1" name="item1" type="text"/></td><td><input class="price1" name="price1" type="text"/></td></tr>
@@ -121,7 +108,7 @@
                      <tr><td><input class="item1" name="item3" type="text"/></td><td><input class="price1" name="price3" type="text"/></td></tr>
                    </tbody>
 				</table>
-				<label style="text-align: left;" id="totalvalue">Add Total: </label>
+				<!--  <label style="text-align: left;" id="totalvalue">Add Total: </label> -->
 				
 				<label style="text-align: right;"> <span>&nbsp;</span> <input type="button" id="postsubmit"
 					class="button" onclick="SendForm()" value="post" />
@@ -133,9 +120,8 @@
 		</div>
 		</form>
 	</div>
-	<footer class="container-fluid text-center">
-	<p>&#169; MIE350 Group3-Community Site for Foodies</p>
-	</footer>
+	<%@ include file="webfooter.jsp"%>
+	
 	<script src="js/uploadImg.js"></script>
 	<script type="text/javascript">
 	 $(function() {

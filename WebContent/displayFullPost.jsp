@@ -45,6 +45,13 @@
 
 	<div class="container-fluid text-center">
 	<!--<img src="${review.getPhotoURL()}" class="nextimg" style="width:304px;height:264px">  -->
+		<div align ="left">
+        <br>
+        <font size = 5><c:out value="${review.getNameOfUser()}" />
+        </font>
+        <br>
+        <a href="UserController?action=otherProfile&&otherUsername=${feedReview.getUsername()}">@ <c:out value="${review.getUsername()}" /></a>
+      </div>
 		<div class="row content" style="border-bottom: 1px solid #cccccc;">
 			<div id="flash">
 				<div id="prev"></div>

@@ -25,6 +25,9 @@
 
 <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 <link rel="stylesheet" type="text/css" href="css/profilestyle.css">
+
+<link rel="stylesheet" type="text/css" href="css/poststyle.css">
+
 </head>
 <body>
   <%@ include file="nav_bar_loggedin.jsp"%>
@@ -41,33 +44,32 @@
       </div>
     </div>
     <div class="squaremid">
-      <div style="margin-right: 20px">
+      <div style="margin-left: 20px" >
         <br>
         <div>
-          <img src="${feedReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
+         <img src="${feedReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
         </div>
         <font size=4><c:out value="${feedReview.getTitle()}" />
         </font>
         <br><br>
-        Overall Rating:<c:out value="${feedReview.getOverallRating()}" />&nbsp;/&nbsp;5
+        Overall Rating: <c:out value="${feedReview.getOverallRating()}" />&nbsp;/&nbsp;5
         <br><br>
-        &nbsp;&nbsp;My Order Total:
-        <br>
-        <c:out value="${feedReview.getTotalAmt()}" />
+        My Order Total:$<c:out value="${feedReview.getTotalAmt()}" />
         <br><br>
         <c:out value="${feedReview.getDescription()}" />
         <br><br>
-        <c:forEach items="${feedReview.getTags()}" var="tag">
-          <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>
-         
+          <a href="ReviewController?action=displayFull&&reviewID=${feedReview.getReviewID()}" class="button"><button>See More</button></a>
+      	  <br><br>
+      	  <c:forEach items="${feedReview.getTags()}" var="tag">
+          <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>         
         </c:forEach>
-          <br>
-          <a href="ReviewController?action=displayFull&&reviewID=${feedReview.getReviewID()}" class="button"><button>More Information</button></a>
-      </div>
+        </div>
+          
+     	<br>       
       </div>
       <div class="squarebot">
         <div style="margin-left: 20px">
-          <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30" class="nextimg">&nbsp;&nbsp;<c:out value="${feedReview.getNumLikes()}" />&nbsp;&nbsp;&nbsp;
+          <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30">&nbsp;&nbsp;<c:out value="${feedReview.getNumLikes()}" />&nbsp;&nbsp;&nbsp;
           <img src=https://upload.wikimedia.org/wikipedia/commons/1/11/Blue-Speech-Bubble.png width="30">&nbsp;&nbsp;<c:out value="${feedReview.getComments().size()}" />
         </div>
       </div>

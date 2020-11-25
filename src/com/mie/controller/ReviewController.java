@@ -170,6 +170,8 @@ public class ReviewController extends HttpServlet {
 		 * This method retrieves all of the information entered in the form on
 		 * the createPost.jsp or the editPost.jsp pages.
 		 */
+		
+		
 		Review review = new Review();
 				
 		review.setTitle(request.getParameter("title"));
@@ -181,9 +183,11 @@ public class ReviewController extends HttpServlet {
 		review.setDineIn(Integer.parseInt(request.getParameter("dineIn")));
 		review.setPhotoURL(request.getParameter("photoURL"));
 	
-		Integer reviewID = Integer.parseInt(request.getParameter("reviewID"));
-	
-		if (reviewID == null) {
+		String reviewIDstr = request.getParameter("reviewID");
+		//Integer reviewID = Integer.parseInt(request.getParameter("reviewID"));
+		int reviewID;
+		
+		if (reviewIDstr == null) {
 			//add new review to the database
 			reviewID = rdao.addReview(review);
 			
@@ -203,38 +207,53 @@ public class ReviewController extends HttpServlet {
 			}
 			
 			//add an entry in the Posts relation
-			String username = request.getParameter("username");
+			HttpSession session = request.getSession(true);
+			String username = (String)session.getAttribute("username");
+			
 			Date date = new Date();
 			rdao.recordNewUpload(username, reviewID, date.toString());
 			
 			//add entries into the MyOrder relation (only 2 for now)
 			MyOrder firstItem = new MyOrder();
-			firstItem.setReviewID(reviewID);
-			firstItem.setItem(request.getParameter("item1"));
-			firstItem.setPrice(Double.parseDouble(request.getParameter("price1")));
-			if (firstItem.getItem() != null){
+			
+			String item = request.getParameter("item1");
+			String priceStr = request.getParameter("price1");
+			
+			if ((item != null)&&(priceStr != null)){	
+				firstItem.setReviewID(reviewID);
+				firstItem.setItem(item);
+				firstItem.setPrice(Double.parseDouble(priceStr));
 				rdao.addMyOrder(firstItem);
 			}
 		
 			MyOrder secondItem = new MyOrder();
-			secondItem.setReviewID(reviewID);
-			secondItem.setItem(request.getParameter("item2"));
-			secondItem.setPrice(Double.parseDouble(request.getParameter("price2")));
-			if (secondItem.getItem() != null){
+			
+			item = request.getParameter("item2");
+			priceStr = request.getParameter("price2");
+			
+			if ((item != null)&&(priceStr != null)){	
+				secondItem.setReviewID(reviewID);
+				secondItem.setItem(item);
+				secondItem.setPrice(Double.parseDouble(priceStr));
 				rdao.addMyOrder(secondItem);
 			}
 			
 			MyOrder thirdItem = new MyOrder();
-			thirdItem.setReviewID(reviewID);
-			thirdItem.setItem(request.getParameter("item3"));
-			thirdItem.setPrice(Double.parseDouble(request.getParameter("price3")));
-			if (thirdItem.getItem() != null){
+			
+			item = request.getParameter("item3");
+			priceStr = request.getParameter("price3");
+			
+			if ((item != null)&&(priceStr != null)){	
+				thirdItem.setReviewID(reviewID);
+				thirdItem.setItem(item);
+				thirdItem.setPrice(Double.parseDouble(priceStr));
 				rdao.addMyOrder(thirdItem);
 			}
 
 						
 		} else {
 			//if its just an edit we wont let them edit tags and MyOrder for now
+			reviewID = Integer.parseInt(request.getParameter("reviewID"));
 			review.setReviewID(reviewID);
 			rdao.updateReview(review);
 		}

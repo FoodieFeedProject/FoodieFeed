@@ -6,7 +6,7 @@
 	<div class="container-fluid">
 	
 		<div class="header-avatar">
-			<img src="img/testimg/avatar.jpg" alt="">
+			<img src="img/testimg/tom.jpg" alt="">
 		</div>
 		
 		<div class="collapse navbar-collapse" id="myNavbar">

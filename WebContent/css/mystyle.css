@@ -55,24 +55,31 @@
 /*For showing posts*/
 .squaretop {
   height: 100px;
-  width: 500px;
-  background-color: lightblue;
+  width: 600px;
+  background-color: lavender;
   text-align: left;
+  
 }
 .squaremid {
-  height: 275px;
-  width: 500px;
-  background-color: lightgray;
-  text-align: right;
+  height: 330px;
+  width: 600px;
+  background-color: ghostwhite;
+  text-align: left;
+  padding-right:20px;
+  
+ 
+ 
 }
 .squarebot {
   height: 50px;
-  width: 500px;
-  background-color: lightgray;
+  width: 600px;
+  background-color: ghostwhite;
   text-align: left;
+  
 }
 .nextimg {
   float: left;
+  margin-right: 20px;
 }
 
 /* Set black background color, white text and some padding */
