@@ -40,15 +40,15 @@
 </head>
 <body>
 
-	<%@ include file="nav_bar.jsp"%>
+	<%@ include file="nav_bar_loggedin.jsp"%>
 	<%
-		//User user = (User) session.getAttribute("currentSessionUser");
-		//String username = (String) session.getAttribute("username");
+		User user = (User) session.getAttribute("currentSessionUser");
+		String username = (String) session.getAttribute("username");
 	%>
 	<header>
 	<div style="text-align:center" class="user-info">
 	<li><span><c:out value="${tag.getTagName()}"></c:out></span>
-    <span><button><c:out value="${followButtonMessage}" /></button></span>
+    <span><a href="UserController?action=followUnfollowTag&&tagName=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}"><button><c:out value="${followButtonMessage}" /></button></a></span>
 	</li>
 	</div>
 	</header>
@@ -67,27 +67,27 @@
 			</div>
     <center>
       <c:forEach items="${tagReviews}" var="tagReview">
-        <div class="squaretop">
-          <div style="margin-left: 20px">
-            <br>
-            <a href="UserController?action=otherProfile"><font size = 5>
-              <c:out value="${tagReview.getNameOfUser()}" />
-              </font></a>
-            <br><c:out value="${tagReview.getUsername()}" />
-          </div>
-          </div>
-        <div class="squaremid">
-          <div style="margin-right: 20px">
-            <br>
-            <div>
-              <img src="${tagReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
-              </div>&nbsp;&nbsp;
-            <font size=4><c:out value="${feedReview.getTitle()}" />
-            </font>
-            <br><br>
-            Overall Rating:<c:out value="${tagReview.getOverallRating()}" />&nbsp;/&nbsp;5
+	<div class="squaretop">
+      <div style="margin-left: 20px">
+        <br>
+        <font size = 5><c:out value="${tagReview.getNameOfUser()}" />
+        </font>
+        <br>
+        <a href="UserController?action=otherProfile&&otherUsername=${tagReview.getUsername()}">@ <c:out value="${tagReview.getUsername()}" /></a>
+      </div>
+    </div>
+    <div class="squaremid">
+      <div style="margin-right: 20px">
+        <br>
+        <div>
+          <img src="${tagReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
+        </div>
+        <font size=4><c:out value="${tagReview.getTitle()}" />
+        </font>
         <br><br>
-        My Order Total:
+        Overall Rating:<c:out value="${tagReview.getOverallRating()}" />&nbsp;/&nbsp;5
+        <br><br>
+        &nbsp;&nbsp;My Order Total:
         <br>
         <c:out value="${tagReview.getTotalAmt()}" />
         <br><br>
@@ -95,15 +95,15 @@
         <br><br>
         <c:forEach items="${tagReview.getTags()}" var="tag">
           <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>
-          <br>
+         
         </c:forEach>
           <br>
-          <a href="ReviewController?action=displayFull">More Information</a>
+          <a href="ReviewController?action=displayFull&&reviewID=${tagReview.getReviewID()}" class="button"><button>More Information</button></a>
       </div>
       </div>
       <div class="squarebot">
         <div style="margin-left: 20px">
-          <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30" class="nextimg">&nbsp;&nbsp;&nbsp;<c:out value="${tagReview.getNumLikes()}" />&nbsp;&nbsp;&nbsp;
+          <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30" class="nextimg">&nbsp;&nbsp;<c:out value="${tagReview.getNumLikes()}" />&nbsp;&nbsp;&nbsp;
           <img src=https://upload.wikimedia.org/wikipedia/commons/1/11/Blue-Speech-Bubble.png width="30">&nbsp;&nbsp;<c:out value="${tagReview.getComments().size()}" />
         </div>
       </div>
@@ -111,7 +111,7 @@
     </c:forEach>
     </center>
 </section>
-	<%@ include file="footer.jsp"%>
+	<%@ include file="webfooter.jsp"%>
 
 
 </body>

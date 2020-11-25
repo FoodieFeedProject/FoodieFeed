@@ -44,11 +44,13 @@
 	%>
 
 	<div class="container-fluid text-center">
+	<!--<img src="${review.getPhotoURL()}" class="nextimg" style="width:304px;height:264px">  -->
 		<div class="row content" style="border-bottom: 1px solid #cccccc;">
 			<div id="flash">
 				<div id="prev"></div>
 				<div id="next"></div>
 				 <input id="listphotoURL" value="${review.getPhotoURL()}" type="hidden" /> 
+				 
 				<ul id="play">
 					
 					
@@ -60,11 +62,11 @@
 					
 				</ul>
 			</div>
-		</div>
+		</div> 
 		<div class="acontent">
 		  <div class="tagcontainer">
 		   <c:forEach items="${review.getTags()}" var="mytag">
-		    <span><a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#${mytag.getTagName()}</a></span>
+		    <span><a href="TagController?action=visitTagPage&&tagname=${mytag.getTagName()}&&numPosts=${mytag.getNumPosts()}">#${mytag.getTagName()}</a></span>
 		   </c:forEach>
 		  </div>
 		  <div class="titlecontainer">
@@ -72,7 +74,9 @@
 		   <input id="reviewID" value="${review.getReviewID()}" type="hidden" /> 
 		   <input id="username" value="${review.getUsername()}" type="hidden" /> 
 		   <span style="float: right;">
-		    <span style="color: red;cursor:pointer" onclick="btnlike()">?</span>${review.getNumLikes()}
+		    <span style="color: red;cursor:pointer" onclick="btnlike()">
+		    <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30" class="nextimg">
+		    </span>${review.getNumLikes()}
 		   </span>
 		   <span class="mytime">${review.getUploadDate()}</span>
 		   <span class="detail">

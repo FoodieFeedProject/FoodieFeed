@@ -3,10 +3,13 @@ package com.mie.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,7 +18,7 @@ import com.mie.dao.*;
 import com.mie.model.*;
 
 
-public class UserController {
+public class UserController  extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	private static String SIGN_UP = "/register.jsp";
@@ -26,6 +29,7 @@ public class UserController {
 
 	private UserDao dao;
 	private ReviewDao rdao;
+	private TagDao tdao;
 
 	/**
 	 * Constructor for this class.
@@ -34,6 +38,7 @@ public class UserController {
 		super();
 		dao = new UserDao();
 		rdao = new ReviewDao();
+		tdao = new TagDao();
 	}
 
 	protected void doGet(HttpServletRequest request,
@@ -90,16 +95,25 @@ public class UserController {
 
 		} else if (action.equalsIgnoreCase("followUnfollowTag")) {
 			
-			//String username = request.getParameter("username");
-			String tag = request.getParameter("tagName");
 			
-			String status = dao.getTagFollowButtonStatus(username, tag);
-			dao.followUnfollowTag(username, tag, status);
+			Tag tag = new Tag();
+			tag.setTagName(request.getParameter("tagName"));
+			tag.setNumPost(Integer.parseInt(request.getParameter("numPosts")));
+			
+			String status = dao.getTagFollowButtonStatus(username, tag.getTagName());
+			dao.followUnfollowTag(username, tag.getTagName(), status);
 			forward = TAG_PAGE;
-			
-			//update the message for the follow button (Follow/Unfollow)
-			request.setAttribute("followButtonMessage", dao.getTagFollowButtonStatus(username, tag));
-			//i think i need to get all the posts again too
+		
+			List<Integer> reviewIDs = tdao.getTagReviewId(tag.getTagName());
+			List<Review> tagReviews = new ArrayList<Review>();
+		
+			for(Integer i:reviewIDs) {
+				tagReviews.add(rdao.getReviewById(i));
+			}
+		
+			request.setAttribute("tag", tag);
+			request.setAttribute("followButtonMessage", dao.getTagFollowButtonStatus(username, tag.getTagName()));
+			request.setAttribute("tagReviews", tagReviews);
 		
 		} else if (action.equalsIgnoreCase("myProfile")) {
 			
