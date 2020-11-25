@@ -28,16 +28,16 @@
 </head>
 <body>
   <%@ include file="nav_bar_loggedin.jsp"%>
-    <h1>Welcome to your Foodie Feed,&nbsp;<%=session.getAttribute("firstName") %></h1>
+    <h1>Welcome to your Foodie Feed,&nbsp;<%=session.getAttribute("name") %></h1>
       <center><br><br>
   <c:forEach items="${feedReviews}" var="feedReview">
 	<div class="squaretop">
       <div style="margin-left: 20px">
         <br>
-        <a href="UserController?action=otherProfile"><font size = 5>
-          Some Name<!--<c:out value="${feedReview.getNameOfUser()}" />-->
-        </font></a>
-        <br>@somename94<!--<c:out value="${feedReview.getUsername()}" />-->
+        <font size = 5><c:out value="${feedReview.getNameOfUser()}" />
+        </font>
+        <br>
+        <a href="UserController?action=otherProfile&&otherUsername=${feedReview.getUsername()}">@ <c:out value="${feedReview.getUsername()}" /></a>
       </div>
     </div>
     <div class="squaremid">
@@ -46,23 +46,23 @@
         <div>
           <img src="${feedReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
         </div>
-        <font size=4>Best burgers in town!<!--<c:out value="${feedReview.getTitle()}" />-->
+        <font size=4><c:out value="${feedReview.getTitle()}" />
         </font>
         <br><br>
-        Overall Rating: 4<!--<c:out value="${feedReview.getOverallRating()}" />-->&nbsp;/&nbsp;5
+        Overall Rating:<c:out value="${feedReview.getOverallRating()}" />&nbsp;/&nbsp;5
         <br><br>
         &nbsp;&nbsp;My Order Total:
         <br>
-        $40<!--<c:out value="${feedReview.getTotalAmt()}" />-->
+        <c:out value="${feedReview.getTotalAmt()}" />
         <br><br>
-        Great burgers and shakes with good service and atmosphere.<!--<c:out value="${feedReview.getDescription()}" />-->
+        <c:out value="${feedReview.getDescription()}" />
         <br><br>
-        <c:forEach items="${feedReviews.getTags()}" var="tag">
-          <a href="TagController?action=visitTagPage">#<c:out value="${tag}" /></a>
-          <br>
+        <c:forEach items="${feedReview.getTags()}" var="tag">
+          <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>
+         
         </c:forEach>
           <br>
-          <a href="ReviewController?action=display">More Information</a>
+          <a href="ReviewController?action=displayFull&&reviewID=${feedReview.getReviewID()}" class="button"><button>More Information</button></a>
       </div>
       </div>
       <div class="squarebot">
@@ -75,10 +75,10 @@
     </c:forEach>
     </center>
     <div style="margin-left:20px">
-      <a href="createPost.jsp"><font size=4>ADD POST</font></a>
+      <a href="ReviewController?action=create"><font size=4>ADD POST</font></a>
     </div>
 
-	<%@ include file="footer.jsp"%>
+	<%@ include file="webfooter.jsp"%>
 
 
 </body>

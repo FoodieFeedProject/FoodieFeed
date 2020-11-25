@@ -24,7 +24,7 @@ public class SearchControllerUser extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static String SEARCH_USER = "/searchUserResult.jsp";
+	private static String SEARCH_USER = "/userSearchResults.jsp";
 
 
 	private UserDao uDao;

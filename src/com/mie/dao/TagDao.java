@@ -191,6 +191,7 @@ public class TagDao {
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery("select TOP 10 * FROM Tag ORDER BY NumPosts DESC");
 			
+			
 			while (rs.next()) {
 				Tag tag = new Tag();
 				tag.setTagName(rs.getString("TagName"));

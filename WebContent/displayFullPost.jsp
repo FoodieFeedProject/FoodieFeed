@@ -34,26 +34,13 @@
 </style>
 </head>
 <body>
-	<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="header-avatar">
-			<img src="img/testimg/avatar.jpg" alt="">
-		</div>
-		<div class="collapse navbar-collapse" id="myNavbar">
-			<ul class="nav navbar-nav">
-				<li><a href="index.jsp">Foodie Feed</a></li>
-				<li><a href="about.jsp">Discovery</a></li>
-				<li><a href="about.jsp">Profile</a></li>
-			</ul>
-		</div>
-	</div>
-	</nav>
+	<%@ include file="nav_bar_loggedin.jsp"%>
 
 	<%
-		Member member = (Member) session.getAttribute("currentSessionUser");
+		User user = (User) session.getAttribute("currentSessionUser");
 		String username = (String) session.getAttribute("username");
-		String firstname = (String) session.getAttribute("firstname");
-		String lastname = (String) session.getAttribute("lastname");
+		String name = (String) session.getAttribute("name");
+		
 	%>
 
 	<div class="container-fluid text-center">
@@ -61,7 +48,7 @@
 			<div id="flash">
 				<div id="prev"></div>
 				<div id="next"></div>
-				 <input id="listphotoURL" value="${review.photoURL}" type="hidden" /> 
+				 <input id="listphotoURL" value="${review.getPhotoURL()}" type="hidden" /> 
 				<ul id="play">
 					
 					
@@ -77,17 +64,17 @@
 		<div class="acontent">
 		  <div class="tagcontainer">
 		   <c:forEach items="${review.getTags()}" var="mytag">
-		    <span>${mytag}</span>
+		    <span><a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#${mytag.getTagName()}</a></span>
 		   </c:forEach>
 		  </div>
 		  <div class="titlecontainer">
-		   <span>${review.title}</span>
-		   <input id="reviewID" value="${review.reviewID}" type="hidden" /> 
-		   <input id="username" value="${review.username}" type="hidden" /> 
+		   <span>${review.getTitle()}</span>
+		   <input id="reviewID" value="${review.getReviewID()}" type="hidden" /> 
+		   <input id="username" value="${review.getUsername()}" type="hidden" /> 
 		   <span style="float: right;">
-		    <span style="color: red;cursor:pointer" onclick="btnlike()">?</span>${review.numLikes}
+		    <span style="color: red;cursor:pointer" onclick="btnlike()">?</span>${review.getNumLikes()}
 		   </span>
-		   <span class="mytime">${review.uploadDate}</span>
+		   <span class="mytime">${review.getUploadDate()}</span>
 		   <span class="detail">
 		   ${review.getDescription()}
 		   </span>
@@ -97,7 +84,7 @@
 					<div class="score_star">
 					 <c:forEach var="i" begin="1" end="5" step="1">
 					     <c:choose>
-							<c:when test="${i<=review.overallRating }">
+							<c:when test="${i<=review.getOverallRating() }">
 								<i class="on">★</i>
 							</c:when>
 							<c:otherwise>
@@ -119,7 +106,7 @@
 					<div class="score_star">
 						 <c:forEach var="i" begin="1" end="5" step="1">
 					     <c:choose>
-							<c:when test="${i<=review.foodRating }">
+							<c:when test="${i<=review.getFoodRating() }">
 								<i class="on">★</i>
 							</c:when>
 							<c:otherwise>
@@ -132,7 +119,7 @@
 					<div class="score_star">
 						 <c:forEach var="i" begin="1" end="5" step="1">
 					     <c:choose>
-							<c:when test="${i<=review.environmentRating }">
+							<c:when test="${i<=review.getEnvironmentRating() }">
 								<i class="on">★</i>
 							</c:when>
 							<c:otherwise>
@@ -145,7 +132,7 @@
 					<div class="score_star">
 						<c:forEach var="i" begin="1" end="5" step="1">
 					     <c:choose>
-							<c:when test="${i<=review.serviceRating}">
+							<c:when test="${i<=review.getServiceRating()}">
 								<i class="on">★</i>
 							</c:when>
 							<c:otherwise>
@@ -161,13 +148,13 @@
 						<th></th>
 					</tr>
 					<tr>
-						<th>Description</th>
+						<th>item</th>
 						<th>price</th>
 					</tr>
-					<c:forEach items="${review.myOrder}" var="myOrder">
+					<c:forEach items="${review.getMyOrder()}" var="myOrder">
 						<tr>
-							<td>${myOrder.item}</td>
-							<td>$ ${myOrder.price}</td>
+							<td>${myOrder.getItem()}</td>
+							<td>$ ${myOrder.getPrice()}</td>
 						</tr>
 					</c:forEach>
 
@@ -176,13 +163,13 @@
 				<div class="opreate">
 				  <input type="button" onclick="editPost()" value="edit"/>
 				   <input type="button" onclick="delPost()" value="delete"/>
-				    <input type="button" style="width:100px" id="btnExpand" onclick="expandAll()" value="Expand All"/>
+				    <input type="button" style="width:100px" id="btnExpand" onclick="expandAll()" value="Expand"/>
                 </div>
 			</div>
 		 <div class="mycomment">
 		 <div class="commenttitle">Comments</div>
 		   <ul>
-					<c:forEach items="${review.comments}" var="myComments">
+					<c:forEach items="${review.getComments()}" var="myComments">
 						<li class="feed">
 							<div class="avatar">
 								<img src="img/testimg/timg.jpg" alt="" />
@@ -193,7 +180,7 @@
 									<a href="">${myComments.getUser()}</a> ${myComments.getComment()}
 								</p>
 								<p class='info'>
-									<span><a href="">delete </a><a href=""></a></span> <strong>${myComments.getDate() } &nbsp;&nbsp;&nbsp;</strong><strong style="color: red"></strong>
+									<strong>${myComments.getDate() } &nbsp;&nbsp;&nbsp;</strong><strong style="color: red"></strong>
 								</p>
 								
 							</div> <!--first end-->
@@ -210,10 +197,10 @@
 		</div>
 	</div>
 	
-	
-	<footer class="container-fluid text-center">
+	<%@ include file="webfooter.jsp"%>
+	<!--  <footer class="container-fluid text-center">
 	<p>&#169; MIE350 Group3-Community Site for Foodies</p>
-	</footer>
+	</footer>-->
 	<script type="text/javascript">
 		$(function() {
 			// Rating
@@ -323,12 +310,12 @@
 		    if ($("#folddiv").css("display") == 'none') {
 				$("#expanddiv").css("display", "none");
 				$("#folddiv").css("display", "block");
-				$("#btnExpand").val("expand All")
+				$("#btnExpand").val("Expand")
 				
 			}else{
 				$("#expanddiv").css("display", "block");
 				$("#folddiv").css("display", "none");
-				$("#btnExpand").val("flod")
+				$("#btnExpand").val("Hide")
 			}
 		}
 		function delPost() {

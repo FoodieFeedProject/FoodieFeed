@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mie.dao.*;
 import com.mie.model.*;
@@ -25,6 +26,7 @@ public class TagController extends HttpServlet{
 	
 	private static String TAG_PAGE = "/tagPage.jsp";
 	private static String DISCOVER = "/discover.jsp";
+	private static String LOGIN = "/userLogin.jsp";
 	
 
 	private TagDao tdao;
@@ -54,6 +56,10 @@ public class TagController extends HttpServlet{
 		 * direct the servlet to a review in the database. - displayFull will 
 		 * direct the servlet to the expanded review
 		 */
+		
+		HttpSession session = request.getSession(true);
+		String username = (String)session.getAttribute("username");
+
 		String forward = "";
 		String action = request.getParameter("action");
 		
@@ -62,23 +68,37 @@ public class TagController extends HttpServlet{
 			forward = DISCOVER;
 			request.setAttribute("trendingList", tdao.getTrendingTags());
 			
+			System.out.println(tdao.getTrendingTags().size());
 		}
 		else if(action.equalsIgnoreCase("visitTagPage")){
 			
-			String tagname = request.getParameter("tagname");
-			String username = request.getParameter("username");
 			
-			List<Integer> reviewIDs = tdao.getTagReviewId(tagname);
-			List<Review> tagReviews = new ArrayList<Review>();
+			if (username == null){
+				
+				forward = LOGIN;
+				
+			} else{
+				
+				Tag tag = new Tag();
+				tag.setTagName(request.getParameter("tagname"));
+				tag.setNumPost(Integer.parseInt(request.getParameter("numPosts")));
 			
-			for(Integer i:reviewIDs) {
-				tagReviews.add(rdao.getReviewById(i));
+				List<Integer> reviewIDs = tdao.getTagReviewId(tag.getTagName());
+				List<Review> tagReviews = new ArrayList<Review>();
+			
+				for(Integer i:reviewIDs) {
+					tagReviews.add(rdao.getReviewById(i));
+				}
+				forward = TAG_PAGE;
+			
+				request.setAttribute("tag", tag);
+				request.setAttribute("followButtonMessage", udao.getTagFollowButtonStatus(username, tag.getTagName()));
+				request.setAttribute("tagReviews", tagReviews);
 			}
-			forward = TAG_PAGE;
-			
-			request.setAttribute("followButtonMessage", udao.getTagFollowButtonStatus(username, tagname));
-			request.setAttribute("tagReviews", tagReviews);
 		}
+		
+		RequestDispatcher view = request.getRequestDispatcher(forward);
+		view.forward(request, response);
 		
 	}
 	

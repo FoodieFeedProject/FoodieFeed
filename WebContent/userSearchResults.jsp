@@ -43,7 +43,7 @@
       <center>
         <c:forEach items="${users}" var="user">
           <br>
-          <a href="UserController?action=otherProfile">@<c:out value="${user.getUsername()}" /></a>
+          <a href="UserController?action=otherProfile&&username=${user.getUsername()}">@<c:out value="${user.getUsername()}" /></a>
           <br>
         </c:forEach>
 				</center>

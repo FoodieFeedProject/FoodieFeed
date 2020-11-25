@@ -41,28 +41,28 @@
 	<% } %>
     <h1>Discover A World of Food</h1>
       <center>
-					<form method="POST" action='SearchControllerUser' name="frmAddUser">
+					<form method="POST" action='SearchControllerUser' name="frmSearchUser">
 						Search for a user: <input type="text" name="keyword"
 							value="<c:out value="${user.searchword}" />"><input
-							type="submit" class="btn btn-info" value="Submit" />
+							type="submit" class="btn btn-info" value="Search" />
 					</form>
         <br>
-          <form method="POST" action'SearchControllerTag' name="frmAddUser">
+          <form method="POST" action='SearchControllerTag' name="frmSearchTag">
             Search for a tag: <input type="text" name="keyword" 
               value="<c:out value="${tag.searchword}" />"><input
-							type="submit" class="btn btn-info" value="Submit" />
+							type="submit" class="btn btn-info" value="Search" />
           </form>
         <br><br>
-        <h2>Trending Tags:</h2>
+        <h2>Trending Tags</h2>
         <br>
         <c:forEach items="${trendingTags}" var="trendingTag">
           <br>
-          <a href="TagController?action=visitTagPage">#<c:out value="${trendingTag.getTagName()}" /></a>
+          <a href="TagController?action=visitTagPage"><c:out value="# + ${trendingTag.getTagName()}" /></a>
           <br>
         </c:forEach>
 				</center>
-	<%@ include file="footer.jsp"%>
 
+	<%@ include file="webfooter.jsp"%>
 
 </body>
 </html>

@@ -13,6 +13,7 @@ import java.util.Set;
 import com.mie.model.Review;
 import com.mie.model.MyOrder;
 import com.mie.model.Comment;
+import com.mie.model.Tag;
 import com.mie.util.DbUtil;
 
 import java.text.SimpleDateFormat;
@@ -275,18 +276,29 @@ public class ReviewDao {
 		
 	}
 	//tag methods 
-	public List<String> getTagsUsed (int reviewID) {
+	public List<Tag> getTagsUsed (int reviewID) {
 		/**
 		 * This method gets a list of tags used by a review
 		 */
-		List<String> tagsUsed = new ArrayList<String>();
+		List<Tag> tagsUsed = new ArrayList<Tag>();
 		try {
 			PreparedStatement preparedStatement = connection
 					.prepareStatement("select TagName from UsesTag where ReviewID=?");
 			preparedStatement.setInt(1, reviewID);
 			ResultSet rs = preparedStatement.executeQuery();
 			while(rs.next()){
-				tagsUsed.add(rs.getString("TagName"));
+				//tagsUsed.add(rs.getString("TagName"));
+				Tag tag = new Tag();
+				tag.setTagName(rs.getString("TagName"));
+				PreparedStatement preparedStatement2 = connection
+						.prepareStatement("select NumPosts from Tag where TagName=?");
+				preparedStatement2.setString(1, rs.getString("TagName"));
+				ResultSet rs2 = preparedStatement2.executeQuery();
+				if (rs2.next()){
+					tag.setNumPost(rs2.getInt("NumPosts"));
+				}
+				
+				tagsUsed.add(tag);
 			}
 
 		} catch (SQLException e) {
@@ -490,7 +502,7 @@ public class ReviewDao {
 			
 			preparedStatement2.setInt(1, likes);
 			preparedStatement2.setInt(2, reviewID);
-			preparedStatement.executeUpdate();
+			preparedStatement2.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

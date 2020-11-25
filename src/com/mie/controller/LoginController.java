@@ -55,7 +55,7 @@ public class LoginController extends HttpServlet {
 				/**
 				 * Redirect to the users-only home page.
 				 */
-				response.sendRedirect("foodieFeed.jsp");
+				response.sendRedirect("foodie_feed.jsp");
 
 				/**
 				 * Set a timeout variable of 900 seconds (15 minutes) for this
@@ -69,7 +69,7 @@ public class LoginController extends HttpServlet {
 				 * Otherwise, redirect the user to the invalid login page and
 				 * ask them to log in again with the proper credentials.
 				 */
-				response.sendRedirect("invalidLogin.jsp");
+				response.sendRedirect("userinvalidLogin.jsp");
 			}
 		}
 

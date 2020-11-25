@@ -24,7 +24,7 @@ public class SearchControllerTag extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static String SEARCH_TAG = "/searchTagResults.jsp";
+	private static String SEARCH_TAG = "/tagSearchResults.jsp";
 
 	private TagDao tDao;
 

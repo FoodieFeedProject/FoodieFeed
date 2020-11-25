@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+	pageEncoding="EUC-KR" import="com.mie.model.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" 
-    prefix="fn" %> 
+    prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html lang="en">
@@ -39,13 +42,13 @@
 
 	<%@ include file="nav_bar.jsp"%>
 	<%
-		User user = (User) session.getAttribute("currentSessionUser");
-		String username = (String) session.getAttribute("username");
+		//User user = (User) session.getAttribute("currentSessionUser");
+		//String username = (String) session.getAttribute("username");
 	%>
 	<header>
 	<div style="text-align:center" class="user-info">
-	<li><span>#tag<!--<c:out value="${tag.getTagName()}">--></span>
-    <span><button>Unfollow<!--<c:out value="${followButtonMessage}" />--></button>
+	<li><span><c:out value="${tag.getTagName()}"></c:out></span>
+    <span><button><c:out value="${followButtonMessage}" /></button></span>
 	</li>
 	</div>
 	</header>
@@ -57,7 +60,7 @@
 						<span>FOLLOWING</span>
 					</li>
 					<li>
-						1500<!--<c:out value="${tag.getNumPosts}" />-->
+						<c:out value="${tag.getNumPosts()}" />
 						<span>Number of Posts</span>
 					</li>
 				</ul>
@@ -68,9 +71,9 @@
           <div style="margin-left: 20px">
             <br>
             <a href="UserController?action=otherProfile"><font size = 5>
-              Some Name<!--<c:out value="${tagReview.getNameOfUser()}" />-->
+              <c:out value="${tagReview.getNameOfUser()}" />
               </font></a>
-            <br>@somename94<!--<c:out value="${tagReview.getUsername()}" />-->
+            <br><c:out value="${tagReview.getUsername()}" />
           </div>
           </div>
         <div class="squaremid">
@@ -79,23 +82,23 @@
             <div>
               <img src="${tagReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
               </div>&nbsp;&nbsp;
-            <font size=4>Best burgers in town!<!--<c:out value="${feedReview.getTitle()}" />-->
+            <font size=4><c:out value="${feedReview.getTitle()}" />
             </font>
             <br><br>
-            Overall Rating: 5<!--<c:out value="${tagReview.getOverallRating()}" />-->&nbsp;/&nbsp;5
+            Overall Rating:<c:out value="${tagReview.getOverallRating()}" />&nbsp;/&nbsp;5
         <br><br>
         My Order Total:
         <br>
-        $40<!--<c:out value="${tagReview.getTotalAmt()}" />-->
+        <c:out value="${tagReview.getTotalAmt()}" />
         <br><br>
-        Great burgers and shakes with good service and atmosphere.<!--<c:out value="${tagReview.getDescription()}" />-->
+        <c:out value="${tagReview.getDescription()}" />
         <br><br>
         <c:forEach items="${tagReview.getTags()}" var="tag">
-          <a href="TagController?action=visitTagPage">#<c:out value="${tag}" /></a>
+          <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>
           <br>
         </c:forEach>
           <br>
-          <a href="ReviewController?action=display">More Information</a>
+          <a href="ReviewController?action=displayFull">More Information</a>
       </div>
       </div>
       <div class="squarebot">
@@ -106,6 +109,7 @@
       </div>
     <br><br>
     </c:forEach>
+    </center>
 </section>
 	<%@ include file="footer.jsp"%>
 

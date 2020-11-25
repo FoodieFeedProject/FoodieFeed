@@ -4,6 +4,11 @@
 
 	<nav class="navbar navbar-default">
 	<div class="container-fluid">
+	
+		<div class="header-avatar">
+			<img src="img/testimg/avatar.jpg" alt="">
+		</div>
+		
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<!-- The following code can be added to include a Login button -->
 			<ul class="nav navbar-nav navbar-right">
@@ -17,7 +22,7 @@
 			</button>
 				<ul class="nav navbar-nav">			
 				<li><a href="ReviewController?action=listReviewsOnFeed">Foodie Feed</a></li>
-				<li><a href="TagController?action=trendingList">Discovery</a></li>
+				<li><a href="TagController?action=trendingList">Discover</a></li>
 				<li><a href="profile.jsp">Profile</a></li>
 			</ul>
 		</div>

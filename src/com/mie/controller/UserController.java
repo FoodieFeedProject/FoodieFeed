@@ -9,6 +9,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mie.dao.*;
 import com.mie.model.*;
@@ -54,6 +55,9 @@ public class UserController {
 		 */
 		String forward = "";
 		String action = request.getParameter("action");
+		
+		HttpSession session = request.getSession(true);
+		String username = (String)session.getAttribute("username");
 
 		
 		if (action.equalsIgnoreCase("signUp")) {
@@ -63,29 +67,30 @@ public class UserController {
 		} else if (action.equalsIgnoreCase("edit")) {
 			
 			forward = EDIT;
-			String username = request.getParameter("username");
+			//String username = request.getParameter("username");
 			User user = dao.getUserByUsername(username);
 			request.setAttribute("user", user);
 			
 		} else if (action.equalsIgnoreCase("followUnfollowUser")) {
 			
-			String currentUser = request.getParameter("username");
+			//String currentUser = request.getParameter("username");
 			String otherUsername = request.getParameter("otherUsername");
 
-			String status = dao.getFollowButtonStatus(currentUser, otherUsername);
-			dao.followUnfollowUser(currentUser, otherUsername, status);
+			String status = dao.getFollowButtonStatus(username, otherUsername);
+			dao.followUnfollowUser(username, otherUsername, status);
 			forward = OTHER_PROFILE;
 			
 			//update the message for the follow button (Follow/Unfollow) and the user to update their follower count
-			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(currentUser, otherUsername) );
+			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(username, otherUsername) );
 			request.setAttribute("otherUser", dao.getUserByUsername(otherUsername));
+			request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUsername));
 			
 			//keep this for testing later
 			//request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUsername));
 
 		} else if (action.equalsIgnoreCase("followUnfollowTag")) {
 			
-			String username = request.getParameter("username");
+			//String username = request.getParameter("username");
 			String tag = request.getParameter("tagName");
 			
 			String status = dao.getTagFollowButtonStatus(username, tag);
@@ -94,12 +99,12 @@ public class UserController {
 			
 			//update the message for the follow button (Follow/Unfollow)
 			request.setAttribute("followButtonMessage", dao.getTagFollowButtonStatus(username, tag));
-				
+			//i think i need to get all the posts again too
 		
 		} else if (action.equalsIgnoreCase("myProfile")) {
 			
 			forward = MY_PROFILE;
-			String username = request.getParameter("username");
+			//String username = request.getParameter("username");
 			User user = dao.getUserByUsername(username);
 			
 			request.setAttribute("user", user);
@@ -109,10 +114,10 @@ public class UserController {
 		} else if (action.equalsIgnoreCase("otherProfile")) {
 			
 			forward = OTHER_PROFILE;
-			String currentUser = request.getParameter("username");
+			//String currentUser = request.getParameter("username");
 			String otherUsername = request.getParameter("otherUsername");
 			
-			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(currentUser, otherUsername));
+			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(username, otherUsername));
 			request.setAttribute("otherUser", dao.getUserByUsername(otherUsername));
 			request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUsername));
 	

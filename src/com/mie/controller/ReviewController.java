@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mie.dao.*;
 import com.mie.model.*;
@@ -46,7 +47,7 @@ public class ReviewController extends HttpServlet {
 	
 	
 	private static String PROFILE = "/profile.jsp";
-	private static String FOODIE_FEED = "/foodieFeed.jsp";
+	private static String FOODIE_FEED = "/foodie_feed.jsp";
 	
 	
 	private ReviewDao rdao;
@@ -79,6 +80,9 @@ public class ReviewController extends HttpServlet {
 		String forward = "";
 		String action = request.getParameter("action");
 		
+		HttpSession session = request.getSession(true);
+		String username = (String)session.getAttribute("username");
+		
 		if (action.equalsIgnoreCase("delete")) {
 			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
 			
@@ -92,7 +96,8 @@ public class ReviewController extends HttpServlet {
 			rdao.deleteReview(reviewID);
 			
 			forward = PROFILE; //after you delete a post just go back to profile
-			String username = request.getParameter("username");
+			
+			//String username = request.getParameter("username");
 			//request.setAttribute("user", udao.getUserByUsername(username));
 			request.setAttribute("myPosts", rdao.getReviewsByUser(username));
 			
@@ -124,23 +129,25 @@ public class ReviewController extends HttpServlet {
 		}else if (action.equalsIgnoreCase("listReviewsOnFeed")) {
 			
 			forward = FOODIE_FEED;	
-			String username = request.getParameter("username");
+			//String username = request.getParameter("username");
 			Set<Integer> reviewIDs = new HashSet<Integer>();//ensures no duplicates
 			
 			List<String> tagsFollowed = udao.getTagsFollowed(username);
 			for(String tag:tagsFollowed){
 				reviewIDs.addAll(tdao.getTagReviewId(tag)); //gather review ids from tags they follow
 			}
+			System.out.println(reviewIDs.size());
 			
 			List<String> usersFollowed = udao.getFollowing(username);//method name may change
 			for(String user: usersFollowed){
 				reviewIDs.addAll(rdao.getUsersReviewIDs(user));//gather review ids from users they follow
 			}
-			
+			System.out.println(reviewIDs.size());
 			List<Review> feed = new ArrayList<Review>();
 			for(int id: reviewIDs){
 				feed.add(rdao.getReviewById(id));
 			}
+			System.out.println(feed.size());
 			request.setAttribute("feedReviews", feed);
 			
 		}  else if (action.equalsIgnoreCase("like")) {
@@ -215,6 +222,14 @@ public class ReviewController extends HttpServlet {
 			secondItem.setPrice(Double.parseDouble(request.getParameter("price2")));
 			if (secondItem.getItem() != null){
 				rdao.addMyOrder(secondItem);
+			}
+			
+			MyOrder thirdItem = new MyOrder();
+			thirdItem.setReviewID(reviewID);
+			thirdItem.setItem(request.getParameter("item3"));
+			thirdItem.setPrice(Double.parseDouble(request.getParameter("price3")));
+			if (thirdItem.getItem() != null){
+				rdao.addMyOrder(thirdItem);
 			}
 
 						

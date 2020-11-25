@@ -25,37 +25,24 @@
 	href="css/basic-grey.css">
 </head>
 <body>
-	<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="header-avatar">
-			<img src="img/testimg/avatar.jpg" alt="">
-		</div>
-		<div class="collapse navbar-collapse" id="myNavbar">
-			<ul class="nav navbar-nav">
-				<li><a href="index.jsp">Foodie Feed</a></li>
-				<li><a href="about.jsp">Discovery</a></li>
-				<li><a href="about.jsp">Profile</a></li>
-			</ul>
-		</div>
-	</div>
-	</nav>
+	<%@ include file="nav_bar_loggedin.jsp"%>
 
 	<%
-		Member member = (Member) session.getAttribute("currentSessionUser");
+		User user = (User) session.getAttribute("currentSessionUser");
 		String username = (String) session.getAttribute("username");
-		String firstname = (String) session.getAttribute("firstname");
-		String lastname = (String) session.getAttribute("lastname");
+		String name = (String) session.getAttribute("name");
+	
 	%>
 
 	<div class="container-fluid text-center">
-	    <input id="reviewID" value="${review.reviewID}" type="hidden" /> 
+	    <input id="reviewID" value="${review.getReviewID()}" type="hidden" /> 
 		<form action="ReviewController" name="addForm" method="post" >
 		<div class="row content">
 		   <div class="col-sm-3 sidenav">
 		       <h1>
 					Img Upload
 				</h1>
-				 <input id="listphotoURL" value="${review.photoURL}" type="hidden" /> 
+				 <input id="listphotoURL" value="${review.getPhotoURL()}" type="hidden" /> 
 				<div class="upload-content">
 					<div class="content-img">
 						<ul class="content-img-list"></ul>
@@ -76,14 +63,14 @@
 
 			<div class="from_style">
 				<label> <span>Title :</span> <input id="title" type="text"
-					name="title" value="${review.title}" placeholder="please input title" />
+					name="title" value="${review.getTitle()}" placeholder="please input title" />
 				</label> <label> <span>description :</span> <textarea id="text"
-						name="description"  placeholder="please input text">${review.description}</textarea>
+						name="description"  placeholder="please input text">${review.getDescription()}</textarea>
 				</label> <label> <span>Add Tag :</span> 
 				    
 					<c:forEach items="${review.getTags()}" var="mytag" varStatus="myTagsStatus">
 					   <input class="mytag" type="hidden"
-					    value="${mytag}" />
+					    value="${mytag.getTagName()}" />
 					</c:forEach>
 					 <input id="tag" type="text"
 					name="tags" value="" placeholder="please input tag,Use# to separate" />
@@ -91,11 +78,11 @@
 				<label style="text-align: left;font-weight:bold;">My Rating</label>
 	
 				<label> <span>Overall :</span>
-				    <input id="overallRating" name="overallRating" value="${review.overallRating}" type="hidden" /> 
+				    <input id="overallRating" name="overallRating" value="${review.getOverallRating()}" type="hidden" /> 
 					<div class="score_star">
 					 <c:forEach var="i" begin="1" end="5" step="1">
 					     <c:choose>
-							<c:when test="${i<=review.overallRating }">
+							<c:when test="${i<=review.getOverallRating() }">
 								<i class="on">★</i>
 							</c:when>
 							<c:otherwise>
@@ -106,11 +93,11 @@
 					</div>
 				</label>
 				<label> <span>Food :</span>
-				    <input id="foodRating" name="foodRating"  value="${review.foodRating}" type="hidden" /> 
+				    <input id="foodRating" name="foodRating"  value="${review.getFoodRating()}" type="hidden" /> 
 					<div class="score_star">
 						<c:forEach var="i" begin="1" end="5" step="1">
 					     <c:choose>
-							<c:when test="${i<=review.foodRating }">
+							<c:when test="${i<=review.getFoodRating() }">
 								<i class="on">★</i>
 							</c:when>
 							<c:otherwise>
@@ -121,11 +108,11 @@
 					</div>
 				</label>
 				 <label> <span>Environment :</span>
-				    <input id="environmentRating" name="environmentRating"  value="${review.environmentRating}" type="hidden" /> 
+				    <input id="environmentRating" name="environmentRating"  value="${review.getEnvironmentRating()}" type="hidden" /> 
 					<div class="score_star">
 						<c:forEach var="i" begin="1" end="5" step="1">
 					     <c:choose>
-							<c:when test="${i<=review.environmentRating }">
+							<c:when test="${i<=review.getEnvironmentRating() }">
 								<i class="on">★</i>
 							</c:when>
 							<c:otherwise>
@@ -136,11 +123,11 @@
 					</div>
 				</label>
 				 <label> <span>Service :</span>
-				     <input id="serviceRating" name="serviceRating"  value="${review.serviceRating}" type="hidden" /> 
+				     <input id="serviceRating" name="serviceRating"  value="${review.getServiceRating()}" type="hidden" /> 
 					<div class="score_star">
 						<c:forEach var="i" begin="1" end="5" step="1">
 					     <c:choose>
-							<c:when test="${i<=review.serviceRating }">
+							<c:when test="${i<=review.getServiceRating() }">
 								<i class="on">★</i>
 							</c:when>
 							<c:otherwise>
@@ -150,10 +137,10 @@
 					     </c:forEach>             
 					</div>
 				</label>
-				<input id="dineIn" name="dineIn"  value="${review.dineIn}" type="hidden" /> 
+				<input id="dineIn" name="dineIn"  value="${review.getDineIn()}" type="hidden" /> 
 				<c:forEach  var="i" begin="1" end="1" step="1">
 					<c:choose>
-							<c:when test="${1==review.dineIn}">
+							<c:when test="${1==review.getDineIn()}">
 									<input name="choose2" type="checkbox" checked="checked" /><span>Dine-in</span>
                                     <input name="choose1" type="checkbox" /><span>Take out</span>
 							</c:when>
@@ -168,12 +155,12 @@
 				<label style="text-align: left;font-weight:bold;">My Order</label>
 				<table id="mytable">
 				   <thead>
-                    <tr><th>Description</th><th>price</th></tr>
+                    <tr><th>item</th><th>price</th></tr>
                    </thead>
                    <tbody>
-                   	<c:forEach items="${review.myOrder}" var="myOrder" varStatus="myOrderStatus">
+                   	<c:forEach items="${review.getMyOrder()}" var="myOrder" varStatus="myOrderStatus">
 						<tr>
-							<td><input class="item1" name="item${myOrderStatus.index+1}" value="${myOrder.item}" type="text"/></td><td><input class="price1" value="${myOrder.price}" name="price${myOrderStatus.index+1}" type="text"/></td>
+							<td><input class="item1" name="item${myOrderStatus.index+1}" value="${myOrder.getItem()}" type="text"/></td><td><input class="price1" value="${myOrder.getPrice()}" name="price${myOrderStatus.index+1}" type="text"/></td>
 						</tr>
 					</c:forEach>
                  <!--   <tr><td><input class="item1" name="item1" type="text"/></td><td><input class="price1" name="price1" type="text"/></td></tr>

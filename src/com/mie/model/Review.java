@@ -28,7 +28,7 @@ public class Review {
 	
 	private List<MyOrder> myOrder;
 	private List<Comment> comments; 
-	private List<String> tags; //list of tagnames used by the post
+	private List<Tag> tags; //list of tags used by the post
 	
 	private String uploadDate; 
 
@@ -106,11 +106,11 @@ public class Review {
 		this.photoURL = url;
 	}
 	//testing this out
-	public void setTags (List<String> tags){
+	public void setTags (List<Tag> tags){
 		this.tags  = tags;
 	}
-	public List<String> getTags (){
-		List<String> tagsClone = new ArrayList<String>(tags);
+	public List<Tag> getTags (){
+		List<Tag> tagsClone = new ArrayList<Tag>(tags);
 		return tagsClone;
 	}
 	public void setMyOrder (List<MyOrder> myOrder){

@@ -43,11 +43,11 @@
       <center>
         <c:forEach items="${tags}" var="tag">
           <br>
-          <a href="TagController?action=visitTagPage">#<c:out value="${tag.getTagName()}" /></a>
+          <a href="TagController?action=visitTagPage&&username=${session.getAttribute("username")}&&tagname=${tag.getTagName()}">#<c:out value="${tag.getTagName()}" /></a>
           <br>
         </c:forEach>
 				</center>
-	<%@ include file="footer.jsp"%>
+	<%@ include file="webfooter.jsp"%>
 
 
 </body>
