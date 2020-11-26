@@ -6,7 +6,13 @@
 
 <html lang="en">
 <!-- Check to see if the user is logged in. Otherwise, redirect back to the login page.-->
-
+<%
+	session = request.getSession();
+	System.out.println(session);
+	if (session.getAttribute("username") == null) {
+		response.sendRedirect("userlogin.jsp");
+	}
+%>
 <head>
 <title>User Profile</title>
 <meta charset="utf-8">
@@ -33,6 +39,12 @@
 
 	<%@ include file="nav_bar_loggedin.jsp"%>
 <!-- get user session -->
+<!-- get user session -->
+	<%@ include file="nav_bar_loggedin.jsp"%>
+	<%
+		User user = (User) session.getAttribute("currentSessionUser");
+		String username = (String) session.getAttribute("username");
+	%>
 	<br>
 		<a href="editprofile.jsp"><span class="glyphicon glyphicon-pencil"></span> Edit Profile</a>
 	<header>

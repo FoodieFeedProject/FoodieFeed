@@ -6,6 +6,13 @@
 
 <html lang="en">
 <!-- Check to see if the user is logged in. Otherwise, redirect back to the login page.-->
+<%
+	session = request.getSession();
+	System.out.println(session);
+	if (session.getAttribute("username") == null) {
+		response.sendRedirect("userlogin.jsp");
+	}
+%>
 
 <head>
 <title>Other User Profile</title>
@@ -33,12 +40,19 @@
 
 	<%@ include file="nav_bar_loggedin.jsp"%>
 <!-- get user session -->
+	<%@ include file="nav_bar_loggedin.jsp"%>
+	<%
+		User user = (User) session.getAttribute("currentSessionUser");
+		String username = (String) session.getAttribute("username");
+	%>
+	
 	<br>
-		<span class="glyphicon glyphicon-plus"></span>Follow</a>
+		<span class="glyphicon glyphicon-plus"></span>
+    <span><a href="UserController?action=followUnfollowUser&&otherUsername=${user.getUserByUsername()}"><button><c:out value="${followButtonMessage}" /></button></a></span>
 	<header>
 	<img src="img/testimg/2.jpg" alt="UserProfile" width="100" height="100" class="profileimg" />
 	<div style="text-align:center" class="user-info">
-	<li><span>Hi, username !</span></li>
+	<li><span> <c:out value="${user.getUserByUsername()}"></c:out> </span></li>
 	</div>
 	</header>
 	<section>
