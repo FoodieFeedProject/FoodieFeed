@@ -53,9 +53,12 @@
     <div class="squaremid">
       <div style="margin-left: 20px" >
         <br>
+        
         <div>
-         <img src="${feedReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
-        </div>
+       <input id="listphotoURL" value="${feedReview.getPhotoURL()}" type="hidden" />		 
+		<i id="play"></i>
+		</div>
+		
         <font size=4><c:out value="${feedReview.getTitle()}" />
         </font>
         <br><br>
@@ -87,6 +90,23 @@
 	</div>
 	</div>
 	
+<script type="text/javascript">
+		$(function() {
+			
+			var arrp=new Array();
+			arrp=$("#listphotoURL").val().split(',');
+			var ss="";
+			
+			var itemx=window.atob(arrp[0]);
+			ss=ss+'<img src="'+itemx+'" class="nextimg" style="width:264px;height:224px"/>'
+			
+			if(ss!=""){
+				$("#play").html(ss);
+				
+			 }
+
+		});		
+</script>	
 
 
 </body>

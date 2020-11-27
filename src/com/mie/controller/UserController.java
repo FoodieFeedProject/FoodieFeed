@@ -131,12 +131,19 @@ public class UserController  extends HttpServlet {
 		
 		} else if (action.equalsIgnoreCase("otherProfile")) {
 			
-			forward = OTHER_PROFILE;
-			
 			String otherUsername = request.getParameter("otherUsername");
 			
-			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(username, otherUsername));
-			request.setAttribute("otherUser", dao.getUserByUsername(otherUsername));
+			if(otherUsername.equals(username)){
+				//if you click on your own username in one of your posts
+				forward = MY_PROFILE;
+				request.setAttribute("user", dao.getUserByUsername(username));
+			}else{
+				forward = OTHER_PROFILE;
+				request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(username, otherUsername));
+				request.setAttribute("otherUser", dao.getUserByUsername(otherUsername));
+			}
+			
+			//get the Reviews to display on the profile
 			request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUsername));
 	
 		} else {

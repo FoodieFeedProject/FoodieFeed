@@ -67,23 +67,24 @@
 					</li>
 				</ul>
 			</div>
-    <center>
-     <c:forEach items="${tagReviews}" var="tagReview">
+    <center><br><br>
+  <c:forEach items="${tagReviews}" var="tagReview">
 	<div class="squaretop">
       <div style="margin-left: 20px">
         <br>
         <font size = 5><c:out value="${tagReview.getNameOfUser()}" />
         </font>
         <br>
-        <a href="UserController?action=otherProfile&&otherUsername=${tagReview.getUsername()}">@ <c:out value="${tagReview.getUsername()}" /></a>
+        <a href="UserController?action=myProfile">@ <c:out value="${tagReview.getUsername()}" /></a>
       </div>
     </div>
     <div class="squaremid">
       <div style="margin-left: 20px" >
         <br>
-        <div>
-         <img src="${tagReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
-        </div>
+       <div>
+       <input id="listphotoURL" value="${tagReview.getPhotoURL()}" type="hidden" />		 
+		<i id="play"></i>
+		</div>
         <font size=4><c:out value="${tagReview.getTitle()}" />
         </font>
         <br><br>
@@ -98,11 +99,14 @@
       	  <c:forEach items="${tagReview.getTags()}" var="tag">
           <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>         
         </c:forEach>
-        
+        </div>
+          
+     	<br>       
+      </div>
       <div class="squarebot">
         <div style="margin-left: 20px">
           <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30">&nbsp;&nbsp;<c:out value="${tagReview.getNumLikes()}" />&nbsp;&nbsp;&nbsp;
-          <img src=https://upload.wikimedia.org/wikipedia/commons/1/11/Blue-Speech-Bubble.png width="30">&nbsp;&nbsp;<c:out value="${feedReview.getComments().size()}" />
+          <img src=https://upload.wikimedia.org/wikipedia/commons/1/11/Blue-Speech-Bubble.png width="30">&nbsp;&nbsp;<c:out value="${tagReview.getComments().size()}" />
         </div>
       </div>
     <br><br>
@@ -111,8 +115,23 @@
 </section>
 </div>
 </div>
-	<%@ include file="webfooter.jsp"%>
 
+<script type="text/javascript">
+		$(function() {
+			
+			var arrp=new Array();
+			arrp=$("#listphotoURL").val().split(',');
+			var ss="";
+			
+			var itemx=window.atob(arrp[0]);
+			ss=ss+'<img src="'+itemx+'" class="nextimg" style="width:264px;height:224px"/>'
+			
+			if(ss!=""){
+				$("#play").html(ss);
+				
+			 }
 
+		});		
+</script>
 </body>
 </html>

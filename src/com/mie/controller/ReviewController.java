@@ -112,24 +112,25 @@ public class ReviewController extends HttpServlet {
 			Review review = rdao.getReviewById(reviewID);
 			request.setAttribute("review", review);
 			
-		} else if (action.equalsIgnoreCase("display")) {
-			
-			forward = DISPLAY;
-			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
-			Review review = rdao.getReviewById(reviewID);
-			request.setAttribute("review", review);
-			
 		} else if (action.equalsIgnoreCase("displayFull")) {
 			
 			forward = DISPLAY_FULL;
 			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
+			
 			Review review = rdao.getReviewById(reviewID);
+			
+			if(username.equals(review.getUsername())){
+				//if the review belongs to the logged in user
+				boolean myPost = true;
+				request.setAttribute("myPost", myPost);
+			}
+			
 			request.setAttribute("review", review);
 			
 		}else if (action.equalsIgnoreCase("listReviewsOnFeed")) {
 			
 			forward = FOODIE_FEED;	
-			//String username = request.getParameter("username");
+			
 			Set<Integer> reviewIDs = new HashSet<Integer>();//ensures no duplicates
 			
 			List<String> tagsFollowed = udao.getTagsFollowed(username);
@@ -213,7 +214,7 @@ public class ReviewController extends HttpServlet {
 			Date date = new Date();
 			rdao.recordNewUpload(username, reviewID, date.toString());
 			
-			//add entries into the MyOrder relation (only 2 for now)
+			//add entries into the MyOrder relation
 			MyOrder firstItem = new MyOrder();
 			
 			String item = request.getParameter("item1");

@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mie.dao.ReviewDao;
 import com.mie.model.Comment;
@@ -45,7 +46,10 @@ public class CommentController extends HttpServlet {
 		Comment comment = new Comment();
 		Date date = new Date();
 		
-		comment.setUser(request.getParameter("username"));
+		HttpSession session = request.getSession(true);
+		String username = (String)session.getAttribute("username");
+		
+		comment.setUser(username);
 		comment.setDate(date.toString());
 		comment.setReviewID(Integer.parseInt(request.getParameter("reviewID")));
 		comment.setComment(request.getParameter("comment"));

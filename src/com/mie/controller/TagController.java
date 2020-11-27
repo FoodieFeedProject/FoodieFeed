@@ -67,8 +67,8 @@ public class TagController extends HttpServlet{
 			
 			forward = DISCOVER;
 			request.setAttribute("trendingList", tdao.getTrendingTags());
-			
-			System.out.println(tdao.getTrendingTags().size());
+			List<Tag> test = tdao.getTrendingTags();
+			System.out.println(test.get(0));
 		}
 		else if(action.equalsIgnoreCase("visitTagPage")){
 			

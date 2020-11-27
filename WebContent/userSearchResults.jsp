@@ -36,7 +36,7 @@
 </style>
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="container-fluid text-center">
 	<div class="row content">
 	<% if (session.getAttribute("username") == null) { %>
 		<%@ include file="nav_bar.jsp"%>
@@ -47,7 +47,7 @@
       <center>
         <c:forEach items="${users}" var="user">
           <br>
-          <a href="UserController?action=otherProfile&&username=${user.getUsername()}">@<c:out value="${user.getUsername()}" /></a>
+          <a href="UserController?action=otherProfile&&otherUsername=${user.getUsername()}">@<c:out value="${user.getUsername()}" /></a>
           <br>
         </c:forEach>
 		</center>
