@@ -29,7 +29,7 @@ public class UserDao {
 		 */
 		try {
 			PreparedStatement preparedStatement = connection
-					.prepareStatement("insert into User(Username,Email,Password,Name,Bio,ProfilePic) values (?, ?, ?, ? )");
+					.prepareStatement("insert into User(Username,Email,Password,Name,Bio,ProfilePic) values (?, ?, ?, ?, ?,? )");
 			// Parameters start with 1
 			preparedStatement.setString(1, user.getUsername());
 			preparedStatement.setString(2, user.getEmail());
@@ -37,6 +37,11 @@ public class UserDao {
 			preparedStatement.setString(4, user.getName());
 			preparedStatement.setString(5, user.getBio());
 			preparedStatement.setString(6, user.getProfilePic());
+			/*if(user.getProfilePic() == null){
+				preparedStatement.setString(6, "");
+			}else{
+				preparedStatement.setString(6, user.getProfilePic());
+			}*/
 
 			preparedStatement.executeUpdate();
 
@@ -59,7 +64,11 @@ public class UserDao {
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getName());
 			preparedStatement.setString(4, user.getBio());
-			preparedStatement.setString(5, user.getProfilePic());
+			if(user.getProfilePic() == null){
+				preparedStatement.setString(5, "");
+			}else{
+				preparedStatement.setString(5, user.getProfilePic());
+			}
 			preparedStatement.setString(6, user.getUsername());
 			preparedStatement.executeUpdate();
 

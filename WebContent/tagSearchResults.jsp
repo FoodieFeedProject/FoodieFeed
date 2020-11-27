@@ -21,6 +21,8 @@
 <script type="text/javascript" src="js/imgscript.js"></script>
 <link rel="stylesheet" id="templatecss" type="text/css"
 	href="css/basic-grey.css">
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+
 <style>
 .basic-grey {
     max-width: 500px;
@@ -34,6 +36,8 @@
 </style>
 </head>
 <body>
+	<div class="container-fluid text-center">
+	<div class="row content">
 	<% if (session.getAttribute("username") == null) { %>
 		<%@ include file="nav_bar.jsp"%>
 	<% } else { %>
@@ -43,12 +47,13 @@
       <center>
         <c:forEach items="${tags}" var="tag">
           <br>
-          <a href="TagController?action=visitTagPage&&username=${session.getAttribute("username")}&&tagname=${tag.getTagName()}">#<c:out value="${tag.getTagName()}" /></a>
+          <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>
           <br>
         </c:forEach>
-				</center>
+		</center>
+		</div>
+		</div>		
 	<%@ include file="webfooter.jsp"%>
-
 
 </body>
 </html>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+	pageEncoding="EUC-KR" import="com.mie.model.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" 
     prefix="fn" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -34,27 +34,27 @@
 </head>
 <body>
 
-	<%@ include file="nav_bar.jsp"%>
-<!-- get user session -->
+	<%@ include file="nav_bar_loggedin.jsp"%>
+
 	<%
 		User user = (User) session.getAttribute("currentSessionUser");
 		String username = (String) session.getAttribute("username");
 	%>
 	<div class="container-fluid text-center">
 		<div class="col-sm-8 text-center">
-		<form action="ReviewController" name="addForm" method="post" >
+		<form action="UserController" name="addForm" method="post" >
 			<div class="row content">
 		   		<div class="col-sm-3 sidenav">
-		       <h2>
+		       
 					Upload New Profile Picture
-				</h2>
+				
 				 <input id="listphotoURL" value="${user.getProfilePic()}" type="hidden" /> 
 				<div class="upload-content">
 					<div class="content-img">
 						<ul class="content-img-list"></ul>
 						<div class="file">
 							<i class="gcl gcladd"></i> <input type="file" name="file"
-								accept="image/*" id="upload" multiple>
+								accept="image/*" id="upload">
 						</div>
 					</div>
 					<div class="modal fade bs-example-modal-lg" tabindex="-1"
@@ -68,8 +68,7 @@
 		   
 		   <div class="col-sm-8 text-left">
 			<div class="from_style">
-				<label> <span>Username:</span> <input id="username" type="text"
-					name="username" value="${user.getUsername()}" placeholder="please enter your new username" />
+				<label> Username:     ${user.getUsername()}
 				</label> 
 				<label> <span>Password:</span> <input id="password" type="text"
 					name="password" value="${user.getPassword()}" placeholder="please enter your new password" />
@@ -88,8 +87,9 @@
 		</form>
 	</div>
 </div>
-</div>
-	<%@ include file="footer.jsp"%>
+
+
+	
 	<script src="js/uploadImg.js"></script>
 	
 

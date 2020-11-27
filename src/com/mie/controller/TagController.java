@@ -92,6 +92,7 @@ public class TagController extends HttpServlet{
 				forward = TAG_PAGE;
 			
 				request.setAttribute("tag", tag);
+				request.setAttribute("tagFollowers", tdao.tagFollowers(tag.getTagName()));
 				request.setAttribute("followButtonMessage", udao.getTagFollowButtonStatus(username, tag.getTagName()));
 				request.setAttribute("tagReviews", tagReviews);
 			}

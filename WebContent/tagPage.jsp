@@ -39,12 +39,14 @@
 
 </head>
 <body>
-
+	<div class="container-fluid">
+	<div class="row content">
 	<%@ include file="nav_bar_loggedin.jsp"%>
 	<%
 		User user = (User) session.getAttribute("currentSessionUser");
 		String username = (String) session.getAttribute("username");
 	%>
+	
 	<header>
 	<div style="text-align:center" class="user-info">
 	<li><span><c:out value="${tag.getTagName()}"></c:out></span>
@@ -56,7 +58,7 @@
 			<div style="text-align:center" class="user-info">
 				<ul>
 					<li> 
-						900<!--<c:out value="${tag.getFollowing}" />-->
+						<c:out value="${tagFollowers}" />
 						<span>FOLLOWING</span>
 					</li>
 					<li>
@@ -66,7 +68,7 @@
 				</ul>
 			</div>
     <center>
-      <c:forEach items="${tagReviews}" var="tagReview">
+     <c:forEach items="${tagReviews}" var="tagReview">
 	<div class="squaretop">
       <div style="margin-left: 20px">
         <br>
@@ -77,40 +79,38 @@
       </div>
     </div>
     <div class="squaremid">
-      <div style="margin-right: 20px">
+      <div style="margin-left: 20px" >
         <br>
         <div>
-          <img src="${tagReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
+         <img src="${tagReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
         </div>
         <font size=4><c:out value="${tagReview.getTitle()}" />
         </font>
         <br><br>
-        Overall Rating:<c:out value="${tagReview.getOverallRating()}" />&nbsp;/&nbsp;5
+        Overall Rating: <c:out value="${tagReview.getOverallRating()}" />&nbsp;/&nbsp;5
         <br><br>
-        &nbsp;&nbsp;My Order Total:
-        <br>
-        <c:out value="${tagReview.getTotalAmt()}" />
+        My Order Total:$<c:out value="${tagReview.getTotalAmt()}" />
         <br><br>
         <c:out value="${tagReview.getDescription()}" />
         <br><br>
-        <c:forEach items="${tagReview.getTags()}" var="tag">
-          <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>
-         
+          <a href="ReviewController?action=displayFull&&reviewID=${tagReview.getReviewID()}" class="button"><button>See More</button></a>
+      	  <br><br>
+      	  <c:forEach items="${tagReview.getTags()}" var="tag">
+          <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>         
         </c:forEach>
-          <br>
-          <a href="ReviewController?action=displayFull&&reviewID=${tagReview.getReviewID()}" class="button"><button>More Information</button></a>
-      </div>
-      </div>
+        
       <div class="squarebot">
         <div style="margin-left: 20px">
-          <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30" class="nextimg">&nbsp;&nbsp;<c:out value="${tagReview.getNumLikes()}" />&nbsp;&nbsp;&nbsp;
-          <img src=https://upload.wikimedia.org/wikipedia/commons/1/11/Blue-Speech-Bubble.png width="30">&nbsp;&nbsp;<c:out value="${tagReview.getComments().size()}" />
+          <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30">&nbsp;&nbsp;<c:out value="${tagReview.getNumLikes()}" />&nbsp;&nbsp;&nbsp;
+          <img src=https://upload.wikimedia.org/wikipedia/commons/1/11/Blue-Speech-Bubble.png width="30">&nbsp;&nbsp;<c:out value="${feedReview.getComments().size()}" />
         </div>
       </div>
     <br><br>
     </c:forEach>
     </center>
 </section>
+</div>
+</div>
 	<%@ include file="webfooter.jsp"%>
 
 

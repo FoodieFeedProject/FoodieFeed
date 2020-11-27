@@ -22,9 +22,12 @@ public class UserController  extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	private static String SIGN_UP = "/register.jsp";
-	private static String EDIT = "/editProfile.jsp";
-	private static String MY_PROFILE = "/myProfile.jsp";
-	private static String OTHER_PROFILE = "/otherProfile.jsp";
+
+	private static String USER_LOGIN = "/userlogin.jsp";
+	private static String EDIT = "/editprofile.jsp";
+	private static String MY_PROFILE = "/profile.jsp";
+	
+	private static String OTHER_PROFILE = "/otheruserProfile.jsp";
 	private static String TAG_PAGE = "/tagPage.jsp";
 
 	private UserDao dao;
@@ -72,13 +75,13 @@ public class UserController  extends HttpServlet {
 		} else if (action.equalsIgnoreCase("edit")) {
 			
 			forward = EDIT;
-			//String username = request.getParameter("username");
+			
 			User user = dao.getUserByUsername(username);
 			request.setAttribute("user", user);
 			
 		} else if (action.equalsIgnoreCase("followUnfollowUser")) {
 			
-			//String currentUser = request.getParameter("username");
+			
 			String otherUsername = request.getParameter("otherUsername");
 
 			String status = dao.getFollowButtonStatus(username, otherUsername);
@@ -90,8 +93,7 @@ public class UserController  extends HttpServlet {
 			request.setAttribute("otherUser", dao.getUserByUsername(otherUsername));
 			request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUsername));
 			
-			//keep this for testing later
-			//request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUsername));
+		
 
 		} else if (action.equalsIgnoreCase("followUnfollowTag")) {
 			
@@ -102,6 +104,7 @@ public class UserController  extends HttpServlet {
 			
 			String status = dao.getTagFollowButtonStatus(username, tag.getTagName());
 			dao.followUnfollowTag(username, tag.getTagName(), status);
+			
 			forward = TAG_PAGE;
 		
 			List<Integer> reviewIDs = tdao.getTagReviewId(tag.getTagName());
@@ -112,13 +115,14 @@ public class UserController  extends HttpServlet {
 			}
 		
 			request.setAttribute("tag", tag);
+			request.setAttribute("tagFollowers", tdao.tagFollowers(tag.getTagName()));
 			request.setAttribute("followButtonMessage", dao.getTagFollowButtonStatus(username, tag.getTagName()));
 			request.setAttribute("tagReviews", tagReviews);
 		
 		} else if (action.equalsIgnoreCase("myProfile")) {
 			
 			forward = MY_PROFILE;
-			//String username = request.getParameter("username");
+			
 			User user = dao.getUserByUsername(username);
 			
 			request.setAttribute("user", user);
@@ -128,7 +132,7 @@ public class UserController  extends HttpServlet {
 		} else if (action.equalsIgnoreCase("otherProfile")) {
 			
 			forward = OTHER_PROFILE;
-			//String currentUser = request.getParameter("username");
+			
 			String otherUsername = request.getParameter("otherUsername");
 			
 			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(username, otherUsername));
@@ -158,21 +162,32 @@ public class UserController  extends HttpServlet {
 		user.setBio(request.getParameter("bio"));
 		user.setProfilePic(request.getParameter("profilePic"));
 
-		String username = request.getParameter("username");
+		HttpSession session = request.getSession(true);
+		
 		/**
-		 * If the 'UserName' field in the form is empty, the new User will
-		 * be added to the list of User objects.
+		 * If the session is null then its user registration, not edit
 		 */
-		if (username == null || username.isEmpty()) {
+		if (session.getAttribute("username") == null) {
 			
 			String desiredUsername = request.getParameter("desiredUsername");
+			
 			boolean canUse = dao.checkUsername(desiredUsername);
 			
 			if(canUse){
-				request.setAttribute("usernameStatus", "Username Available");
+				
+				user.setUsername(desiredUsername);
 				dao.addUser(user);
+				
+				request.setAttribute("message", "Thank you for registering");
+				RequestDispatcher view = request
+						.getRequestDispatcher(USER_LOGIN);
+				
+				
+				view.forward(request, response);
+				
+				
 			}else{
-				request.setAttribute("usernameStatus", "Username Taken");
+				request.setAttribute("usernameStatus", "Uh oh! That username is already in use.");
 				//they get brought back to sign up page and need to enter a new desiredUsername
 				RequestDispatcher view = request
 						.getRequestDispatcher(SIGN_UP);
@@ -187,20 +202,29 @@ public class UserController  extends HttpServlet {
 			 * user is trying to Edit their Profile info), then the user's profile information
 			 * will be updated accordingly.
 			 */
+			String username = (String)session.getAttribute("username");
 			user.setUsername(username);
 			dao.updateUser(user);
 			
+			//after adding/updating we want to get ALL of their info (followers, following etc)
+			//User fullUser = new User();
+			//fullUser = dao.getUserByUsername(username);
+			
+			/**
+			 * Once the User has been added or updated, the page will redirect to
+			 * the myProfile.
+			 */
+			response.sendRedirect("UserController?action=myProfile");
+			
+			/*RequestDispatcher view = request
+					.getRequestDispatcher("UserController?action=myProfile");
+			//request.setAttribute("user", fullUser);
+			view.forward(request, response);*/
+			
+			
 		}
 		//after adding/updating we want to get ALL of their info (followers, following etc)
-		User fullUser = new User();
-		fullUser = dao.getUserByUsername(username);
-		/**
-		 * Once the User has been added or updated, the page will redirect to
-		 * the myProfile.
-		 */
-		RequestDispatcher view = request
-				.getRequestDispatcher(MY_PROFILE);
-		request.setAttribute("user", fullUser);
-		view.forward(request, response);
+		
+		
 	}
 }

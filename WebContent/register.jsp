@@ -33,14 +33,18 @@
 			</div>
 			<div class="col-sm-8 text-center">
 				<h1>Register for New FoodieFeed Account</h1>
-				<h4>FoodieFeed New Account Form<h4>
-				
-				<form action="RegisterController" method = "post" enctype = "multipart/form-data"> 
+				<h4>Please fill in details for your account.</h4>
+				<br>
+				${usernameStatus}
+				<br>
+				<center>
+				<form action="UserController" name="registerForm" method="post" >				
 				<!-- Controller for regitration page-->
 					<table style="with: 50%">
 				<tr>
-					<td>UserName</td>
-					<td><input type="text" name="username" /></td>
+					<td>Username</td>
+					<td><input type="text" name="desiredUsername"/></td>
+					
 				</tr>
 				<tr>
 					<td>Password</td>
@@ -48,19 +52,19 @@
 				</tr>
 				<tr>
 					<td>Email</td>
-					<td><input type="text" name="email" /></td>
+					<td><input type="text" name="email" value="${user.getEmail()}"/></td>
 				</tr>
 				<tr>
 					<td>Name</td>
-					<td><input type="text" name="name" /></td>
+					<td><input type="text" name="name" value="${user.getName()}" /></td>
 				</tr>
 				<tr>
 					<td>Bio</td>
-					<td><textarea name="paragraph_text" cols="30" rows="5"></textarea>
+					<td><textarea name="bio" cols="30" rows="5" value ="${user.getBio()}"></textarea>
 				</tr>
 				<tr>
 					<td>Profile Picture</td>
-					<td><input type = "file" name = "file" size = "50" /><br />
+					<td><input type = "file" name = "profilePic" size = "50" /><br />
 					</td>
 					<td>
          				<input type = "submit" value = "Upload File" />
@@ -69,14 +73,15 @@
 				</tr></table>
 								
 			<input type="submit" class="btn btn-info" value="Register" /></form>
+			</center>
 			</div>
 			<div class="col-sm-2 sidenav">
-				<!-- You can put right sidebar links here if you want to. -->
+				
 			</div>
 		</div>
 	</div>
 
-	<%@ include file="footer.jsp"%>
+	<%@ include file="webfooter.jsp"%>
 
 </body>
 

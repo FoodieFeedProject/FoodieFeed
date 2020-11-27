@@ -55,7 +55,7 @@ public class LoginController extends HttpServlet {
 				/**
 				 * Redirect to the users-only home page.
 				 */
-				response.sendRedirect("foodie_feed.jsp");
+				response.sendRedirect("ReviewController?action=listReviewsOnFeed");
 
 				/**
 				 * Set a timeout variable of 900 seconds (15 minutes) for this

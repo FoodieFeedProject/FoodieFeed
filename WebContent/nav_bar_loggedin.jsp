@@ -12,7 +12,7 @@
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<!-- The following code can be added to include a Login button -->
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="userlogin.jsp"><span
+				<li><a href="LogoutController"><span
 						class="glyphicon glyphicon-log-out"></span> LogOut</a></li>
 			</ul>
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -23,7 +23,7 @@
 				<ul class="nav navbar-nav">			
 				<li><a href="ReviewController?action=listReviewsOnFeed">Foodie Feed</a></li>
 				<li><a href="TagController?action=trendingList">Discover</a></li>
-				<li><a href="profile.jsp">Profile</a></li>
+				<li><a href="UserController?action=myProfile">My Profile</a></li>
 			</ul>
 		</div>
 	</div>

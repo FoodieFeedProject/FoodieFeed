@@ -21,6 +21,7 @@
 <script type="text/javascript" src="js/imgscript.js"></script>
 <link rel="stylesheet" id="templatecss" type="text/css"
 	href="css/basic-grey.css">
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
 <style>
 .basic-grey {
     max-width: 500px;
@@ -34,6 +35,8 @@
 </style>
 </head>
 <body>
+<div class="container-fluid">
+	<div class="row content">
 	<% if (session.getAttribute("username") == null) { %>
 		<%@ include file="nav_bar.jsp"%>
 	<% } else { %>
@@ -57,11 +60,12 @@
         <br>
         <c:forEach items="${trendingTags}" var="trendingTag">
           <br>
-          <a href="TagController?action=visitTagPage"><c:out value="# + ${trendingTag.getTagName()}" /></a>
+          <a href="TagController?action=visitTagPage">#<c:out value="${trendingTag.getTagName()}" /></a>
           <br>
         </c:forEach>
 				</center>
-
+</div>
+</div>
 	<%@ include file="webfooter.jsp"%>
 
 </body>

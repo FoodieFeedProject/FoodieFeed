@@ -23,7 +23,7 @@
 <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>
 <body>
-
+	
 	<%@ include file="nav_bar.jsp"%>
 
 	<div class="container-fluid text-center">
@@ -33,6 +33,7 @@
 			</div>
 			<div class="col-sm-8 text-center">
 				<h1>Welcome to FoodieFeed!</h1>
+				${message}
 				<h4>Login to Your Account</h4>
 
 				<center><form action="LoginController">
@@ -59,7 +60,7 @@
 		</div>
 	</div>
 
-	<%@ include file="footer.jsp"%>
+	<%@ include file="webfooter.jsp"%>
 
 </body>
 

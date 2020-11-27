@@ -111,6 +111,30 @@ public class TagDao {
 		
 		return exist;
 	}
+	public int tagFollowers(String tagName) {
+		/**
+		 * Gets tag followers
+		 */
+		
+		int followers = 0;
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(Username) as Followers from TagFollow where TagName=?");
+			preparedStatement.setString(1,  tagName);
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()){
+				followers = rs.getInt("Followers");
+			}
+			
+				
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return followers;
+	}
 	
 	
 	public void removeUsesTags(int reviewID) {

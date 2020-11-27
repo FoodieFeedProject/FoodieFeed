@@ -30,9 +30,16 @@
 
 </head>
 <body>
+
+	<div class="container-fluid">
+	<div class="row content">
   <%@ include file="nav_bar_loggedin.jsp"%>
     <h1>Welcome to your Foodie Feed,&nbsp;<%=session.getAttribute("name") %></h1>
-      <center><br><br>
+      <center><br>
+      <div style="margin-left:20px">
+      <a href="ReviewController?action=create"><font size=4>ADD POST</font></a>
+    </div>
+      <br>
   <c:forEach items="${feedReviews}" var="feedReview">
 	<div class="squaretop">
       <div style="margin-left: 20px">
@@ -76,11 +83,10 @@
     <br><br>
     </c:forEach>
     </center>
-    <div style="margin-left:20px">
-      <a href="ReviewController?action=create"><font size=4>ADD POST</font></a>
-    </div>
-
-	<%@ include file="webfooter.jsp"%>
+   
+	</div>
+	</div>
+	
 
 
 </body>

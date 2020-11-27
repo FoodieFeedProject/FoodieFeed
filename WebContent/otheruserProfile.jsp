@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+	pageEncoding="EUC-KR" import="com.mie.model.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" 
     prefix="fn" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html lang="en">
@@ -37,10 +38,10 @@
 
 </head>
 <body>
+	<div class="container-fluid">
+	<div class="row content">
+	<%@ include file="nav_bar_loggedin.jsp"%>
 
-	<%@ include file="nav_bar_loggedin.jsp"%>
-<!-- get user session -->
-	<%@ include file="nav_bar_loggedin.jsp"%>
 	<%
 		User user = (User) session.getAttribute("currentSessionUser");
 		String username = (String) session.getAttribute("username");
@@ -48,73 +49,84 @@
 	
 	<br>
 		<span class="glyphicon glyphicon-plus"></span>
-    <span><a href="UserController?action=followUnfollowUser&&otherUsername=${user.getUserByUsername()}"><button><c:out value="${followButtonMessage}" /></button></a></span>
+    <span><a href="UserController?action=followUnfollowUser&&otherUsername=${otherUser.getUsername()}"><button><c:out value="${followButtonMessage}" /></button></a></span>
 	<header>
 	<img src="img/testimg/2.jpg" alt="UserProfile" width="100" height="100" class="profileimg" />
 	<div style="text-align:center" class="user-info">
-	<li><span> <c:out value="${user.getUserByUsername()}"></c:out> </span></li>
+	<li><span> <c:out value="${otherUser.getName()}"></c:out> </span></li>
 	</div>
 	</header>
 	<section>
 			<div style="text-align:center" class="user-info">
 				<ul>
 					<li> 
-						<!-- value="${fn:length(uer.getFollowing())}"-->
-						3344
+						<c:out value="${otherUser.getFollowing().size()}" />
+						
 						<span>FOLLOWING</span>
 					</li>
 					<li>
-						<!-- value="${fn:length(uer.getFollowers())}"-->
-						5566
+						<c:out value="${otherUser.getFollowers().size()}" />
+						
 						<span>FOLLOWERS</span>
 					</li>
 					<li>
-						<!--c:out value="${fn:length(uer.getTagFollow())}"-->
-						7788
-						<span>TAGS</spam>
+						<c:out value="${otherUser.getTagFollow().size()}" />
+						
+						<span>TAGS FOLLOWED</span>
 					</li>
 				</ul>
+				<c:out value="${otherUser.getBio()}" />
 			</div>
 </section>
 
-        <br>@somename94<!--<c:out value="${feedReview.getUsername()}" />-->
+   	 <center><br><br>
+  <c:forEach items="${profileReviews}" var="profileReview">
+	<div class="squaretop">
+      <div style="margin-left: 20px">
+        <br>
+        <font size = 5><c:out value="${profileReview.getNameOfUser()}" />
+        </font>
+        <br>
+        <a href="UserController?action=otherProfile&&otherUsername=${profileReview.getUsername()}">@ <c:out value="${profileReview.getUsername()}" /></a>
       </div>
     </div>
     <div class="squaremid">
-      <div style="margin-right: 20px">
+      <div style="margin-left: 20px" >
         <br>
         <div>
-          <img src="${feedReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
+         <img src="${profileReview.getPhotoURL()}" class="nextimg" style="width:264px;height:224px">
         </div>
-        <font size=4>Best burgers in town!<!--<c:out value="${feedReview.getTitle()}" />-->
+        <font size=4><c:out value="${profileReview.getTitle()}" />
         </font>
         <br><br>
-        Overall Rating: 4<!--<c:out value="${feedReview.getOverallRating()}" />-->&nbsp;/&nbsp;5
+        Overall Rating: <c:out value="${profileReview.getOverallRating()}" />&nbsp;/&nbsp;5
         <br><br>
-        &nbsp;&nbsp;My Order Total:
-        <br>
-        $40<!--<c:out value="${feedReview.getTotalAmt()}" />-->
+        My Order Total:$<c:out value="${profileReview.getTotalAmt()}" />
         <br><br>
-        Great burgers and shakes with good service and atmosphere.<!--<c:out value="${feedReview.getDescription()}" />-->
+        <c:out value="${profileReview.getDescription()}" />
         <br><br>
-        <c:forEach items="${feedReviews.getTags()}" var="tag">
-          <a href="TagController?action=visitTagPage">#<c:out value="${tag}" /></a>
-          <br>
+          <a href="ReviewController?action=displayFull&&reviewID=${profileReview.getReviewID()}" class="button"><button>See More</button></a>
+      	  <br><br>
+      	  <c:forEach items="${profileReview.getTags()}" var="tag">
+          <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>         
         </c:forEach>
-          <br>
-          <a href="ReviewController?action=display">More Information</a>
-      </div>
+        </div>
+          
+     	<br>       
       </div>
       <div class="squarebot">
         <div style="margin-left: 20px">
-          <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30" class="nextimg">&nbsp;&nbsp;<c:out value="${feedReview.getNumLikes()}" />&nbsp;&nbsp;&nbsp;
-          <img src=https://upload.wikimedia.org/wikipedia/commons/1/11/Blue-Speech-Bubble.png width="30">&nbsp;&nbsp;<c:out value="${feedReview.getComments().size()}" />
+          <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30">&nbsp;&nbsp;<c:out value="${profileReview.getNumLikes()}" />&nbsp;&nbsp;&nbsp;
+          <img src=https://upload.wikimedia.org/wikipedia/commons/1/11/Blue-Speech-Bubble.png width="30">&nbsp;&nbsp;<c:out value="${profileReview.getComments().size()}" />
         </div>
       </div>
     <br><br>
     </c:forEach>
     </center>
-	<%@ include file="footer.jsp"%>
+
+	</div>
+	</div>
+
 
 
 </body>
