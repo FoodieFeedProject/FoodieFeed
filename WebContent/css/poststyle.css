@@ -131,9 +131,9 @@ background-color:#d8d5e7;
 
 }
 .myOrder{
-  border:1px solid darkseagreen;
   text-align:left;
   width:400px;
+  padding: 15px;
 }
 
 .feed {

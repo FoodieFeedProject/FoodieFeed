@@ -50,7 +50,7 @@
         <font size = 5><c:out value="${review.getNameOfUser()}" />
         </font>
         <br>
-        <a href="UserController?action=otherProfile&&otherUsername=${feedReview.getUsername()}">@ <c:out value="${review.getUsername()}" /></a>
+        <a href="UserController?action=otherProfile&&otherUsername=${review.getUsername()}">@ <c:out value="${review.getUsername()}" /></a>
       </div>
 		<div class="row content" style="border-bottom: 1px solid #cccccc;">
 			<div id="flash">
@@ -105,12 +105,7 @@
 					 </c:forEach>                                                
 					</div>
 				</label> 
-				<div id="folddiv">
-				<label> <span>My Order </span>
-					<div class="score_star">
-					                                          
-					</div>
-				</label> 
+				<div id="folddiv">			 
 				</div>
 				<div id="expanddiv" style="display:none;">
 				 <label> <span>Food :</span>
@@ -153,7 +148,15 @@
 					 </c:forEach> 
 					</div>
 				</label>
-				<table class="myOrder">
+				
+				</div>
+								
+				<div class="opreate">
+								  	
+				    <input type="button" style="width:100px;" id="btnExpand" onclick="expandAll()" value="Expand Ratings"/>
+                </div>
+                
+                <table class="myOrder">
 					<tr>
 						<th>My Order</th>
 						<th></th>
@@ -170,12 +173,6 @@
 					</c:forEach>
 
 				</table>
-				</div>
-				<div class="opreate">
-				  <input type="button" onclick="editPost()" value="edit"/>
-				   <input type="button" onclick="delPost()" value="delete"/>
-				    <input type="button" style="width:100px" id="btnExpand" onclick="expandAll()" value="Expand"/>
-                </div>
 			</div>
 		 <div class="mycomment">
 		 <div class="commenttitle">Comments</div>
@@ -214,31 +211,7 @@
 	</footer>-->
 	<script type="text/javascript">
 		$(function() {
-			// Rating
-			/* $(".score_star >i").click(function(event) {
-				var ind = $(this).index();
-				var ii = $(this).parent().find("i");
-				switch (ind) {
-				case 0:
-					ii.removeClass("on").slice(0, 1).addClass("on");
-					break;
-				case 1:
-					ii.removeClass("on").slice(0, 2).addClass("on");
-					break;
-				case 2:
-					ii.removeClass("on").slice(0, 3).addClass("on");
-					break;
-				case 3:
-					ii.removeClass("on").slice(0, 4).addClass("on");
-					break;
-				case 4:
-					ii.removeClass("on").slice(0, 5).addClass("on");
-					break;
-				default:
-					break;
-				}
-			}); */
-
+			
 			$(":checkbox").click(function() {
 				//
 				$(this).prop("checked", true);
@@ -275,6 +248,8 @@
 					 	}
 				  }
 			 }
+			
+		
 
 		});
 		

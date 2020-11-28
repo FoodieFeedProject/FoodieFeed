@@ -35,12 +35,14 @@
 	%>
 
 	<div class="container-fluid text-center">
+	
 		<form action="ReviewController" name="addForm" method="post" >
 		<div class="row content">
 		   <div class="col-sm-3 sidenav">
 		       <h1>
-					Image Upload
+					Create a New Post
 				</h1>
+				Upload Image
 				<div class="upload-content">
 					<div class="content-img">
 						<ul class="content-img-list"></ul>
@@ -111,7 +113,7 @@
 				<!--  <label style="text-align: left;" id="totalvalue">Add Total: </label> -->
 				
 				<label style="text-align: right;"> <span>&nbsp;</span> <input type="button" id="postsubmit"
-					class="button" onclick="SendForm()" value="post" />
+					class="button" onclick="SendForm()" value="Post" />
 					
 				</label>
 			</div>
@@ -120,6 +122,7 @@
 		</div>
 		</form>
 	</div>
+	
 	<%@ include file="webfooter.jsp"%>
 	
 	<script src="js/uploadImg.js"></script>
@@ -183,7 +186,7 @@
 	        	    $(this).prop("checked",true);
 	        	    $(this).siblings().prop("checked",false); 
 	       });
-	        
+	        /*
 	        $("#addRow").click(function(){
 	        	var rows='<tr><td><input name="item1" type="text"/></td><td><input name="price1" type="text"/></td></tr>';
 				$("#mytable").append(rows)
@@ -213,7 +216,7 @@
 	            //alert(e)
 	            //console.log(c);
 	            $("#totalvalue").html("Add Total: $"+c)
-	        });
+	        });*/
 	        
 	      /*   $("#postsubmit").submit(function(){
 	        	var it=$("input[name='item1']");

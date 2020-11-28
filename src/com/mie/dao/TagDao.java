@@ -99,10 +99,12 @@ public class TagDao {
 			PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(TagName) as Exist from Tag where TagName=?");
 			preparedStatement.setString(1,  tagName);
 			ResultSet rs = preparedStatement.executeQuery();
-			
-			if(rs.getInt("Exist") > 0) {
-				exist = true;
+			if(rs.next()){
+				if(rs.getInt("Exist") > 0) {
+					exist = true;
+				}
 			}
+			
 			
 			
 		} catch (SQLException e) {
@@ -143,8 +145,12 @@ public class TagDao {
 		 */
 		try {
 			
-			PreparedStatement preparedStatement = connection.prepareStatement("delete from UsesTags where ReviewID=?");
+			PreparedStatement preparedStatement = connection.prepareStatement("delete from UsesTag where ReviewID=?");
 			preparedStatement.setInt(1, reviewID);
+			
+			preparedStatement.executeUpdate();
+			
+			
 			
 			preparedStatement.executeUpdate();
 

@@ -35,12 +35,13 @@
 	%>
 
 	<div class="container-fluid text-center">
+	
 	    <input id="reviewID" value="${review.getReviewID()}" type="hidden" /> 
 		<form action="ReviewController" name="addForm" method="post" >
 		<div class="row content">
 		   <div class="col-sm-3 sidenav">
 		       <h1>
-					Img Upload
+					Image Upload
 				</h1>
 				 <input id="listphotoURL" value="${review.getPhotoURL()}" type="hidden" /> 
 				<div class="upload-content">
@@ -65,8 +66,8 @@
 				<label> <span>Title :</span> <input id="title" type="text"
 					name="title" value="${review.getTitle()}" placeholder="please input title" />
 				</label> <label> <span>description :</span> <textarea id="text"
-						name="description"  placeholder="please input text">${review.getDescription()}</textarea>
-				</label> <label> <span>Add Tag :</span> 
+						name="description"  placeholder="please input text">${review.getDescription()}</textarea></label>
+				<!--</label> <label> <span>Add Tag :</span> 
 				    
 					<c:forEach items="${review.getTags()}" var="mytag" varStatus="myTagsStatus">
 					   <input class="mytag" type="hidden"
@@ -74,7 +75,7 @@
 					</c:forEach>
 					 <input id="tag" type="text"
 					name="tags" value="" placeholder="please input tag,Use# to separate" />
-				</label> 
+				</label>  -->
 				<label style="text-align: left;font-weight:bold;">My Rating</label>
 	
 				<label> <span>Overall :</span>
@@ -137,22 +138,25 @@
 					     </c:forEach>             
 					</div>
 				</label>
+				<br>
+				
 				<input id="dineIn" name="dineIn"  value="${review.getDineIn()}" type="hidden" /> 
 				<c:forEach  var="i" begin="1" end="1" step="1">
 					<c:choose>
 							<c:when test="${1==review.getDineIn()}">
 									<input name="choose2" type="checkbox" checked="checked" /><span>Dine-in</span>
-                                    <input name="choose1" type="checkbox" /><span>Take out</span>
+                                  <input name="choose1" type="checkbox" /><span>Take out</span>
 							</c:when>
 							<c:otherwise>
 								<input name="choose2" type="checkbox" /><span>Dine-in</span>
-                                <input name="choose1" type="checkbox" checked="checked"  /><span>Take out</span>
+                               	<input name="choose1" type="checkbox" checked="checked"  /><span>Take out</span>
 							</c:otherwise>
 					</c:choose>
-				</c:forEach>             
+				</c:forEach>   
+				        
 			
 				
-				<label style="text-align: left;font-weight:bold;">My Order</label>
+				<!--<label style="text-align: left;font-weight:bold;">My Order</label>
 				<table id="mytable">
 				   <thead>
                     <tr><th>item</th><th>price</th></tr>
@@ -163,26 +167,25 @@
 							<td><input class="item1" name="item${myOrderStatus.index+1}" value="${myOrder.getItem()}" type="text"/></td><td><input class="price1" value="${myOrder.getPrice()}" name="price${myOrderStatus.index+1}" type="text"/></td>
 						</tr>
 					</c:forEach>
-                 <!--   <tr><td><input class="item1" name="item1" type="text"/></td><td><input class="price1" name="price1" type="text"/></td></tr>
+                    <tr><td><input class="item1" name="item1" type="text"/></td><td><input class="price1" name="price1" type="text"/></td></tr>
                    <tr><td><input class="item1" name="item2" type="text"/></td><td><input class="price1" name="price2" type="text"/></td></tr>
-                     <tr><td><input class="item1" name="item3" type="text"/></td><td><input class="price1" name="price3" type="text"/></td></tr> -->
+                     <tr><td><input class="item1" name="item3" type="text"/></td><td><input class="price1" name="price3" type="text"/></td></tr>
                    </tbody>
 				</table>
-				<label style="text-align: left;" id="totalvalue">Add Total: </label>
+				<label style="text-align: left;" id="totalvalue">Add Total: </label> -->
 				
 				<label style="text-align: right;"> <span>&nbsp;</span> <input type="button" id="postsubmit"
-					class="button" onclick="SendForm()" value="post" />
+					class="button" onclick="SendForm()" value="Save Changes" />
 					
 				</label>
-			</div>
-		
-			</div>
-		</div>
+			</div>		
+			</div>	
+			</div>	
 		</form>
+		
 	</div>
-	<footer class="container-fluid text-center">
-	<p>&#169; MIE350 Group3-Community Site for Foodies</p>
-	</footer>
+	
+	
 	<script src="js/uploadImg.js"></script>
 	<script type="text/javascript">
 	 $(function() {
@@ -244,6 +247,8 @@
 	        	    $(this).prop("checked",true);
 	        	    $(this).siblings().prop("checked",false); 
 	       });
+	        
+	       
 	        
 	        $("#addRow").click(function(){
 	        	var rows='<tr><td><input name="item1" type="text"/></td><td><input name="price1" type="text"/></td></tr>';

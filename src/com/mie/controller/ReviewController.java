@@ -42,8 +42,8 @@ public class ReviewController extends HttpServlet {
 	//for our real site
 	private static String CREATE = "/createPost.jsp";
 	private static String EDIT = "/editPost.jsp";	
-	private static String DISPLAY = "/displayPost.jsp";
 	private static String DISPLAY_FULL = "/displayFullPost.jsp";
+	private static String DISPLAY_MY_FULL = "/displayMyFullPost.jsp";
 	
 	
 	private static String PROFILE = "/profile.jsp";
@@ -89,7 +89,15 @@ public class ReviewController extends HttpServlet {
 			//first remove entries from tables with dependencies on Review
 			rdao.deleteMyOrder(reviewID);
 			rdao.removeUploadRecord(reviewID);
-			tdao.removeUsesTags(reviewID);//need a method for this in tagdao
+			
+			List<Tag> tagsToUpdate = rdao.getTagsUsed(reviewID);
+			tdao.removeUsesTags(reviewID);
+			
+			for(Tag tag:tagsToUpdate){
+				tdao.updateTagPostNum(tag.getTagName());
+			}
+			
+			
 			rdao.deleteAllComments(reviewID);
 			
 			//finally, delete the review from the Review table
@@ -97,8 +105,8 @@ public class ReviewController extends HttpServlet {
 			
 			forward = PROFILE; //after you delete a post just go back to profile
 			
-			//String username = request.getParameter("username");
-			//request.setAttribute("user", udao.getUserByUsername(username));
+			
+			request.setAttribute("user", udao.getUserByUsername(username));
 			request.setAttribute("myPosts", rdao.getReviewsByUser(username));
 			
 		} else if (action.equalsIgnoreCase("create")) {
@@ -108,21 +116,24 @@ public class ReviewController extends HttpServlet {
 		} else if (action.equalsIgnoreCase("edit")) {
 			
 			forward = EDIT;
+			
 			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
 			Review review = rdao.getReviewById(reviewID);
 			request.setAttribute("review", review);
 			
 		} else if (action.equalsIgnoreCase("displayFull")) {
 			
-			forward = DISPLAY_FULL;
 			int reviewID = Integer.parseInt(request.getParameter("reviewID"));
 			
 			Review review = rdao.getReviewById(reviewID);
-			
+
 			if(username.equals(review.getUsername())){
 				//if the review belongs to the logged in user
-				boolean myPost = true;
-				request.setAttribute("myPost", myPost);
+				forward = DISPLAY_MY_FULL; //theres different functionality on your own post page
+				
+				
+			}else{
+				forward = DISPLAY_FULL;
 			}
 			
 			request.setAttribute("review", review);
@@ -139,7 +150,10 @@ public class ReviewController extends HttpServlet {
 			}
 			System.out.println(reviewIDs.size());
 			
-			List<String> usersFollowed = udao.getFollowing(username);//method name may change
+			List<String> usersFollowed = udao.getFollowing(username);
+			//to see your own posts in the feed too
+			usersFollowed.add(username);
+			
 			for(String user: usersFollowed){
 				reviewIDs.addAll(rdao.getUsersReviewIDs(user));//gather review ids from users they follow
 			}
@@ -188,23 +202,28 @@ public class ReviewController extends HttpServlet {
 		//Integer reviewID = Integer.parseInt(request.getParameter("reviewID"));
 		int reviewID;
 		
-		if (reviewIDstr == null) {
+		if (reviewIDstr == null || reviewIDstr.isEmpty()) {
 			//add new review to the database
 			reviewID = rdao.addReview(review);
 			
 			//tags should be entered as one string with # as the delimiter
 			String tagList = request.getParameter("tags");
-			String tags [] = tagList.split("#");
-			for (String tag: tags){
-				if (tdao.tagExist(tag) == false){
+			String [] tags = tagList.split("#");
+			
+			for (int i=1; i< tags.length; i++){
+				//tag[0] will be blank, so start at i=1
+				
+				//remove spaces
+				String tagname = tags[i].replaceAll("\\s","");
+				if (tdao.tagExist(tagname) == false){
 					Tag newTag = new Tag();
-					newTag.setTagName(tag);
+					newTag.setTagName(tagname);
 					newTag.setNumPost(0);
 					tdao.addTag(newTag);
 				}
 				//add entries into UsesTag and update number of posts under that tag
-				tdao.updateUsesTag(reviewID, tag);
-				tdao.updateTagPostNum(tag);
+				tdao.updateUsesTag(reviewID, tagname);
+				tdao.updateTagPostNum(tagname);
 			}
 			
 			//add an entry in the Posts relation
@@ -220,7 +239,7 @@ public class ReviewController extends HttpServlet {
 			String item = request.getParameter("item1");
 			String priceStr = request.getParameter("price1");
 			
-			if ((item != null)&&(priceStr != null)){	
+			if (!(item == null || item.isEmpty())&&!(priceStr == null|| priceStr.isEmpty())){	
 				firstItem.setReviewID(reviewID);
 				firstItem.setItem(item);
 				firstItem.setPrice(Double.parseDouble(priceStr));
@@ -229,31 +248,31 @@ public class ReviewController extends HttpServlet {
 		
 			MyOrder secondItem = new MyOrder();
 			
-			item = request.getParameter("item2");
-			priceStr = request.getParameter("price2");
+			String item2 = request.getParameter("item2");
+			String priceStr2 = request.getParameter("price2");
 			
-			if ((item != null)&&(priceStr != null)){	
+			if (!(item2 == null || item2.isEmpty())&&!(priceStr2 == null|| priceStr2.isEmpty())){	
 				secondItem.setReviewID(reviewID);
-				secondItem.setItem(item);
-				secondItem.setPrice(Double.parseDouble(priceStr));
+				secondItem.setItem(item2);
+				secondItem.setPrice(Double.parseDouble(priceStr2));
 				rdao.addMyOrder(secondItem);
 			}
 			
 			MyOrder thirdItem = new MyOrder();
 			
-			item = request.getParameter("item3");
-			priceStr = request.getParameter("price3");
+			String item3 = request.getParameter("item3");
+			String priceStr3 = request.getParameter("price3");
 			
-			if ((item != null)&&(priceStr != null)){	
+			if (!(item3 == null || item3.isEmpty())&&!(priceStr3 == null|| priceStr3.isEmpty())){	
 				thirdItem.setReviewID(reviewID);
-				thirdItem.setItem(item);
-				thirdItem.setPrice(Double.parseDouble(priceStr));
+				thirdItem.setItem(item3);
+				thirdItem.setPrice(Double.parseDouble(priceStr3));
 				rdao.addMyOrder(thirdItem);
 			}
 
 						
 		} else {
-			//if its just an edit we wont let them edit tags and MyOrder for now
+			//if its just an edit we wont let them edit tags and MyOrder
 			reviewID = Integer.parseInt(request.getParameter("reviewID"));
 			review.setReviewID(reviewID);
 			rdao.updateReview(review);
@@ -268,7 +287,7 @@ public class ReviewController extends HttpServlet {
 		
 		
 		RequestDispatcher view = request
-				.getRequestDispatcher(DISPLAY_FULL);
+				.getRequestDispatcher(DISPLAY_MY_FULL);
 		request.setAttribute("review", rdao.getReviewById(reviewID));
 		view.forward(request, response);
 		

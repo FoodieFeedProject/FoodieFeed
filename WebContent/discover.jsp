@@ -42,31 +42,42 @@
 	<% } else { %>
 		<%@ include file="nav_bar_loggedin.jsp"%>
 	<% } %>
+	<center>
+	<div class="from_style">
+	 
     <h1>Discover A World of Food</h1>
-      <center>
-					<form method="POST" action='SearchControllerUser' name="frmSearchUser">
-						Search for a user: <input type="text" name="keyword"
-							value="<c:out value="${user.searchword}" />"><input
-							type="submit" class="btn btn-info" value="Search" />
-					</form>
-        <br>
+     
+      
+		<form method="POST" action='SearchControllerUser' name="frmSearchUser">
+					
+			Search for a user: <input type="text" name="keyword"
+			value="<c:out value="${user.searchword}" />"><input
+				type="submit" class="button" value="Search" />
+						
+		</form>
+       		 <br>
           <form method="POST" action='SearchControllerTag' name="frmSearchTag">
             Search for a tag: <input type="text" name="keyword" 
               value="<c:out value="${tag.searchword}" />"><input
-							type="submit" class="btn btn-info" value="Search" />
+							type="submit" class="button" value="Search" />
           </form>
+          
         <br><br>
         <h2>Trending Tags</h2>
         <br>
-        <c:forEach items="${trendingTags}" var="trendingTag">
+        <c:forEach items="${trendingList}" var="tag">
           <br>
-          <a href="TagController?action=visitTagPage">#<c:out value="${trendingTag.getTagName()}" /></a>
+          <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>
           <br>
         </c:forEach>
-				</center>
+        <br>
+        <br>
+	
+	</div>
+	</center>
 </div>
 </div>
-	<%@ include file="webfooter.jsp"%>
+
 
 </body>
 </html>
