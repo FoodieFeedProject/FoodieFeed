@@ -26,7 +26,7 @@ public class TagController extends HttpServlet{
 	
 	private static String TAG_PAGE = "/tagPage.jsp";
 	private static String DISCOVER = "/discover.jsp";
-	private static String LOGIN = "/userLogin.jsp";
+	private static String LOGIN = "/userlogin.jsp";
 	
 
 	private TagDao tdao;
@@ -76,6 +76,7 @@ public class TagController extends HttpServlet{
 			if (username == null){
 				
 				forward = LOGIN;
+				request.setAttribute("message", "You must login to view a Tag Page.");
 				
 			} else{
 				

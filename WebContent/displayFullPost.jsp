@@ -306,9 +306,13 @@
 		}
 		function delPost() {
 			//var sd=$("#reviewID").val();
-			var url = "ReviewController?action=delete&&reviewID="
+			var txt;
+			var r = confirm("Delete this post?");
+			if (r == true) {
+				var url = "ReviewController?action=delete&&reviewID="
 					+ $("#reviewID").val();
-			window.location.href = url;
+				window.location.href = url;
+			} 
 		}
 		function editPost(){
 			var url = "ReviewController?action=edit&&reviewID="

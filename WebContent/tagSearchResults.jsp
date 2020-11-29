@@ -36,23 +36,28 @@
 </style>
 </head>
 <body>
-	<div class="container-fluid text-center">
-	<div class="row content">
 	<% if (session.getAttribute("username") == null) { %>
 		<%@ include file="nav_bar.jsp"%>
 	<% } else { %>
 		<%@ include file="nav_bar_loggedin.jsp"%>
 	<% } %>
-    <h1>Search Results for a Tag</h1>
-      <center>
+	<div class="container-fluid text-center">
+	<div class="row content">
+
+	<center>
+	<div class="from_style">
+    <h2>Search Results for a Tag</h2>
+      
         <c:forEach items="${tags}" var="tag">
           <br>
           <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>
           <br>
         </c:forEach>
-		</center>
-		</div>
-		</div>		
+      </div>
+	</center>
+	
+	</div>
+	</div>		
 	<%@ include file="webfooter.jsp"%>
 
 </body>

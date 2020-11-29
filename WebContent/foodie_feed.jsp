@@ -57,7 +57,7 @@
         <div>
        <input id="listphotoURL" value="${feedReview.getPhotoURL()}" type="hidden" />		 
 		<i id="play"></i>
-				
+		
 		</div>
 				
         <font size=4><c:out value="${feedReview.getTitle()}" />

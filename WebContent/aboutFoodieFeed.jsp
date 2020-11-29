@@ -32,52 +32,73 @@
     text-shadow: 1px 1px 1px# FFF;
     border: 1px solid# E4E4E4;
 }
+
+
 </style>
+
 </head>
 <body>
-<div class="container-fluid">
-	<div class="row content">
-	<% if (session.getAttribute("username") == null) { %>
+
+<% if (session.getAttribute("username") == null) { %>
 		<%@ include file="nav_bar.jsp"%>
 	<% } else { %>
 		<%@ include file="nav_bar_loggedin.jsp"%>
 	<% } %>
-	<center>
-	<div class="from_style">
-	 
-    <h2>Discover A World of Food</h2>
-     
-      
-		<form method="POST" action='SearchControllerUser' name="frmSearchUser">
+	
+<div class="container-fluid">
+	<div class="row content">
+	
+	
+	<div class="col-sm-8 text-left" style="padding-left:25px">
+            
+       
+      <div class="from_style">
+       <h2>About</h2>
+       </div>
+				This is a web app created for the <b>MIE350</b> course at the
+				<a href="http://www.utoronto.ca">University of Toronto</a>.
+				<br> <br> It was developed using
+				the following:<br>
+				
+				<ul>
+					<li>Eclipse Java EE IDE for Web Developers,</li>
+					<li>The Java programming language,</li>
+					<li>Java Server Pages (JSP),</li>
+					<li>Apache Tomcat 7.0, and</li>
+					<li>A simple Microsoft Access database.</li>
+				</ul>
+				
+				As well, the following <b>open-source</b> tools were used:
+				<ul>
+					<li><a href="http://getbootstrap.com/">The Bootstrap CSS
+							theme</a></li>
 					
-			Search for a user: <input type="text" name="keyword"
-			value="<c:out value="${user.searchword}" />"><input
-				type="submit" class="button" value="Search" />
-						
-		</form>
-       		 <br>
-          <form method="POST" action='SearchControllerTag' name="frmSearchTag">
-            Search for a tag: <input type="text" name="keyword" 
-              value="<c:out value="${tag.searchword}" />"><input
-							type="submit" class="button" value="Search" />
-          </form>
-          
-        <br><br>
-        <h2>Trending Tags</h2>
-        <br>
-        <c:forEach items="${trendingList}" var="tag">
-          <br>
-          <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>
-          <br>
-        </c:forEach>
-        <br>
+				</ul>
+				
+				<div class="from_style">
+				<h2>Foodie Feed</h2>
+				</div>
+				 This is a community site for food lovers and bloggers. Here, you can: <br>
+				<ul>
+					<li><b>Create</b> a new food review post.</li>
+					<li><b>Follow</b> tags or other foodies.</li>
+					<li><b>Like and Comment</b> on posts.</li>
+					<li><b>Update</b> your profile information.</li>
+					<li><b>Edit or Delete</b> your posts.</li>
+					<li><b>Discover</b> users or tags.</li>
+					<li><b>Log In or Sign Up</b> to get started!.</li>
+				</ul>
+         
         <br>
 	
 	</div>
-	</center>
-</div>
+
+	</div>
+
 </div>
 
+	
 
+<%@ include file="webfooter.jsp"%>
 </body>
 </html>

@@ -23,7 +23,7 @@
 				<ul class="nav navbar-nav">			
 				<li><a href="ReviewController?action=listReviewsOnFeed">Foodie Feed</a></li>
 				<li><a href="TagController?action=trendingList">Discover</a></li>
-				<li><a href="about.jsp">About</a></li>
+				<li><a href="aboutFoodieFeed.jsp">About</a></li>
 				<li><a href="UserController?action=myProfile">My Profile</a></li>
 			</ul>
 		</div>

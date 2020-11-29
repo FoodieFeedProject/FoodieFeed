@@ -33,10 +33,11 @@ public class LogoutController extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		session.invalidate();
 
+		response.sendRedirect("TagController?action=trendingList");
 		/**
 		 * Print out a message indicating the user has been logged out.
 		 */
-		out.print("You are successfully logged out!");
+		//out.print("You are successfully logged out!");
 
 		out.close();
 	}

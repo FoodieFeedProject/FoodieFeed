@@ -107,7 +107,7 @@ public class ReviewController extends HttpServlet {
 			
 			
 			request.setAttribute("user", udao.getUserByUsername(username));
-			request.setAttribute("myPosts", rdao.getReviewsByUser(username));
+			request.setAttribute("profileReviews", rdao.getReviewsByUser(username));
 			
 		} else if (action.equalsIgnoreCase("create")) {
 			
@@ -148,7 +148,7 @@ public class ReviewController extends HttpServlet {
 			for(String tag:tagsFollowed){
 				reviewIDs.addAll(tdao.getTagReviewId(tag)); //gather review ids from tags they follow
 			}
-			System.out.println(reviewIDs.size());
+			
 			
 			List<String> usersFollowed = udao.getFollowing(username);
 			//to see your own posts in the feed too
@@ -157,7 +157,7 @@ public class ReviewController extends HttpServlet {
 			for(String user: usersFollowed){
 				reviewIDs.addAll(rdao.getUsersReviewIDs(user));//gather review ids from users they follow
 			}
-			System.out.println(reviewIDs.size());
+			
 			List<Review> feed = new ArrayList<Review>();
 			for(int id: reviewIDs){
 				feed.add(rdao.getReviewById(id));

@@ -49,7 +49,7 @@
 	
 	<header>
 	<div style="text-align:center" class="user-info">
-	<li><span><c:out value="${tag.getTagName()}"></c:out></span>
+	<li><span>#<c:out value="${tag.getTagName()}"></c:out></span>
     <span><a href="UserController?action=followUnfollowTag&&tagName=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}"><button><c:out value="${followButtonMessage}" /></button></a></span>
 	</li>
 	</div>
@@ -59,11 +59,11 @@
 				<ul>
 					<li> 
 						<c:out value="${tagFollowers}" />
-						<span>FOLLOWING</span>
+						<span>FOLLOWERS</span>
 					</li>
 					<li>
 						<c:out value="${tag.getNumPosts()}" />
-						<span>Number of Posts</span>
+						<span>NUMBER OF POSTS</span>
 					</li>
 				</ul>
 			</div>
@@ -75,7 +75,7 @@
         <font size = 5><c:out value="${tagReview.getNameOfUser()}" />
         </font>
         <br>
-        <a href="UserController?action=myProfile">@ <c:out value="${tagReview.getUsername()}" /></a>
+        <a href="UserController?action=otherProfile&&otherUsername=${tagReview.getUsername()}">@ <c:out value="${tagReview.getUsername()}" /></a>
       </div>
     </div>
     <div class="squaremid">

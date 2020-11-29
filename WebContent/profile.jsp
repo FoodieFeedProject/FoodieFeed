@@ -12,6 +12,7 @@
 	System.out.println(session);
 	if (session.getAttribute("username") == null) {
 		response.sendRedirect("userlogin.jsp");
+		request.setAttribute("message", "You must login to see a user profile.");
 	}
 %>
 <head>
@@ -47,12 +48,22 @@
 		User user = (User) session.getAttribute("currentSessionUser");
 		String username = (String) session.getAttribute("username");
 	%>
-	<br>
-		<a href="UserController?action=edit"><span class="glyphicon glyphicon-pencil"></span> Edit Profile</a>
+
 	<header>
-	<img src="img/testimg/2.jpg" alt="UserProfile" width="100" height="100" class="profileimg" />
+	<br>
+	<div style="text-align:right; margin-right:25px;">
+	<span><a href="UserController?action=edit"><button><c:out value="Edit Profile"/></button></a></span>
+	</div>
+	<br>
+	
+	<input id="pfpic" value="${user.getProfilePic()}" type="hidden" />		 
+		<i id="pfp"></i>		
+		
 	<div style="text-align:center" class="user-info">
-	<li><span>Hi, ${user.getUsername()} !</span></li>
+	<li>
+	<span>@<c:out value="${user.getUsername()}"></c:out></span>
+    
+	</li>
 	</div>
 	</header>
 	<section>
@@ -127,9 +138,24 @@
     
 	</div>
 	</div>
+<script src="js/uploadImg.js"></script>
 <script type="text/javascript">
 		$(function() {
 			
+			var pp="";
+			
+			var pfp=window.atob($("#pfpic").val());
+			pp=pp+'<img src="'+pfp+'" alt="UserProfile" width="100" height="100" class="profileimg" />'
+			
+			if(pp!=""){
+				$("#pfp").html(pp);
+			}
+			
+						
+
+		});	
+		
+		$(function() {
 			var arrp=new Array();
 			arrp=$("#listphotoURL").val().split(',');
 			var ss="";
@@ -139,10 +165,10 @@
 			
 			if(ss!=""){
 				$("#play").html(ss);
-				
-			 }
-
-		});		
+			}
+			
+		});	
+		
 </script>
 
 </body>

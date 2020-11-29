@@ -121,6 +121,7 @@ public class UserController  extends HttpServlet {
 		
 		} else if (action.equalsIgnoreCase("myProfile")) {
 			
+			
 			forward = MY_PROFILE;
 			
 			User user = dao.getUserByUsername(username);
@@ -131,21 +132,28 @@ public class UserController  extends HttpServlet {
 		
 		} else if (action.equalsIgnoreCase("otherProfile")) {
 			
-			String otherUsername = request.getParameter("otherUsername");
-			
-			if(otherUsername.equals(username)){
-				//if you click on your own username in one of your posts
-				forward = MY_PROFILE;
-				request.setAttribute("user", dao.getUserByUsername(username));
+			if(username == null){
+				
+				forward = USER_LOGIN;
+				request.setAttribute("message", "You must login to see a user profile.");
+				
 			}else{
-				forward = OTHER_PROFILE;
-				request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(username, otherUsername));
-				request.setAttribute("otherUser", dao.getUserByUsername(otherUsername));
+				String otherUsername = request.getParameter("otherUsername");
+				
+				if(otherUsername.equals(username)){
+					//if you click on your own username in one of your posts
+					forward = MY_PROFILE;
+					request.setAttribute("user", dao.getUserByUsername(username));
+				}else{
+					forward = OTHER_PROFILE;
+					request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(username, otherUsername));
+					request.setAttribute("otherUser", dao.getUserByUsername(otherUsername));
+				}
+				
+				//get the Reviews to display on the profile
+				request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUsername));
 			}
-			
-			//get the Reviews to display on the profile
-			request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUsername));
-	
+				
 		} else {
 			forward = SIGN_UP;
 		}
@@ -177,8 +185,14 @@ public class UserController  extends HttpServlet {
 		if (session.getAttribute("username") == null) {
 			
 			String desiredUsername = request.getParameter("desiredUsername");
+			boolean canUse;
 			
-			boolean canUse = dao.checkUsername(desiredUsername);
+			if(desiredUsername==null || desiredUsername.isEmpty()){
+				canUse=false;
+			}else{
+				canUse = dao.checkUsername(desiredUsername);
+			}
+			 
 			
 			if(canUse){
 				
@@ -194,7 +208,7 @@ public class UserController  extends HttpServlet {
 				
 				
 			}else{
-				request.setAttribute("usernameStatus", "Uh oh! That username is already in use.");
+				request.setAttribute("usernameStatus", "Invalid Username. Please Try Again.");
 				//they get brought back to sign up page and need to enter a new desiredUsername
 				RequestDispatcher view = request
 						.getRequestDispatcher(SIGN_UP);

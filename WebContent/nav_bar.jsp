@@ -6,6 +6,7 @@
 	<div class="container-fluid">
 		
 		<div class="collapse navbar-collapse" id="myNavbar">
+			
 			<!-- The following code can be added to include a Login button -->
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="userlogin.jsp"><span
@@ -16,10 +17,10 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
+		
 				<ul class="nav navbar-nav">			
-				<li><a href="ReviewController?action=listReviewsOnFeed">Foodie Feed</a></li>
 				<li><a href="TagController?action=trendingList">Discover</a></li>
-				<li><a href="about.jsp">About</a></li>
+				<li><a href="aboutFoodieFeed.jsp">About</a></li>
 			</ul>
 		</div>
 	</div>

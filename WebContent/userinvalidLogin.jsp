@@ -46,7 +46,7 @@
 		</div>
 	</div>
 
-	<%@ include file="footer.jsp"%>
+	<%@ include file="webfooter.jsp"%>
 
 
 </body>

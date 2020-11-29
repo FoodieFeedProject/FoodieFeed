@@ -154,14 +154,16 @@
 				 <input id="myPost" value="${myPost}" type="hidden" /> 
 				<div class="opreate">
 				
-				  	<input type="button" onclick="editPost()" value="Edit"/>
+				   
+                	<input type="button" onclick="editPost()" value="Edit"/>
 				   	<input type="button" onclick="delPost()" value="Delete"/>
-				    <input type="button" style="width:100px" id="btnExpand" onclick="expandAll()" value="Expand"/>
+				   	<input type="button" style="width:100px" id="btnExpand" onclick="expandAll()" value="Expand Ratings"/>
                 </div>
                 <br>
                 <table class="myOrder">
 					<tr>
 						<th>My Order</th>
+						
 						<th></th>
 					</tr>
 					<tr>
@@ -334,9 +336,15 @@
 		}
 		function delPost() {
 			//var sd=$("#reviewID").val();
-			var url = "ReviewController?action=delete&&reviewID="
+			
+			var txt;
+			var r = confirm("Delete this post?");
+			if (r == true) {
+				var url = "ReviewController?action=delete&&reviewID="
 					+ $("#reviewID").val();
-			window.location.href = url;
+				window.location.href = url;
+			} 
+			
 		}
 		function editPost(){
 			var url = "ReviewController?action=edit&&reviewID="

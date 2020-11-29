@@ -6,14 +6,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html lang="en">
-<!-- Check to see if the user is logged in. Otherwise, redirect back to the login page.-->
-<%
-	session = request.getSession();
-	System.out.println(session);
-	if (session.getAttribute("username") == null) {
-		response.sendRedirect("userlogin.jsp");
-	}
-%>
 
 <head>
 <title>Other User Profile</title>
@@ -47,13 +39,15 @@
 		String username = (String) session.getAttribute("username");
 	%>
 	
-	<br>
-		<span class="glyphicon glyphicon-plus"></span>
-    <span><a href="UserController?action=followUnfollowUser&&otherUsername=${otherUser.getUsername()}"><button><c:out value="${followButtonMessage}" /></button></a></span>
 	<header>
-	<img src="img/testimg/2.jpg" alt="UserProfile" width="100" height="100" class="profileimg" />
+	<br>
+	<input id="pfpic" value="${otherUser.getProfilePic()}" type="hidden" />		 
+		<i id="pfp"></i>	
 	<div style="text-align:center" class="user-info">
-	<li><span> <c:out value="${otherUser.getName()}"></c:out> </span></li>
+	<li>
+	<span>@<c:out value="${otherUser.getUsername()}"></c:out></span>
+    <span><a href="UserController?action=followUnfollowUser&&otherUsername=${otherUser.getUsername()}"><button><c:out value="${followButtonMessage}" /></button></a></span>
+	</li>
 	</div>
 	</header>
 	<section>
@@ -128,8 +122,22 @@
 
 	</div>
 	</div>
-	
+	<script src="js/uploadImg.js"></script>
 	<script type="text/javascript">
+		$(function() {
+			
+			var pp="";
+			
+			var pfp=window.atob($("#pfpic").val());
+			pp=pp+'<img src="'+pfp+'"  alt="UserProfile" width="100" height="100" class="profileimg" />'
+			
+			if(pp!=""){
+				$("#pfp").html(pp);
+				
+			 }
+
+		});		
+		
 		$(function() {
 			
 			var arrp=new Array();
@@ -143,8 +151,8 @@
 				$("#play").html(ss);
 				
 			 }
-
-		});		
+		});	
+		
 </script>
 
 

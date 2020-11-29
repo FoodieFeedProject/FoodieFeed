@@ -36,21 +36,27 @@
 </style>
 </head>
 <body>
-	<div class="container-fluid text-center">
-	<div class="row content">
-	<% if (session.getAttribute("username") == null) { %>
+<% if (session.getAttribute("username") == null) { %>
 		<%@ include file="nav_bar.jsp"%>
 	<% } else { %>
 		<%@ include file="nav_bar_loggedin.jsp"%>
 	<% } %>
-    <h1>Search Results for a User</h1>
-      <center>
+	
+	<div class="container-fluid text-center">
+	<div class="row content">
+	 <center>
+	<div class="from_style">
+	
+    <h2>Search Results for a User</h2>
+     
         <c:forEach items="${users}" var="user">
           <br>
           <a href="UserController?action=otherProfile&&otherUsername=${user.getUsername()}">@<c:out value="${user.getUsername()}" /></a>
           <br>
         </c:forEach>
-		</center>
+	
+	</div>
+	</center>
 	</div>
 	</div>
 	<%@ include file="webfooter.jsp"%>

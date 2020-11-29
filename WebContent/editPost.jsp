@@ -40,9 +40,12 @@
 		<form action="ReviewController" name="addForm" method="post" >
 		<div class="row content">
 		   <div class="col-sm-3 sidenav">
-		       <h1>
-					Image Upload
+		   		<h1>
+					Edit Post
 				</h1>
+		     
+					Image Upload
+				
 				 <input id="listphotoURL" value="${review.getPhotoURL()}" type="hidden" /> 
 				<div class="upload-content">
 					<div class="content-img">
@@ -309,47 +312,14 @@
 			}
 			addNewContent(".content-img-list")
 	        
-	      /*   $("#postsubmit").submit(function(){
-	        	var it=$("input[name='item1']");
-	        	var pr=$("input[name='price1']");
-	        	var datas=[];
-	        	var data={};
-	        	for(var i=0;i<it.length;i++){
-	        		data["item"]=it[i].value;
-	        		data["price"]=pr[i].value;
-	        		datas.push(data);
-	        	}
-	        	var jsonString = JSON.stringify(datas); 
-	        	console.log(jsonString);
-	        	return false;
-	        	
-	        	//event.preventDefault();
-	        	
-	        	//if(condition){
-	        	   // return false;
-	        	//}else{
-	        	    //return false;
-	        	//}
-	        });
-	         */
+	      
 	        
 
 	      });
 	 
 	    function SendForm()
 	    {
-	    	/* var it=$("input[name='item1']");
-        	var pr=$("input[name='price1']");
-        	var datas=[];
-        	var data={};
-        	for(var i=0;i<it.length;i++){
-        		data["item"]=it[i].value;
-        		data["price"]=pr[i].value;
-        		datas.push(data);
-        	}
-        	//my order  type:string
-        	var jsonString = JSON.stringify(datas); */
-        	//console.log(jsonString);
+	    	
         	
         	 var hideInput1 = document.createElement("input");
 			hideInput1.type = "hidden";
@@ -357,8 +327,6 @@
 			hideInput1.value = $("#reviewID").val(); //get the value
 			document.addForm.appendChild(hideInput1);  
         	
-        	//img url ,this is img arrry
-        	//var imgurl=JSON.stringify(imgSrc);
         	var hideInput2 = document.createElement("input");
 			hideInput2.type = "hidden";
 			hideInput2.name = "photoURL";
@@ -380,7 +348,6 @@
 			hideInput2.value = dd; //get the value
 			document.addForm.appendChild(hideInput2);
 
-			//console.log(imgSrc.length)
 
 			document.addForm.submit();
 
