@@ -30,10 +30,7 @@ $(function() {
 
         var bigimg = $(".modal-content").html();
         $(".modal-content").html(bigimg + '<div class="show"><img src="' + imgSrc[index] + '" alt=""><div>');
-        // $(".modal-content").append(
-        //     '<div class="show"><img src="' + imgSrc[a] + '" alt=""><div>'
-        // );
-
+        
 
 
     });
@@ -71,37 +68,11 @@ $('#upload').on('change', function(e) {
 $('#btn-submit-upload').on('click', function() {
     // FormData upload picture
     var formFile = new FormData();
-    // formFile.append("type", type);
-    // formFile.append("content", content);
-    // formFile.append("mobile", mobile);
-    // Traverse the picture imgFile and add it to the formFile
+
     $.each(imgFile, function(i, file) {
         formFile.append('myFile[]', file);
     });
-    //    $.ajax({
-    //        url: '',
-    //        type: 'POST',
-    //        data: formFile,
-    //        async: true,
-    //        cache: false,
-    //        contentType: false,
-    //        processData: false,
-    //        // traditional:true,
-    //        dataType:'json',
-    //        success: function(res) {
-    //            console.log(res);
-    //            if(res.code==0){
-    //                alert("submitted")
-    //    //             $("#adviceContent").val("");
-    // 			// $("#contact").val("");
-    //            }else{
-    //                alert(res.message);
-    //                $('.content-img .file').show();
-    //                $("#adviceContent").val("");
-    //                $("#cotentLength").text("0/240");
-    // 			$("#contact").val("");
-    // 			imgSrc = [];imgFile = [];imgName = [];
-    // addNewContent(".content-img-list");
+   
 
 });
 

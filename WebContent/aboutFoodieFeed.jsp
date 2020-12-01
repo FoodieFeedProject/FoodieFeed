@@ -72,6 +72,15 @@
 				<ul>
 					<li><a href="http://getbootstrap.com/">The Bootstrap CSS
 							theme</a></li>
+					<li><a href="http://demo.sc.chinaz.com/Files/DownLoad/webjs1/201906/jiaoben6825/">Photo Slideshow 
+							Display</a></li>
+					<li><a href="https://blog.csdn.net/nqxcwl/article/details/102885289">Star Rating Effect 
+							</a></li>		
+					<li><a href="https://codepen.io/neerajkr/pen/DaAIC"> CSS for Profile 
+							</a></li>
+					<li><a href="https://codepen.io/Simba9/pen/QdjgLg"> CSS for Login 
+							</a></li>	
+							
 					
 				</ul>
 				

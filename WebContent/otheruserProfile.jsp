@@ -43,6 +43,20 @@
 	<br>
 	<input id="pfpic" value="${otherUser.getProfilePic()}" type="hidden" />		 
 		<i id="pfp"></i>	
+	
+	<script type="text/javascript">
+		var pp="";
+	
+		var pfp=window.atob($("#pfpic").val());
+		pp=pp+'<img src="'+pfp+'"  alt="UserProfile" width="100" height="100" class="profileimg" />'
+	
+		if(pp!=""){
+			$("#pfp").html(pp);
+		
+	 }
+	</script>
+		
+		
 	<div style="text-align:center" class="user-info">
 	<li>
 	<span>@<c:out value="${otherUser.getUsername()}"></c:out></span>
@@ -72,89 +86,16 @@
 				<br>
 				<c:out value="${otherUser.getBio()}" />
 			</div>
-</section>
+  </section>
 
-   	 <center><br><br>
-  <c:forEach items="${profileReviews}" var="profileReview">
-	<div class="squaretop">
-      <div style="margin-left: 20px">
-        <br>
-        <font size = 5><c:out value="${profileReview.getNameOfUser()}" />
-        </font>
-        <br>
-        <a href="UserController?action=otherProfile&&otherUsername=${profileReview.getUsername()}">@ <c:out value="${profileReview.getUsername()}" /></a>
-      </div>
-    </div>
-    <div class="squaremid">
-      <div style="margin-left: 20px" >
-        <br>
-        <div>
-       <input id="listphotoURL" value="${profileReview.getPhotoURL()}" type="hidden" />		 
-		<i id="play"></i>
-		</div>
-        <font size=4><c:out value="${profileReview.getTitle()}" />
-        </font>
-        <br><br>
-        Overall Rating: <c:out value="${profileReview.getOverallRating()}" />&nbsp;/&nbsp;5
-        <br><br>
-        My Order Total:$<c:out value="${profileReview.getTotalAmt()}" />
-        <br><br>
-        <c:out value="${profileReview.getDescription()}" />
-        <br><br>
-          <a href="ReviewController?action=displayFull&&reviewID=${profileReview.getReviewID()}" class="button"><button>See More</button></a>
-      	  <br><br>
-      	  <c:forEach items="${profileReview.getTags()}" var="tag">
-          <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>         
-        </c:forEach>
-        </div>
-          
-     	<br>       
-      </div>
-      <div class="squarebot">
-        <div style="margin-left: 20px">
-          <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30">&nbsp;&nbsp;<c:out value="${profileReview.getNumLikes()}" />&nbsp;&nbsp;&nbsp;
-          <img src=https://upload.wikimedia.org/wikipedia/commons/1/11/Blue-Speech-Bubble.png width="30">&nbsp;&nbsp;<c:out value="${profileReview.getComments().size()}" />
-        </div>
-      </div>
-    <br><br>
-    </c:forEach>
+   	<center><br><br>
+   	 
+  	<!-- display all the user's posts -->
+ 	<%@include file="listReviews.jsp" %>
+ 	
     </center>
-
 	</div>
 	</div>
-	<script src="js/uploadImg.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			
-			var pp="";
-			
-			var pfp=window.atob($("#pfpic").val());
-			pp=pp+'<img src="'+pfp+'"  alt="UserProfile" width="100" height="100" class="profileimg" />'
-			
-			if(pp!=""){
-				$("#pfp").html(pp);
-				
-			 }
-
-		});		
-		
-		$(function() {
-			
-			var arrp=new Array();
-			arrp=$("#listphotoURL").val().split(',');
-			var ss="";
-			
-			var itemx=window.atob(arrp[0]);
-			ss=ss+'<img src="'+itemx+'" class="nextimg" style="width:264px;height:224px"/>'
-			
-			if(ss!=""){
-				$("#play").html(ss);
-				
-			 }
-		});	
-		
-</script>
-
 
 </body>
 </html>

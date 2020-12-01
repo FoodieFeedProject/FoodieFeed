@@ -107,7 +107,7 @@ public class ReviewController extends HttpServlet {
 			
 			
 			request.setAttribute("user", udao.getUserByUsername(username));
-			request.setAttribute("profileReviews", rdao.getReviewsByUser(username));
+			request.setAttribute("reviews", rdao.getReviewsByUser(username));
 			
 		} else if (action.equalsIgnoreCase("create")) {
 			
@@ -129,7 +129,7 @@ public class ReviewController extends HttpServlet {
 
 			if(username.equals(review.getUsername())){
 				//if the review belongs to the logged in user
-				forward = DISPLAY_MY_FULL; //theres different functionality on your own post page
+				forward = DISPLAY_MY_FULL; //there's different functionality on your own post page
 				
 				
 			}else{
@@ -162,8 +162,8 @@ public class ReviewController extends HttpServlet {
 			for(int id: reviewIDs){
 				feed.add(rdao.getReviewById(id));
 			}
-			System.out.println(feed.size());
-			request.setAttribute("feedReviews", feed);
+		
+			request.setAttribute("reviews", feed);
 			
 		}  else if (action.equalsIgnoreCase("like")) {
 			

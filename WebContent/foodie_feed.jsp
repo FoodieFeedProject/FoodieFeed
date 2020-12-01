@@ -33,80 +33,23 @@
 
 	<div class="container-fluid">
 	<div class="row content">
-  <%@ include file="nav_bar_loggedin.jsp"%>
-    <h1>Welcome to your Foodie Feed,&nbsp;<%=session.getAttribute("name") %></h1>
-      <center><br>
-      <div style="margin-left:20px">
-      <a href="ReviewController?action=create"><font size=4>ADD POST</font></a>
-    </div>
+  	<%@ include file="nav_bar_loggedin.jsp"%>
+    	<h1>Welcome to your Foodie Feed,&nbsp;<%=session.getAttribute("name") %></h1>
+     	 
+     	<center><br>
+     	 <div style="margin-left:20px">
+     	 <a href="ReviewController?action=create"><font size=4>ADD POST</font></a>
+    	 </div>
+      
       <br>
-  <c:forEach items="${feedReviews}" var="feedReview">
-	<div class="squaretop">
-      <div style="margin-left: 20px">
-        <br>
-        <font size = 5><c:out value="${feedReview.getNameOfUser()}" />
-        </font>
-        <br>
-        <a href="UserController?action=otherProfile&&otherUsername=${feedReview.getUsername()}">@ <c:out value="${feedReview.getUsername()}" /></a>
-      </div>
-    </div>
-    <div class="squaremid">
-      <div style="margin-left: 20px" >
-        <br>
-        
-        <div>
-       <input id="listphotoURL" value="${feedReview.getPhotoURL()}" type="hidden" />		 
-		<i id="play"></i>
-		
-		</div>
-				
-        <font size=4><c:out value="${feedReview.getTitle()}" />
-        </font>
-        <br><br>
-        Overall Rating: <c:out value="${feedReview.getOverallRating()}" />&nbsp;/&nbsp;5
-        <br><br>
-        My Order Total:$<c:out value="${feedReview.getTotalAmt()}" />
-        <br><br>
-        <c:out value="${feedReview.getDescription()}" />
-        <br><br>
-          <a href="ReviewController?action=displayFull&&reviewID=${feedReview.getReviewID()}" class="button"><button>See More</button></a>
-      	  <br><br>
-      	  <c:forEach items="${feedReview.getTags()}" var="tag">
-          <a href="TagController?action=visitTagPage&&tagname=${tag.getTagName()}&&numPosts=${tag.getNumPosts()}">#<c:out value="${tag.getTagName()}" /></a>         
-        </c:forEach>
-        </div>
-          
-     	<br>       
-      </div>
-      <div class="squarebot">
-        <div style="margin-left: 20px">
-          <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30">&nbsp;&nbsp;<c:out value="${feedReview.getNumLikes()}" />&nbsp;&nbsp;&nbsp;
-          <img src=https://upload.wikimedia.org/wikipedia/commons/1/11/Blue-Speech-Bubble.png width="30">&nbsp;&nbsp;<c:out value="${feedReview.getComments().size()}" />
-        </div>
-      </div>
-    <br><br>
-    </c:forEach>
-    </center>
+      
+      <!-- display all the posts from tags and users they follow -->
+      <%@include file="listReviews.jsp" %>
+      
+      </center>
    
 	</div>
 	</div>
-	<script type="text/javascript">
-		$(function () {			
-			
-			
-			var arrp=new Array();
-			arrp=$("#listphotoURL").val().split(',');
-				
-			var ss="";			
-			var itemx=window.atob(arrp[0]);
-			ss=ss+'<img src="'+itemx+'" class="nextimg" style="width:264px;height:224px"/>'
-				
-			if(ss!=""){
-				$("#play").html(ss);				
-			 }	
-			
-			
-		});		
-		</script>
+	
 </body>
 </html>

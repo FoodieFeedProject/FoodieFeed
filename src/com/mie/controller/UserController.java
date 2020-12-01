@@ -91,7 +91,7 @@ public class UserController  extends HttpServlet {
 			//update the message for the follow button (Follow/Unfollow) and the user to update their follower count
 			request.setAttribute("followButtonMessage", dao.getFollowButtonStatus(username, otherUsername) );
 			request.setAttribute("otherUser", dao.getUserByUsername(otherUsername));
-			request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUsername));
+			request.setAttribute("reviews", rdao.getReviewsByUser(otherUsername));
 			
 		
 
@@ -117,7 +117,7 @@ public class UserController  extends HttpServlet {
 			request.setAttribute("tag", tag);
 			request.setAttribute("tagFollowers", tdao.tagFollowers(tag.getTagName()));
 			request.setAttribute("followButtonMessage", dao.getTagFollowButtonStatus(username, tag.getTagName()));
-			request.setAttribute("tagReviews", tagReviews);
+			request.setAttribute("reviews", tagReviews);
 		
 		} else if (action.equalsIgnoreCase("myProfile")) {
 			
@@ -127,7 +127,7 @@ public class UserController  extends HttpServlet {
 			User user = dao.getUserByUsername(username);
 			
 			request.setAttribute("user", user);
-			request.setAttribute("profileReviews", rdao.getReviewsByUser(username));
+			request.setAttribute("reviews", rdao.getReviewsByUser(username));
 			
 		
 		} else if (action.equalsIgnoreCase("otherProfile")) {
@@ -151,7 +151,7 @@ public class UserController  extends HttpServlet {
 				}
 				
 				//get the Reviews to display on the profile
-				request.setAttribute("profileReviews", rdao.getReviewsByUser(otherUsername));
+				request.setAttribute("reviews", rdao.getReviewsByUser(otherUsername));
 			}
 				
 		} else {
@@ -227,9 +227,7 @@ public class UserController  extends HttpServlet {
 			user.setUsername(username);
 			dao.updateUser(user);
 			
-			//after adding/updating we want to get ALL of their info (followers, following etc)
-			//User fullUser = new User();
-			//fullUser = dao.getUserByUsername(username);
+			
 			
 			/**
 			 * Once the User has been added or updated, the page will redirect to
@@ -237,10 +235,7 @@ public class UserController  extends HttpServlet {
 			 */
 			response.sendRedirect("UserController?action=myProfile");
 			
-			/*RequestDispatcher view = request
-					.getRequestDispatcher("UserController?action=myProfile");
-			//request.setAttribute("user", fullUser);
-			view.forward(request, response);*/
+			
 			
 			
 		}
