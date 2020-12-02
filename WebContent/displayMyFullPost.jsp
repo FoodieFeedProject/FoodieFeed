@@ -191,7 +191,7 @@
 							<!--first start-->
 							<div class="box1">
 								<p class='current'>
-									<a href="">${myComments.getUser()}</a> ${myComments.getComment()}
+									<a href="UserController?action=otherProfile&&otherUsername=${myComments.getUser()}">${myComments.getUser()}</a> ${myComments.getComment()}
 								</p>
 								<p class='info'>
 									<strong>${myComments.getDate() } &nbsp;&nbsp;&nbsp;</strong><strong style="color: red"></strong>
