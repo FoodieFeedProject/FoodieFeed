@@ -6,8 +6,9 @@
 	<div class="container-fluid">
 	
 		<div class="header-avatar">
-			<img src="img/testimg/tom.jpg" alt="">
-		</div>
+			<img src="img/logo.png" alt="">
+		</div> 
+		
 		
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<!-- The following code can be added to include a Login button -->
@@ -21,7 +22,7 @@
 					class="icon-bar"></span>
 			</button>
 				<ul class="nav navbar-nav">			
-				<li><a href="ReviewController?action=listReviewsOnFeed">Foodie Feed</a></li>
+				<li><a href="ReviewController?action=listReviewsOnFeed">Home</a></li>
 				<li><a href="TagController?action=trendingList">Discover</a></li>
 				<li><a href="aboutFoodieFeed.jsp">About</a></li>
 				<li><a href="UserController?action=myProfile">My Profile</a></li>

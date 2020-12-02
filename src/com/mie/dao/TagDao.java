@@ -10,8 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import com.mie.model.Review;
-import com.mie.model.Tag;
+import com.mie.model.*;
 import com.mie.util.DbUtil;
 
 public class TagDao {

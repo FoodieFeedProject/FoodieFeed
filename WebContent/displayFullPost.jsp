@@ -44,7 +44,7 @@
 	%>
 
 	<div class="container-fluid text-center">
-	<!--<img src="${review.getPhotoURL()}" class="nextimg" style="width:304px;height:264px">  -->
+	
 		<div align ="left">
         <br>
         <font size = 5><c:out value="${review.getNameOfUser()}" />
@@ -59,13 +59,9 @@
 				 <input id="listphotoURL" value="${review.getPhotoURL()}" type="hidden" /> 
 				 
 				<ul id="play">
-					
-					
-					
+										
 				</ul>
-				<ul id="button">
-					
-					
+				<ul id="button">					
 					
 				</ul>
 			</div>
@@ -80,6 +76,7 @@
 		   <span>${review.getTitle()}</span>
 		   <input id="reviewID" value="${review.getReviewID()}" type="hidden" /> 
 		   <input id="username" value="${review.getUsername()}" type="hidden" /> 
+		  
 		   <span style="float: right;">
 		    <span style="color: red;cursor:pointer" onclick="btnlike()">
 		    <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/1200px-Heart_coraz%C3%B3n.svg.png width="30" class="nextimg">
@@ -177,15 +174,18 @@
 		 <div class="mycomment">
 		 <div class="commenttitle">Comments</div>
 		   <ul>
+		   		
 					<c:forEach items="${review.getComments()}" var="myComments">
 						<li class="feed">
 							<div class="avatar">
-								<img src="img/testimg/timg.jpg" alt="" />
+
+							<img src="img/testimg/timg.jpg" alt="" /> 
+							
 							</div>
 							<!--first start-->
 							<div class="box1">
 								<p class='current'>
-									<a href="">${myComments.getUser()}</a> ${myComments.getComment()}
+									<a href="UserController?action=otherProfile&&otherUsername=${myComments.getUser()}">${myComments.getUser()}</a> ${myComments.getComment()}
 								</p>
 								<p class='info'>
 									<strong>${myComments.getDate() } &nbsp;&nbsp;&nbsp;</strong><strong style="color: red"></strong>
@@ -194,6 +194,7 @@
 							</div> <!--first end-->
 							<div class="clear"></div>
 						</li>
+					
 					</c:forEach>
 
 				</ul>

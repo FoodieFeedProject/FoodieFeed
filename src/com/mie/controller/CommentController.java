@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.mie.dao.ReviewDao;
-import com.mie.model.Comment;
-import com.mie.model.Review;
+import com.mie.dao.*;
+import com.mie.model.*;
+
 
 public class CommentController extends HttpServlet {
 	/**

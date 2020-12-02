@@ -8,9 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mie.model.User;
-import com.mie.model.Student;
-import com.mie.model.User;
+import com.mie.model.*;
 import com.mie.util.DbUtil;
 
 public class UserDao {

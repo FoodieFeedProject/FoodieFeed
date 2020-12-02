@@ -46,7 +46,7 @@
 	<% } %>
 	
 <div class="container-fluid">
-	<div class="row content">
+	<div class="row content" >
 	
 	
 	<div class="col-sm-8 text-left" style="padding-left:25px">
@@ -55,7 +55,7 @@
       <div class="from_style">
        <h2>About</h2>
        </div>
-				This is a web app created for the <b>MIE350</b> course at the
+				This is a web app created by Group 3 for the <b>MIE350</b> course at the
 				<a href="http://www.utoronto.ca">University of Toronto</a>.
 				<br> <br> It was developed using
 				the following:<br>
@@ -99,6 +99,7 @@
 				</ul>
          
         <br>
+      
 	
 	</div>
 
@@ -106,8 +107,6 @@
 
 </div>
 
-	
 
-<%@ include file="webfooter.jsp"%>
 </body>
 </html>

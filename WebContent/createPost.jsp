@@ -110,7 +110,7 @@
                      <tr><td><input class="item1" name="item3" type="text"/></td><td><input class="price1" name="price3" type="text"/></td></tr>
                    </tbody>
 				</table>
-				<!--  <label style="text-align: left;" id="totalvalue">Add Total: </label> -->
+				
 				
 				<label style="text-align: right;"> <span>&nbsp;</span> <input type="button" id="postsubmit"
 					class="button" onclick="SendForm()" value="Post" />
@@ -186,89 +186,13 @@
 	        	    $(this).prop("checked",true);
 	        	    $(this).siblings().prop("checked",false); 
 	       });
-	        /*
-	        $("#addRow").click(function(){
-	        	var rows='<tr><td><input name="item1" type="text"/></td><td><input name="price1" type="text"/></td></tr>';
-				$("#mytable").append(rows)
-				$("input[name='price1']").bind("input propertychange",function(event){
-			        	var e=$("input[name='price1']");
-			        	var c=0;
-			        	for(var i=0;i<e.length;i++){
-			        		c=c+parseFloat(e[i].value);
-			        	}
-			            //alert(e)
-			            //console.log(c);
-			            $("#totalvalue").html(c)
-			     });
-	        });
 	        
-	        //watch the value change
-	        $("input[class='price1']").bind("input propertychange",function(event){
-	        	var e=$("input[class='price1']");
-	        	var c=0;
-	        	for(var i=0;i<e.length;i++){
-	        		if(e[i].value==""){
-	        			c=c+0
-	        		}else{
-	        		c=c+parseFloat(e[i].value);
-	        		}
-	        	}
-	            //alert(e)
-	            //console.log(c);
-	            $("#totalvalue").html("Add Total: $"+c)
-	        });*/
 	        
-	      /*   $("#postsubmit").submit(function(){
-	        	var it=$("input[name='item1']");
-	        	var pr=$("input[name='price1']");
-	        	var datas=[];
-	        	var data={};
-	        	for(var i=0;i<it.length;i++){
-	        		data["item"]=it[i].value;
-	        		data["price"]=pr[i].value;
-	        		datas.push(data);
-	        	}
-	        	var jsonString = JSON.stringify(datas); 
-	        	console.log(jsonString);
-	        	return false;
-	        	
-	        	//event.preventDefault();
-	        	
-	        	//if(condition){
-	        	   // return false;
-	        	//}else{
-	        	    //return false;
-	        	//}
-	        });
-	         */
-	        
-
 	      });
 	 
 	    function SendForm()
 	    {
-	    	/* var it=$("input[name='item1']");
-        	var pr=$("input[name='price1']");
-        	var datas=[];
-        	var data={};
-        	for(var i=0;i<it.length;i++){
-        		data["item"]=it[i].value;
-        		data["price"]=pr[i].value;
-        		datas.push(data);
-        	}
-        	//my order  type:string
-        	var jsonString = JSON.stringify(datas); */
-        	//console.log(jsonString);
-        	
-        	/* var hideInput1 = document.createElement("input");
-			hideInput1.type = "hidden";
-			hideInput1.name = "reviewID";
-			hideInput1.value = ""; //get the value
-			document.addForm.appendChild(hideInput1);  */
-        	
-        	//img url ,this is img arrry
-        	//var imgurl=JSON.stringify(imgSrc);
-        	var hideInput2 = document.createElement("input");
+	    	var hideInput2 = document.createElement("input");
 			hideInput2.type = "hidden";
 			hideInput2.name = "photoURL";
 			var dd="";
@@ -288,8 +212,6 @@
 			}
 			hideInput2.value = dd; //get the value
 			document.addForm.appendChild(hideInput2);
-
-			//console.log(imgSrc.length)
 
 			document.addForm.submit();
 

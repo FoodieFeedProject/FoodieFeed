@@ -5,6 +5,10 @@
 	<nav class="navbar navbar-default">
 	<div class="container-fluid">
 		
+		<div class="header-avatar">
+			<img src="img/logo.png" alt="">
+		</div> 
+		
 		<div class="collapse navbar-collapse" id="myNavbar">
 			
 			<!-- The following code can be added to include a Login button -->
