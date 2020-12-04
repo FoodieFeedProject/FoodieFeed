@@ -17,7 +17,7 @@
 	}
 %>
 <head>
-<title>Tag Profile</title>
+<title>Foodie Feed - Tag Page</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
