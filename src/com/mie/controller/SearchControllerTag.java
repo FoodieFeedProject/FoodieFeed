@@ -20,7 +20,7 @@ public class SearchControllerTag extends HttpServlet {
 	 * 
 	 * These are variables that lead to the appropriate JSP pages.
 	 * 
-	 * Search_User/Search_Tag leads to the search results page.
+	 * Search_Tag leads to the search results page.
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;

@@ -52,14 +52,12 @@ public class UserController  extends HttpServlet {
 		 * 
 		 *  - signUp will direct the servlet to let the user add a
 		 * new User to the database. - edit will direct the servlet to let
-		 * the user edit User information in the database. - followeUser will allow 
-		 * User to follower another User and record in the database. - unfollowUser will allow 
-		 * User to unfollow another User and record in the database. - followTag/unfollowTag 
-		 * would allow user to follow/unfollow and atag in the tag page. - myProfile would 
+		 * the user edit User information in the database. - followUnfollowUser will allow 
+		 * User to follower/unfollow another User and record in the database - followTag/unfollowTag 
+		 * would allow user to follow/unfollow and a tag in the tag page. - myProfile would 
 		 * direct the servlet to let user see the User Personal info in the myProfile page. 
 		 * OtherProfile would direct the servlet to let user see Other User'Profile info 
-		 * in OtherPrile page. - ListUserOnUser would direct the servlet to let user see
-		 * other user that they followed in the myProfile page. 
+		 * in OtherProfile page.
 		 */
 		String forward = "";
 		String action = request.getParameter("action");
@@ -94,7 +92,6 @@ public class UserController  extends HttpServlet {
 			request.setAttribute("reviews", rdao.getReviewsByUser(otherUsername));
 			
 		
-
 		} else if (action.equalsIgnoreCase("followUnfollowTag")) {
 			
 			

@@ -45,17 +45,6 @@ public class TagController extends HttpServlet{
 	
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		/**
-		 * This class retrieves the appropriate 'action' found on the JSP pages:
-		 * 
-		 * - delete will direct the servlet to let the user delete a review in
-		 * the database. - create will direct the servlet to let the user add a
-		 * new review to the database. - edit will direct the servlet to let
-		 * the user edit review information in the database. - display will
-		 * direct the servlet to a review in the database. - displayFull will 
-		 * direct the servlet to the expanded review
-		 */
 		
 		HttpSession session = request.getSession(true);
 		String username = (String)session.getAttribute("username");
@@ -64,10 +53,9 @@ public class TagController extends HttpServlet{
 		String action = request.getParameter("action");
 		
 		if(action.equalsIgnoreCase("trendingList")) {
-			
+			//forward the user to the discover page
 			forward = DISCOVER;
-			request.setAttribute("trendingList", tdao.getTrendingTags());
-			List<Tag> test = tdao.getTrendingTags();
+			request.setAttribute("trendingList", tdao.getTrendingTags());		
 			
 		}
 		else if(action.equalsIgnoreCase("visitTagPage")){
@@ -86,14 +74,18 @@ public class TagController extends HttpServlet{
 			
 				List<Integer> reviewIDs = tdao.getTagReviewId(tag.getTagName());
 				List<Review> tagReviews = new ArrayList<Review>();
-			
+				
+				//get all reviews posted under that tag
 				for(Integer i:reviewIDs) {
 					tagReviews.add(rdao.getReviewById(i));
 				}
 				forward = TAG_PAGE;
+				
 			
 				request.setAttribute("tag", tag);
 				request.setAttribute("tagFollowers", tdao.tagFollowers(tag.getTagName()));
+				
+				//find out if the user is following it already or not
 				request.setAttribute("followButtonMessage", udao.getTagFollowButtonStatus(username, tag.getTagName()));
 				request.setAttribute("reviews", tagReviews);
 			}

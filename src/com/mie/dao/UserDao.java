@@ -35,11 +35,7 @@ public class UserDao {
 			preparedStatement.setString(4, user.getName());
 			preparedStatement.setString(5, user.getBio());
 			preparedStatement.setString(6, user.getProfilePic());
-			/*if(user.getProfilePic() == null){
-				preparedStatement.setString(6, "");
-			}else{
-				preparedStatement.setString(6, user.getProfilePic());
-			}*/
+			
 
 			preparedStatement.executeUpdate();
 

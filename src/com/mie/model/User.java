@@ -5,8 +5,7 @@ import java.util.*;
 public class User {
 	/**
 	 * This class contains all of the relevant information, and getter/setter
-	 * methods for the Member object. It also contains add/remove the follower, followed 
-	 * tagFollow. valid is a boolean object to check for login.
+	 * methods for the User object. 
 	 */
 	private String username;
 	private String email;

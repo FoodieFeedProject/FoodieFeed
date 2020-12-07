@@ -20,26 +20,18 @@ import com.mie.dao.*;
 import com.mie.model.*;
 
 
-//import com.mie.model.Student;
-
-  
-//SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
-//Date date = new Date();  
+ 
 
 public class ReviewController extends HttpServlet {
 	/**
-	 * This class handles the list function of the servlet.
+	 * This class handles the CREATE, EDIT, DISPLAY functions for Reviews.
 	 * 
-	 * Later this class should have similar functionality to StudentController.java
-	 * This is a simplified version for the server prototype
-	 * LIST_STUDENT_PUBLIC leads to the public listing of reviews.
+	 * 
+	 * 
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	//from server prototype
-	//private static String LIST_REVIEW_PUBLIC = "/test_ListReview.jsp";
 	
-	//for our real site
 	private static String CREATE = "/createPost.jsp";
 	private static String EDIT = "/editPost.jsp";	
 	private static String DISPLAY_FULL = "/displayFullPost.jsp";
@@ -199,7 +191,7 @@ public class ReviewController extends HttpServlet {
 		review.setPhotoURL(request.getParameter("photoURL"));
 	
 		String reviewIDstr = request.getParameter("reviewID");
-		//Integer reviewID = Integer.parseInt(request.getParameter("reviewID"));
+		
 		int reviewID;
 		
 		if (reviewIDstr == null || reviewIDstr.isEmpty()) {
